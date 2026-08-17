@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+dist/
+build/
+.pytest_cache/
+uv.lock
+
+# Generierte Ausgaben (beim Bauen der Beispiele im Repo)
+examples/html/
+examples/pdf/
+
+# macOS
+.DS_Store
+
+# Local Claude instructions
+CLAUDE.md
+CLAUDE.local.md

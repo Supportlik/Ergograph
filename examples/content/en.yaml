@@ -1,0 +1,108 @@
+title: Senior Backend Engineer & Cloud Architect
+tagline: 'Backend engineer (M.Sc.) with 10 years of experience in distributed systems, cloud architecture and API design. Focus: Go and Java services, Kubernetes, observability and team mentoring.'
+doc_names:
+  cv: cv
+  projects: project-history
+  skills: skills-matrix
+  full: dossier-complete
+labels:
+  facts: Key facts
+  languages: Languages
+  certs: Certifications
+  core: Core competencies
+  experience: Professional experience
+  education: Education
+  publications: Publications
+  projects: Project history
+  skills: Skills matrix
+  verify: Proof
+  link: Link
+  legend: 'Scale 1–6: 3 basic · 4 advanced (in production) · 5 senior level (multiple projects) · 6 expert'
+contact:
+- label: Location
+  value: 10115 Berlin
+- label: Email
+  value: alexandra@example.org
+  url: mailto:alexandra@example.org
+- label: GitHub
+  value: aargyriou
+  url: https://github.com/aargyriou
+facts:
+- label: Availability
+  value: immediately
+- label: Hourly rate
+  value: €100/h
+  variants: [mit-stundensatz]
+- label: Capacity
+  value: full-time, remote
+languages:
+- name: German
+  level: native
+- name: Greek
+  level: native
+- name: English
+  level: fluent (C2)
+certs:
+- name: CKAD
+  description: Certified Kubernetes Application Developer
+  url: https://example.org/verify/ckad
+top_skills:
+- Go · Java
+- Kubernetes
+- PostgreSQL
+- Observability
+education:
+- year: '2016'
+  degree: M.Sc. in Computer Science
+  institution: TU Berlin
+- year: '2014'
+  degree: B.Sc. in Computer Science
+  institution: University of Athens
+experience:
+- period: 3/2019 – today
+  role: Senior Backend Engineer
+  org: Delphi Systems GmbH, Berlin
+  bullets:
+  - Design and operation of an event-driven microservice platform (Go, Kafka, Kubernetes).
+  - Introduced tracing and SLO-based monitoring; mentored four developers.
+- period: 9/2016 – 2/2019
+  role: Software Engineer
+  org: Hellas Analytics, Athens
+  bullets:
+  - Built a data pipeline for real-time analytics (Java, Spring Boot, PostgreSQL).
+publications:
+- title: Tracing Strategies for Event-Driven Microservices
+  venue: ACM Queue, 2023
+  url: https://example.org/paper
+projects:
+- group: Delphi Systems GmbH – Senior Backend Engineer
+  meta: '03/2019 – today · Berlin · industry: logistics'
+  items:
+  - title: Oracle platform (2019 – today)
+    description:
+    - Event-driven shipment-tracking platform with 40+ services.
+    - Responsible for architecture, API design and Kubernetes operations.
+    tech: Go · Kafka · Kubernetes · PostgreSQL
+- group: Freelance projects
+  meta: 2016 – 2019 · various industries
+  items:
+  - title: Booking API for a travel portal (2017)
+    description: REST API with payment integration, <a href="https://example.org">case study</a>.
+    tech: Java · Spring Boot · MariaDB
+skills:
+- category: Programming languages
+  items:
+  - name: Go
+    level: 5
+    note: continuously since 2019
+  - name: Java
+    level: 4.5
+  - name: Python
+    level: 3
+- category: Infrastructure
+  items:
+  - name: Kubernetes
+    level: 5
+    note: CKAD, production operations
+  - name: PostgreSQL
+    level: 4

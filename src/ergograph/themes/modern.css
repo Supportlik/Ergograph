@@ -1,0 +1,60 @@
+
+@page { size: A4; margin: 14mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  font-family: 'Inter','Segoe UI',-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  color: #1e293b; font-size: 10.2px; line-height: 1.5; margin: 0;
+}
+a { color: inherit; text-decoration: none; }
+.header { border-bottom: 3px solid #2563eb; padding-bottom: 10px; margin-bottom: 16px; }
+.header .name { font-size: 27px; font-weight: 800; letter-spacing: -0.5px; color: #0f172a; }
+.header .title { font-size: 12.5px; font-weight: 600; color: #2563eb; margin-top: 1px; }
+.header .contact { font-size: 8.8px; color: #64748b; margin-top: 7px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.header .contact b { color: #334155; font-weight: 600; }
+h2.section { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #2563eb; margin: 18px 0 9px; padding-bottom: 3px; border-bottom: 1px solid #e2e8f0; }
+.profile { font-size: 10px; color: #475569; margin-bottom: 4px; }
+.cv-grid { display: grid; grid-template-columns: 1fr 2.25fr; gap: 22px; }
+.side .block { margin-bottom: 15px; break-inside: avoid; }
+.side h3 { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  color: #0f172a; margin: 0 0 6px; }
+.side .row { font-size: 9px; margin-bottom: 4px; }
+.side .row .k { color: #94a3b8; display: block; font-size: 7.8px; text-transform: uppercase; letter-spacing: .5px; }
+.side .row .v { color: #334155; font-weight: 600; }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { background: #eff6ff; color: #1d4ed8; border-radius: 4px; padding: 2px 7px; font-size: 8.4px; font-weight: 600; }
+.cert { font-size: 9px; margin-bottom: 5px; }
+.cert b { color: #0f172a; } .cert span { color: #94a3b8; display:block; font-size: 8px; }
+.entry { break-inside: avoid; margin-bottom: 13px; }
+.entry .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.entry .role { font-size: 11.2px; font-weight: 700; color: #0f172a; }
+.entry .period { font-size: 8.6px; color: #64748b; font-weight: 600; white-space: nowrap; }
+.entry .org { font-size: 9.6px; color: #2563eb; font-weight: 600; margin-bottom: 4px; }
+.entry ul { margin: 0; padding-left: 14px; }
+.entry li { margin-bottom: 2.5px; color: #334155; }
+.edu { display: flex; gap: 10px; margin-bottom: 6px; break-inside: avoid; }
+.edu .y { font-size: 9px; color: #2563eb; font-weight: 700; min-width: 32px; }
+.edu .d b { color: #0f172a; font-size: 9.8px; } .edu .d span { display:block; color:#64748b; font-size: 8.8px; }
+.proj-group { margin-bottom: 14px; }
+.proj-group .gh, .proj-group .gm { break-after: avoid; }
+.proj-group > .gh { font-size: 11px; font-weight: 700; color: #0f172a; }
+.proj-group > .gm { font-size: 8.4px; color: #64748b; margin-bottom: 6px; }
+.proj { border-left: 2px solid #dbeafe; padding-left: 10px; margin-bottom: 8px; break-inside: avoid; }
+.proj .ph { font-size: 9.8px; font-weight: 700; color: #1d4ed8; }
+.proj .pd { font-size: 9.2px; color: #334155; margin: 1px 0 3px; }
+.proj .pd a { color: #1d4ed8; }
+.proj .pt { font-size: 8.2px; color: #64748b; }
+.skill-cat { margin-bottom: 12px; break-inside: avoid; }
+.skill-cat h3 { font-size: 9.6px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #0f172a; margin: 0 0 6px; }
+.skill { display: grid; grid-template-columns: 150px 1fr auto; gap: 8px; align-items: center; margin-bottom: 3.5px; }
+.skill .sn { font-size: 9px; font-weight: 600; color: #334155; }
+.skill .bar { height: 6px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.skill .bar > i { display: block; height: 100%; background: linear-gradient(90deg,#3b82f6,#2563eb); border-radius: 4px; }
+.skill .note { font-size: 7.8px; color: #94a3b8; grid-column: 1 / -1; margin-top: -1px; }
+.lvl { font-size: 8px; color: #64748b; font-weight: 700; min-width: 22px; text-align: right; }
+.page-break { page-break-before: always; }
+.legend { font-size: 8px; color: #94a3b8; margin-bottom: 10px; }
+.header .contact a { color: #2563eb; }
+.cert a { color: #1d4ed8; }
+.cert .verify { display: inline-block; color: #2563eb; font-size: 7.6px; margin-top: 1px; }
