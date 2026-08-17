@@ -36,7 +36,15 @@ ergograph build --html-only # HTML only, no Chrome
 ergograph build --variant mit-stundensatz --lang de
 ```
 
-The PDFs end up under `pdf/<variant>/<language>/YYYY-MM-DD_<Name>_<document>_<language>.pdf`. Older builds are kept side by side thanks to the date prefix.
+The PDFs end up under `pdf/<variant>/<language>/YYYY-MM-DD_<Name>_<document>_<language>.pdf`. Older builds are kept side by side thanks to the date prefix (disable it with `output.date_prefix: false`).
+
+## Example output
+
+The rendered example PDFs are committed under [`examples/pdf/`](examples/pdf/), e.g. the [German CV](examples/pdf/mit-stundensatz/de/Alexandra-Argyriou_lebenslauf_de.pdf) or the [complete English dossier](examples/pdf/mit-stundensatz/en/Alexandra-Argyriou_dossier-complete_en.pdf).
+
+## ATS readability
+
+The documents are built to be fully readable by applicant tracking systems: a real text layer (no text in images), reading order equal to content order, skill levels as numbers next to the bars, and PDF title/author metadata. Ergograph verifies this instead of assuming it — after every build it extracts the PDF text layer (PyMuPDF, the same way ATS parsers read PDFs) and asserts that **every** content string from your YAML appears in it. Findings are reported as warnings; `ergograph build --strict` turns them into a build failure. Details in [`docs/SPEC.md`](docs/SPEC.md) (R15/D13).
 
 ## The steering file `config.yaml`
 
@@ -62,7 +70,7 @@ content:
 output:
   html_dir: html
   pdf_dir: pdf
-  date_prefix: true
+  date_prefix: true    # date-stamped file names; false = stable names
 
 # chrome: /path/to/chrome         # optional; otherwise auto-detected
 ```

@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
+from .ats import key_strings, missing_strings
 from .config import Config, filter_facts, load_content
-from .pdf import add_page_numbers, find_chrome, render_pdf
+from .pdf import extract_text, finalize_pdf, find_chrome, render_pdf
 from .render import build_documents, load_theme, page
 
 
@@ -19,6 +20,9 @@ class BuildResult:
     html_path: Path
     pdf_path: Path | None
     ok: bool
+    #: Key strings missing from the PDF text layer (ATS readability check);
+    #: empty if everything was found or the check could not run (no PyMuPDF).
+    ats_missing: list[str] = field(default_factory=list)
 
 
 def pdf_filename(slug: str, doc_name: str, lang: str, datestamp: str | None) -> str:
@@ -46,8 +50,10 @@ def build(cfg: Config, *, variants: list[str] | None = None,
             html_dir.mkdir(parents=True, exist_ok=True)
             for key in cfg.documents[lang]:
                 local = content["doc_names"][key]
+                # document title, also picked up as PDF metadata by Chrome
+                title = f"{cfg.person_name} – {local}"
                 html_path = html_dir / f"{local}.html"
-                html_path.write_text(page(local, docs[key], css, lang),
+                html_path.write_text(page(title, docs[key], css, lang),
                                      encoding="utf-8")
                 if html_only:
                     log(f"  wrote {variant}/{lang}/{local}.html")
@@ -58,8 +64,19 @@ def build(cfg: Config, *, variants: list[str] | None = None,
                 pdf_path = pdf_dir / pdf_filename(cfg.file_slug, local, lang, datestamp)
                 log(f"  rendering {variant}/{local} [{lang}] ...")
                 ok = render_pdf(chrome, html_path, pdf_path)
+                ats_missing: list[str] = []
                 if ok:
-                    add_page_numbers(pdf_path)
+                    finalize_pdf(pdf_path, title=title, author=cfg.person_name)
+                    text = extract_text(pdf_path)
+                    if text is not None:
+                        expected = key_strings(cfg.person_name, content, key)
+                        ats_missing = missing_strings(text, expected)
                 log(f"     -> {pdf_path} {'OK' if ok else 'FAILED'}")
-                results.append(BuildResult(variant, lang, key, html_path, pdf_path, ok))
+                if ats_missing:
+                    shown = "; ".join(ats_missing[:5])
+                    more = f" (+{len(ats_missing) - 5} more)" if len(ats_missing) > 5 else ""
+                    log(f"     !! ATS check: {len(ats_missing)} key string(s) missing "
+                        f"from the PDF text layer: {shown}{more}")
+                results.append(BuildResult(variant, lang, key, html_path, pdf_path,
+                                           ok, ats_missing))
     return results

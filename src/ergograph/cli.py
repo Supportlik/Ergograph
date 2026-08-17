@@ -25,6 +25,8 @@ def _parser() -> argparse.ArgumentParser:
                    help="build only this language (repeatable)")
     b.add_argument("--html-only", action="store_true",
                    help="generate HTML only, no Chrome/PDF")
+    b.add_argument("--strict", action="store_true",
+                   help="treat ATS-readability warnings as errors")
     b.add_argument("--date", default=None,
                    help="override the date prefix of the PDF file names (YYYY-MM-DD)")
 
@@ -57,6 +59,11 @@ def main(argv: list[str] | None = None) -> int:
         if failed:
             print(f"Error: {len(failed)} document(s) could not be rendered.",
                   file=sys.stderr)
+            return 1
+        not_ats_readable = [r for r in results if r.ats_missing]
+        if not_ats_readable and args.strict:
+            print(f"Error (--strict): {len(not_ats_readable)} document(s) failed "
+                  f"the ATS readability check.", file=sys.stderr)
             return 1
         print("done.")
         return 0

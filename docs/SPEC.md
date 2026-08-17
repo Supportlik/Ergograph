@@ -1,6 +1,6 @@
 # Ergograph – Specification
 
-As of: 2026-08-17 · Version 0.1.0
+As of: 2026-08-17 · Version 0.2.0
 
 This document records all requirements as they were implemented and justifies the central design decisions. It deliberately lives next to the code and is updated with every substantial change.
 
@@ -26,6 +26,8 @@ Ergograph is the decoupling of a previously monolithic build script (`build.py` 
 | R12 | Chrome path configurable and portable (macOS/Windows/Linux). | Search order: `chrome:` in the config → environment variable `ERGOGRAPH_CHROME` → well-known installation paths → `PATH` (`pdf.py:find_chrome`). |
 | R13 | Tests that run without Chrome and without network access. | Pytest suite under `tests/` against the example content: config/content validation, variant filter, HTML rendering, file names. PDF rendering is deliberately not tested (see D8). |
 | R14 | Output parity with the replaced `build.py`. | During the migration, the generated HTML was compared byte-for-byte (after entity-decoding the legacy output) against the last outputs of the old script. The HTML structure and the CSS theme `modern` were taken over unchanged. |
+| R15 | The documents must be fully readable by applicant tracking systems (ATS): every piece of content machine-extractable from the PDF text layer. | Structural guarantees: real text layer (Chrome print-to-PDF, no images of text), reading order = DOM order, skill levels also as numbers next to the bars, PDF title/author metadata (`pdf.py:finalize_pdf`). Automatic verification after every build: `ats.py` extracts the PDF text (PyMuPDF) and asserts that ALL content strings from the YAML appear in it; findings are logged as warnings, `--strict` turns them into a build failure (see D13). |
+| R16 | The rendered example output ships in the repo. | `examples/pdf/` is committed (see `.gitignore`); the example config uses `date_prefix: false` so file names stay stable across re-renders. The examples are rebuilt with `ergograph build --strict` inside `examples/` whenever the format or theme changes. |
 
 ## 3. Formats
 
@@ -86,6 +88,8 @@ Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `l
 **D11 – `src` layout, Hatchling, `uv`-friendly.** Standard Python packaging (PEP 621) with `src` layout against accidental imports from the working directory; the only runtime dependency is PyYAML. Console script `ergograph`.
 
 **D12 – MIT license.** The code is generic and contains no business data; MIT maximizes reusability at minimal overhead and is the de-facto standard for small portfolio tools.
+
+**D13 – ATS readability is verified, not assumed.** "ATS-readable" here means: an applicant tracking system that parses the PDF text layer (the common case) receives every piece of content. After each rendered PDF, `ats.py:key_strings` collects ALL content strings of the built document (name, contact, facts, roles, periods, bullets, project descriptions, tech lines, skills, labels, …) and `missing_strings` asserts each one appears in the text extracted with PyMuPDF — the same way ATS parsers read PDFs. The comparison normalizes both sides identically, so it stays strict while tolerating three extraction artifacts that do not affect real parsers: CSS `text-transform: uppercase` (case folding), line wraps after hyphens ("Cloud-\nInfrastruktur"), and the generator's own page-number stamps between pages (stripped before matching). Limits, stated honestly: this proves machine-extractability and ordering, not the ranking behavior of any specific commercial ATS; and without PyMuPDF the check is skipped (the structural guarantees of R15 still hold). Verified against the author's production dossier: 1,488 content strings across 8 PDFs, 0 missing.
 
 ## 5. Out of scope (deliberately not implemented)
 

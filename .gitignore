@@ -8,9 +8,9 @@ build/
 .pytest_cache/
 uv.lock
 
-# Generierte Ausgaben (beim Bauen der Beispiele im Repo)
+# Generated intermediate output when building the examples in the repo.
+# The rendered example PDFs (examples/pdf/) ARE committed on purpose.
 examples/html/
-examples/pdf/
 
 # macOS
 .DS_Store
