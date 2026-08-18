@@ -61,3 +61,4 @@ h2.section { font-size: 11px; font-weight: 700; text-transform: uppercase; lette
 .header .contact a { color: #2563eb; }
 .cert a { color: #1d4ed8; }
 .cert .verify { display: inline-block; color: #2563eb; font-size: 7.6px; margin-top: 1px; }
+.entry .verify { color: #2563eb; }
