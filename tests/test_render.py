@@ -1,8 +1,9 @@
 import pytest
 
 from ergograph.config import ConfigError, filter_facts
-from ergograph.render import (PAGE_BREAK, build_documents, load_theme, page,
-                              projects_section, skills_section)
+from ergograph.render import (PAGE_BREAK, SECTION_GAP, build_documents,
+                              load_theme, page, projects_section,
+                              skills_section)
 
 
 @pytest.fixture()
@@ -33,7 +34,8 @@ def test_variant_without_rate(example_content_de):
 
 def test_full_document_composition(docs):
     full = docs["full"]
-    assert full.count(PAGE_BREAK) == 2
+    assert full.count(SECTION_GAP) == 1   # CV -> project history flows
+    assert full.count(PAGE_BREAK) == 1    # skills matrix starts on a fresh page
     assert full.startswith(docs["cv"])  # full starts with the complete CV
 
 

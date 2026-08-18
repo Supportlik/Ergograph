@@ -20,6 +20,9 @@ _EQUIVALENTS = {
     " ": " ",  # no-break space
 }
 
+#: <br> produces a line break in the PDF text layer, so it must become a
+#: space; all other tags (e.g. inline <a>) wrap text without separating it.
+_BR_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
 _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")
 #: The page-number stamp added by pdf.add_page_numbers, on a line of its own.
@@ -43,7 +46,8 @@ def normalize(text: str) -> str:
 
 def plain_text(fragment) -> str:
     """Reduce a content value (a trusted HTML fragment) to its plain text."""
-    return normalize(html.unescape(_TAG_RE.sub("", str(fragment))))
+    text = _BR_RE.sub(" ", str(fragment))
+    return normalize(html.unescape(_TAG_RE.sub("", text)))
 
 
 def _paragraphs(description) -> list:

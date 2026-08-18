@@ -18,6 +18,12 @@ def test_normalize_folds_case_and_hyphen_wraps():
     assert normalize("Cloud-\nInfrastruktur") == normalize("Cloud-Infrastruktur")
 
 
+def test_plain_text_turns_br_into_space():
+    # <br> renders as a line break in the PDF text layer
+    assert plain_text("Development €120/h<br>Lead €140/h") == \
+        normalize("Development €120/h Lead €140/h")
+
+
 def test_plain_text_strips_tags_and_entities():
     assert plain_text('REST API, <a href="https://example.org">case study</a>.') == \
         normalize("REST API, case study.")

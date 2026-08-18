@@ -12,6 +12,9 @@ from pathlib import Path
 from .config import ConfigError
 
 PAGE_BREAK = '<div class="page-break"></div>'
+#: Spacer between the parts of the combined dossier: the sections flow
+#: continuously (no half-empty pages) but stay visually separated.
+SECTION_GAP = '<div class="section-gap"></div>'
 
 
 def load_theme(theme: str, base_dir: Path | None = None) -> str:
@@ -132,7 +135,8 @@ def projects_section(content: dict) -> str:
 def skills_section(content: dict, level_max: float) -> str:
     lab = content["labels"]
     out = [f'<h2 class="section">{lab["skills"]}</h2>',
-           f'<div class="legend">{lab["legend"]}</div>']
+           f'<div class="legend">{lab["legend"]}</div>',
+           '<div class="skills-cols">']
     for cat in content["skills"]:
         rows = []
         for item in cat["items"]:
@@ -145,6 +149,7 @@ def skills_section(content: dict, level_max: float) -> str:
                         f'<span class="lvl">{lvlstr}</span>'
                         f'<span class="note">{note}</span></div>')
         out.append(f'<div class="skill-cat"><h3>{cat["category"]}</h3>{"".join(rows)}</div>')
+    out.append('</div>')
     return "".join(out)
 
 
@@ -158,7 +163,9 @@ def build_documents(name: str, content: dict, level_max: float) -> dict[str, str
         "cv": header + cv,
         "projects": header + projects,
         "skills": header + skills,
-        "full": header + cv + PAGE_BREAK + projects + PAGE_BREAK + skills,
+        # CV and project history flow into each other (no half-empty pages);
+        # the one-page skills matrix starts on a fresh page with its heading.
+        "full": header + cv + SECTION_GAP + projects + PAGE_BREAK + skills,
     }
 
 
