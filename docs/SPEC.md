@@ -1,6 +1,6 @@
 # Ergograph – Specification
 
-As of: 2026-08-18 · Version 0.3.0
+As of: 2026-08-18 · Version 0.3.3
 
 This document records all requirements as they were implemented and justifies the central design decisions. It deliberately lives next to the code and is updated with every substantial change.
 
