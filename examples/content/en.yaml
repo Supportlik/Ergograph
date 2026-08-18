@@ -74,6 +74,7 @@ publications:
 - title: Tracing Strategies for Event-Driven Microservices
   venue: ACM Queue, 2023
   url: https://example.org/paper
+  summary: Compares tracing strategies for event-driven microservice architectures.
 projects:
 - group: Delphi Systems GmbH – Senior Backend Engineer
   meta: '03/2019 – today · Berlin · industry: logistics'

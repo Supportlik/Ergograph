@@ -23,6 +23,8 @@ def test_cv_contains_name_sections_and_facts(docs):
     for label in ("Berufserfahrung", "Ausbildung", "Publikationen", "Eckdaten"):
         assert label in cv
     assert "100 €/h" in cv  # hourly-rate fact in the mit-stundensatz variant
+    # optional publication summary renders after the venue
+    assert "Vergleicht Tracing-Strategien" in cv
 
 
 def test_variant_without_rate(example_content_de):
@@ -34,8 +36,8 @@ def test_variant_without_rate(example_content_de):
 
 def test_full_document_composition(docs):
     full = docs["full"]
-    assert full.count(SECTION_GAP) == 1   # CV -> project history flows
-    assert full.count(PAGE_BREAK) == 1    # skills matrix starts on a fresh page
+    assert full.count(PAGE_BREAK) == 2    # each part starts on a fresh page
+    assert full.count(SECTION_GAP) == 0
     assert full.startswith(docs["cv"])  # full starts with the complete CV
 
 

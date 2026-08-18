@@ -98,7 +98,9 @@ def publications_html(content: dict) -> str:
     for pub in content["publications"]:
         url = pub.get("url")
         link = f' <a class="verify" href="{url}">↗ {lab["link"]}</a>' if url else ""
-        items.append(f'<li><b>{pub["title"]}.</b> {pub["venue"]}.{link}</li>')
+        summary = pub.get("summary")
+        sum_html = f" {summary}" if summary else ""
+        items.append(f'<li><b>{pub["title"]}.</b> {pub["venue"]}.{sum_html}{link}</li>')
     return f'<div class="entry"><ul>{"".join(items)}</ul></div>'
 
 
@@ -163,9 +165,8 @@ def build_documents(name: str, content: dict, level_max: float) -> dict[str, str
         "cv": header + cv,
         "projects": header + projects,
         "skills": header + skills,
-        # CV and project history flow into each other (no half-empty pages);
-        # the one-page skills matrix starts on a fresh page with its heading.
-        "full": header + cv + SECTION_GAP + projects + PAGE_BREAK + skills,
+        # each part of the combined dossier starts on a fresh page
+        "full": header + cv + PAGE_BREAK + projects + PAGE_BREAK + skills,
     }
 
 

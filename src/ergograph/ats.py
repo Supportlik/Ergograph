@@ -81,7 +81,7 @@ def key_strings(name: str, content: dict, document: str) -> list[str]:
             keys += [entry["period"], entry["role"], entry["org"]]
             keys += list(entry["bullets"])
         for pub in content["publications"]:
-            keys += [pub["title"], pub["venue"]]
+            keys += [pub["title"], pub["venue"], pub.get("summary")]
     if document in ("projects", "full"):
         keys.append(lab["projects"])
         for group in content["projects"]:
