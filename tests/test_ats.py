@@ -16,6 +16,8 @@ def test_normalize_folds_case_and_hyphen_wraps():
     assert normalize("ECKDATEN") == normalize("Eckdaten")
     # a line wrap after a hyphen extracts as "Cloud- Infrastruktur"
     assert normalize("Cloud-\nInfrastruktur") == normalize("Cloud-Infrastruktur")
+    # a line wrap inside a date range extracts as "11/2019– 03/2020"
+    assert normalize("11/2019–\n03/2020") == normalize("11/2019–03/2020")
 
 
 def test_plain_text_turns_br_into_space():

@@ -41,6 +41,7 @@ def normalize(text: str) -> str:
         text = text.replace(src, dst)
     text = _WS_RE.sub(" ", text)
     text = text.replace("- ", "-")
+    text = text.replace("– ", "–")  # line wraps after en dashes (e.g. date ranges)
     return text.strip().casefold()
 
 
