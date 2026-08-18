@@ -99,8 +99,8 @@ def publications_html(content: dict) -> str:
         url = pub.get("url")
         link = f' <a class="verify" href="{url}">↗ {lab["link"]}</a>' if url else ""
         summary = pub.get("summary")
-        sum_html = f" {summary}" if summary else ""
-        items.append(f'<li><b>{pub["title"]}.</b> {pub["venue"]}.{sum_html}{link}</li>')
+        sum_html = f'<div class="pub-summary">{summary}</div>' if summary else ""
+        items.append(f'<li><b>{pub["title"]}.</b> {pub["venue"]}.{link}{sum_html}</li>')
     return f'<div class="entry"><ul>{"".join(items)}</ul></div>'
 
 
