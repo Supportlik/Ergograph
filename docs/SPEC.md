@@ -1,6 +1,6 @@
 # Ergograph – Specification
 
-As of: 2026-08-18 · Version 0.3.4
+As of: 2026-08-18 · Version 0.4.0
 
 This document records all requirements as they were implemented and justifies the central design decisions. It deliberately lives next to the code and is updated with every substantial change.
 
@@ -58,9 +58,9 @@ Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `l
 - `languages`: list of `{name, level}` (the person's language skills).
 - `certs`: list of `{name, description?, url?}`; with `url` a proof link is rendered.
 - `education`: list of `{year, degree, institution}`.
-- `experience`: list of `{period, role, org, bullets: [str]}`.
+- `experience`: list of `{period, role, org, bullets}`; each bullet is a plain string or `{text, org?, period?}` — `period` renders right-aligned next to the text, `org` as a small subtitle line below (e.g. per-project client entries inside a freelance station).
 - `publications`: list of `{title, venue, url?, summary?}`; `summary` is one sentence on what the publication covers, rendered after the venue in the CV part.
-- `projects`: list of `{group, meta, items: [{title, description, tech}]}`; `description` is a string or a list of paragraphs.
+- `projects`: list of `{group, meta, items: [{title, period?, org?, description, tech}]}`; `description` is a string or a list of paragraphs. `period` renders right-aligned next to the item title, `org` (client/department) as a subtitle below it; both are optional and purely additive.
 - `skills`: list of `{category, items: [{name, level, note?}]}`; `level` is a number on the scale up to `level_max`.
 
 ## 4. Design decisions
@@ -91,7 +91,7 @@ Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `l
 
 **D13 – ATS readability is verified, not assumed.** "ATS-readable" here means: an applicant tracking system that parses the PDF text layer (the common case) receives every piece of content. After each rendered PDF, `ats.py:key_strings` collects ALL content strings of the built document (name, contact, facts, roles, periods, bullets, project descriptions, tech lines, skills, labels, …) and `missing_strings` asserts each one appears in the text extracted with PyMuPDF — the same way ATS parsers read PDFs. The comparison normalizes both sides identically, so it stays strict while tolerating three extraction artifacts that do not affect real parsers: CSS `text-transform: uppercase` (case folding), line wraps after hyphens ("Cloud-\nInfrastruktur"), and the generator's own page-number stamps between pages (stripped before matching). Limits, stated honestly: this proves machine-extractability and ordering, not the ranking behavior of any specific commercial ATS; and without PyMuPDF the check is skipped (the structural guarantees of R15 still hold). Verified against the author's production dossier: 1,488 content strings across 8 PDFs, 0 missing.
 
-**D14 – Layout refinements (0.3.0), based on an external design review.** Four changes to the `modern` theme and the document composition: (a) briefly, CV and project history flowed into each other in the combined dossier; since 0.3.4 every part starts on its own page again (owner preference — the parts read as chapters). The `SECTION_GAP` spacer and its CSS remain available. (b) The project-history typography now matches the CV part (body 10.2px instead of 9.2px) and its line length is capped at 165mm. (c) The skills matrix renders in two CSS columns (`.skills-cols`), roughly halving its footprint. (d) Break rules: a section heading never sits alone at a page end (`h2.section { break-after: avoid }`), and a project group keeps its header together with its first project. This deliberately supersedes the pixel parity of R14 — parity was a migration-time guarantee, not a design freeze.
+**D14 – Layout refinements (0.3.0), based on an external design review.** Four changes to the `modern` theme and the document composition: (a) briefly, CV and project history flowed into each other in the combined dossier; since 0.4.0 every part starts on its own page again (owner preference — the parts read as chapters). The `SECTION_GAP` spacer and its CSS remain available. (b) The project-history typography now matches the CV part (body 10.2px instead of 9.2px) and its line length is capped at 165mm. (c) The skills matrix renders in two CSS columns (`.skills-cols`), roughly halving its footprint. (d) Break rules: a section heading never sits alone at a page end (`h2.section { break-after: avoid }`), and a project group keeps its header together with its first project. This deliberately supersedes the pixel parity of R14 — parity was a migration-time guarantee, not a design freeze.
 
 ## 5. Out of scope (deliberately not implemented)
 

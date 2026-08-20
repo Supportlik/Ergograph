@@ -43,6 +43,12 @@ h2.section { font-size: 11px; font-weight: 700; text-transform: uppercase; lette
 .proj-group > .gm { font-size: 9px; color: #64748b; margin-bottom: 6px; }
 .proj { border-left: 2px solid #dbeafe; padding-left: 10px; margin-bottom: 8px; break-inside: avoid; }
 .proj .ph { font-size: 10.6px; font-weight: 700; color: #1d4ed8; }
+.proj-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; break-after: avoid; }
+.proj .pp { font-size: 8.6px; color: #64748b; font-weight: 600; white-space: nowrap; }
+.proj .po { font-size: 8.8px; color: #64748b; font-weight: 600; margin: 0 0 2px; }
+.entry .li-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.entry .li-period { font-size: 8.6px; color: #64748b; font-weight: 600; white-space: nowrap; }
+.entry .li-sub { font-size: 8.6px; color: #64748b; margin-top: 0.5px; }
 .proj .pd { font-size: 10.2px; color: #334155; margin: 1px 0 3px; }
 .proj .pd a { color: #1d4ed8; }
 .proj .pt { font-size: 8.8px; color: #64748b; }

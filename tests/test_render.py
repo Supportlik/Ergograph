@@ -59,6 +59,21 @@ def test_project_description_paragraphs(example_content_de):
     assert '<a href="https://example.org">Fallstudie</a>' in html
 
 
+def test_project_period_and_org(example_content_de):
+    html = projects_section(example_content_de)
+    # period renders right-aligned next to the title, org as subtitle
+    assert '<span class="ph">Orakel-Plattform</span><span class="pp">2019 – heute</span>' in html
+    assert '<div class="po">Delphi Systems GmbH</div>' in html
+
+
+def test_structured_bullet(docs):
+    cv = docs["cv"]
+    assert '<span class="li-period">2017–2018</span>' in cv
+    assert '<div class="li-sub">Hellas Analytics</div>' in cv
+    # plain string bullets still render as before
+    assert "<li>Einführung von Tracing und SLO-basiertem Monitoring" in cv
+
+
 def test_page_wraps_body(example_content_de):
     html = page("lebenslauf", "<p>x</p>", "body{}", "de")
     assert html.startswith("<!doctype html>")

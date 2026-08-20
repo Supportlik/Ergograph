@@ -80,7 +80,11 @@ def key_strings(name: str, content: dict, document: str) -> list[str]:
             keys += [edu["year"], edu["degree"], edu["institution"]]
         for entry in content["experience"]:
             keys += [entry["period"], entry["role"], entry["org"]]
-            keys += list(entry["bullets"])
+            for b in entry["bullets"]:
+                if isinstance(b, dict):
+                    keys += [b["text"], b.get("org"), b.get("period")]
+                else:
+                    keys.append(b)
         for pub in content["publications"]:
             keys += [pub["title"], pub["venue"], pub.get("summary")]
     if document in ("projects", "full"):
@@ -88,7 +92,7 @@ def key_strings(name: str, content: dict, document: str) -> list[str]:
         for group in content["projects"]:
             keys += [group["group"], group["meta"]]
             for item in group["items"]:
-                keys += [item["title"], item["tech"]]
+                keys += [item["title"], item.get("period"), item.get("org"), item["tech"]]
                 keys += _paragraphs(item["description"])
     if document in ("skills", "full"):
         keys += [lab["skills"], lab["legend"]]

@@ -74,10 +74,24 @@ def sidebar_html(content: dict) -> str:
             f'</div>')
 
 
+def _bullet_html(bullet) -> str:
+    """A bullet is a plain string or {text, org?, period?}; org renders as a
+    small subtitle line, period right-aligned next to the text."""
+    if not isinstance(bullet, dict):
+        return f'<li>{bullet}</li>'
+    head = f'<span>{bullet["text"]}</span>'
+    if bullet.get("period"):
+        head += f'<span class="li-period">{bullet["period"]}</span>'
+    li = f'<div class="li-head">{head}</div>'
+    if bullet.get("org"):
+        li += f'<div class="li-sub">{bullet["org"]}</div>'
+    return f'<li>{li}</li>'
+
+
 def experience_html(content: dict) -> str:
     out = []
     for entry in content["experience"]:
-        lis = "".join(f'<li>{b}</li>' for b in entry["bullets"])
+        lis = "".join(_bullet_html(b) for b in entry["bullets"])
         out.append(
             f'<div class="entry"><div class="top"><span class="role">{entry["role"]}</span>'
             f'<span class="period">{entry["period"]}</span></div>'
@@ -127,8 +141,12 @@ def projects_section(content: dict) -> str:
         for item in group["items"]:
             pd_html = "".join(f'<div class="pd">{p.strip()}</div>'
                               for p in _paragraphs(item["description"]))
-            inner.append(f'<div class="proj"><div class="ph">{item["title"]}</div>'
-                         f'{pd_html}<div class="pt">{item["tech"]}</div></div>')
+            top = f'<span class="ph">{item["title"]}</span>'
+            if item.get("period"):
+                top += f'<span class="pp">{item["period"]}</span>'
+            org = f'<div class="po">{item["org"]}</div>' if item.get("org") else ""
+            inner.append(f'<div class="proj"><div class="proj-top">{top}</div>'
+                         f'{org}{pd_html}<div class="pt">{item["tech"]}</div></div>')
         out.append(f'<div class="proj-group"><div class="gh">{group["group"]}</div>'
                    f'<div class="gm">{group["meta"]}</div>{"".join(inner)}</div>')
     return "".join(out)

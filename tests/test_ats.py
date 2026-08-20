@@ -51,8 +51,9 @@ def test_key_strings_depend_on_document(example_content_de):
     projects = key_strings("Alexandra Argyriou", content, "projects")
     full = key_strings("Alexandra Argyriou", content, "full")
     assert normalize("Senior Backend Engineer") in cv
-    assert normalize("Orakel-Plattform (2019 – heute)") not in cv
-    assert normalize("Orakel-Plattform (2019 – heute)") in projects
+    assert normalize("Orakel-Plattform") not in cv
+    assert normalize("Orakel-Plattform") in projects
+    assert normalize("2019 – heute") in projects   # project period is covered
     assert normalize("CKAD, Produktionsbetrieb") not in projects  # skill note
     assert set(cv) <= set(full) and set(projects) <= set(full)
     # full covers every piece of content, including long texts

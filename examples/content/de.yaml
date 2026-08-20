@@ -69,7 +69,9 @@ experience:
   role: Software Engineer
   org: Hellas Analytics, Athen
   bullets:
-  - Aufbau einer Datenpipeline für Echtzeit-Analysen (Java, Spring Boot, PostgreSQL).
+  - text: Aufbau einer Datenpipeline für Echtzeit-Analysen (Java, Spring Boot, PostgreSQL).
+    org: Hellas Analytics
+    period: 2017–2018
 publications:
 - title: Tracing Strategies for Event-Driven Microservices
   venue: ACM Queue, 2023
@@ -79,7 +81,9 @@ projects:
 - group: Delphi Systems GmbH – Senior Backend Engineer
   meta: '03/2019 – heute · Berlin · Branche: Logistik'
   items:
-  - title: Orakel-Plattform (2019 – heute)
+  - title: Orakel-Plattform
+    period: 2019 – heute
+    org: Delphi Systems GmbH
     description:
     - Eventgetriebene Plattform zur Sendungsverfolgung mit 40+ Services.
     - Verantwortlich für Architektur, API-Design und den Kubernetes-Betrieb.
