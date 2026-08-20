@@ -9,6 +9,8 @@ def test_normalize_collapses_whitespace_and_ligatures():
     assert normalize("a   b\n c") == "a b c"
     assert normalize("ﬂow chart") == "flow chart"      # fl ligature
     assert normalize("proﬁle") == "profile"            # fi ligature
+    # pypdf extracts the typographic apostrophe U+2019 as U+02BC
+    assert normalize("heuristicʼs") == normalize("heuristic’s")
 
 
 def test_normalize_folds_case_and_hyphen_wraps():

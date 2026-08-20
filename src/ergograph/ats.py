@@ -17,6 +17,8 @@ import re
 _EQUIVALENTS = {
     "ﬁ": "fi", "ﬂ": "fl", "ﬀ": "ff",
     "ﬃ": "ffi", "ﬄ": "ffl",
+    # apostrophe forms: pypdf may extract U+2019 as U+02BC
+    "’": "'", "ʼ": "'", "‘": "'",
     " ": " ",  # no-break space
 }
 
