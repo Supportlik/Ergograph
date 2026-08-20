@@ -1,6 +1,6 @@
 # Ergograph – Specification
 
-As of: 2026-08-18 · Version 0.4.0
+As of: 2026-08-18 · Version 0.5.0
 
 This document records all requirements as they were implemented and justifies the central design decisions. It deliberately lives next to the code and is updated with every substantial change.
 
@@ -49,7 +49,7 @@ Ergograph is the decoupling of a previously monolithic build script (`build.py` 
 
 ### 3.2 Content file (per language)
 
-Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects`, `skills`.
+Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects`, `skills`. Lists may be empty — an empty list hides the corresponding section or sidebar block (e.g. `publications: []` for professions without publications).
 
 - `labels`: all section headings and small texts (`facts`, `languages`, `certs`, `core`, `experience`, `education`, `publications`, `projects`, `skills`, `verify`, `link`, `legend`).
 - `doc_names`: localized file names for `cv`, `projects`, `skills`, `full` (e.g. `cv: lebenslauf`).
@@ -91,7 +91,7 @@ Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `l
 
 **D13 – ATS readability is verified, not assumed.** "ATS-readable" here means: an applicant tracking system that parses the PDF text layer (the common case) receives every piece of content. After each rendered PDF, `ats.py:key_strings` collects ALL content strings of the built document (name, contact, facts, roles, periods, bullets, project descriptions, tech lines, skills, labels, …) and `missing_strings` asserts each one appears in the text extracted with PyMuPDF — the same way ATS parsers read PDFs. The comparison normalizes both sides identically, so it stays strict while tolerating three extraction artifacts that do not affect real parsers: CSS `text-transform: uppercase` (case folding), line wraps after hyphens ("Cloud-\nInfrastruktur"), and the generator's own page-number stamps between pages (stripped before matching). Limits, stated honestly: this proves machine-extractability and ordering, not the ranking behavior of any specific commercial ATS; and without PyMuPDF the check is skipped (the structural guarantees of R15 still hold). Verified against the author's production dossier: 1,488 content strings across 8 PDFs, 0 missing.
 
-**D14 – Layout refinements (0.3.0), based on an external design review.** Four changes to the `modern` theme and the document composition: (a) briefly, CV and project history flowed into each other in the combined dossier; since 0.4.0 every part starts on its own page again (owner preference — the parts read as chapters). The `SECTION_GAP` spacer and its CSS remain available. (b) The project-history typography now matches the CV part (body 10.2px instead of 9.2px) and its line length is capped at 165mm. (c) The skills matrix renders in two CSS columns (`.skills-cols`), roughly halving its footprint. (d) Break rules: a section heading never sits alone at a page end (`h2.section { break-after: avoid }`), and a project group keeps its header together with its first project. This deliberately supersedes the pixel parity of R14 — parity was a migration-time guarantee, not a design freeze.
+**D14 – Layout refinements (0.3.0), based on an external design review.** Four changes to the `modern` theme and the document composition: (a) briefly, CV and project history flowed into each other in the combined dossier; since 0.5.0 every part starts on its own page again (owner preference — the parts read as chapters). The `SECTION_GAP` spacer and its CSS remain available. (b) The project-history typography now matches the CV part (body 10.2px instead of 9.2px) and its line length is capped at 165mm. (c) The skills matrix renders in two CSS columns (`.skills-cols`), roughly halving its footprint. (d) Break rules: a section heading never sits alone at a page end (`h2.section { break-after: avoid }`), and a project group keeps its header together with its first project. This deliberately supersedes the pixel parity of R14 — parity was a migration-time guarantee, not a design freeze.
 
 ## 5. Out of scope (deliberately not implemented)
 

@@ -22,12 +22,12 @@ def test_build_html_only(tmp_path, example_config):
     # 2 Varianten x (4 Dokumente de + 1 Dokument en)
     assert len(results) == 10
     assert all(r.ok and r.pdf_path is None for r in results)
-    cv = (tmp_path / "html/mit-stundensatz/de/lebenslauf.html").read_text(encoding="utf-8")
+    cv = (tmp_path / ".build/html/mit-stundensatz/de/lebenslauf.html").read_text(encoding="utf-8")
     assert "Alexandra Argyriou" in cv and "100 €/h" in cv
-    cv_ohne = (tmp_path / "html/ohne-stundensatz/de/lebenslauf.html").read_text(encoding="utf-8")
+    cv_ohne = (tmp_path / ".build/html/ohne-stundensatz/de/lebenslauf.html").read_text(encoding="utf-8")
     assert "Stundensatz" not in cv_ohne
-    assert (tmp_path / "html/mit-stundensatz/en/dossier-complete.html").exists()
-    assert not (tmp_path / "html/mit-stundensatz/en/cv.html").exists()
+    assert (tmp_path / ".build/html/mit-stundensatz/en/dossier-complete.html").exists()
+    assert not (tmp_path / ".build/html/mit-stundensatz/en/cv.html").exists()
     assert not (tmp_path / "pdf").exists()
 
 

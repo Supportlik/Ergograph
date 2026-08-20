@@ -1,0 +1,146 @@
+title: Schreinermeister & Betriebsinhaber
+tagline: 'Schreinermeister mit über 15 Jahren Erfahrung in Möbelbau, Innenausbau und Denkmalpflege. Eigener Meisterbetrieb mit vier Mitarbeitenden; Schwerpunkte: hochwertiger Ladenbau, CNC-gestützte Fertigung und Restaurierung historischer Ausstattungen.'
+doc_names:
+  cv: lebenslauf
+  projects: projektuebersicht
+  skills: faehigkeiten
+  full: dossier-komplett
+labels:
+  facts: Eckdaten
+  languages: Sprachen
+  certs: Qualifikationen
+  core: Schwerpunkte
+  experience: Beruflicher Werdegang
+  education: Ausbildung
+  publications: Publikationen
+  projects: Referenzprojekte
+  skills: Fähigkeiten
+  verify: Nachweis
+  link: Link
+  legend: 'Skala 1–6: 3 Grundkenntnisse · 4 fortgeschritten · 5 langjährige Praxis · 6 Meisterniveau'
+contact:
+- label: Standort
+  value: 84034 Landshut
+- label: E-Mail
+  value: t.brandl@example.org
+- label: Betrieb
+  value: Schreinerei Brandl
+  url: https://github.com/Supportlik/Ergograph
+facts:
+- label: Verfügbarkeit
+  value: Aufträge ab Januar
+- label: Einsatzgebiet
+  value: Niederbayern & Oberbayern
+- label: Führerschein
+  value: Klassen B, BE, C1
+languages:
+- name: Deutsch
+  level: Muttersprache
+- name: Englisch
+  level: Grundkenntnisse
+certs:
+- name: Meisterbrief Schreinerhandwerk
+  description: Handwerkskammer Niederbayern-Oberpfalz, 2015
+  url: https://github.com/Supportlik/Ergograph
+- name: Ausbildereignung (AEVO)
+  description: '2016'
+  url: https://github.com/Supportlik/Ergograph
+top_skills:
+- Möbelbau
+- Innenausbau
+- Ladenbau
+- CNC-Fertigung
+- CAD (VectorWorks)
+- Restaurierung
+- Montageleitung
+- Kundenberatung
+education:
+- year: '2015'
+  degree: Meisterprüfung im Schreinerhandwerk
+  institution: Handwerkskammer Niederbayern-Oberpfalz
+- year: '2010'
+  degree: Gesellenprüfung Schreiner
+  institution: Berufsschule Landshut
+- year: '2007'
+  degree: Mittlere Reife
+  institution: Realschule Landshut
+experience:
+- period: 04/2017–heute
+  role: Betriebsinhaber & Schreinermeister
+  org: Schreinerei Brandl, Landshut
+  bullets:
+  - Führung eines Meisterbetriebs mit vier Mitarbeitenden und einem Auszubildenden; Kalkulation, Arbeitsvorbereitung und Montageleitung.
+  - Spezialisierung auf Ladenbau und Objekteinrichtung; jährlich rund 30 Projekte von der Aufmaßnahme bis zur Übergabe.
+  - Einführung einer CNC-gestützten Fertigung inkl. CAD-Arbeitsvorbereitung (VectorWorks).
+- period: 09/2015–03/2017
+  role: Werkstattleiter
+  org: Möbelmanufaktur Huber GmbH, Regensburg
+  bullets:
+  - Leitung der Bankraum-Fertigung mit sechs Gesellen; Qualitätskontrolle und Terminplanung.
+  - text: Fertigungsumstellung auf ein neues Beschlagsystem
+    org: Möbelmanufaktur Huber GmbH
+    period: 2016
+- period: 07/2010–08/2015
+  role: Schreinergeselle
+  org: Schreinerei Ostermeier, Landshut
+  bullets:
+  - Möbel- und Innenausbau, Fenster- und Türenmontage, Reparaturarbeiten beim Kunden.
+- period: 09/2007–07/2010
+  role: Ausbildung zum Schreiner
+  org: Schreinerei Ostermeier, Landshut
+  bullets:
+  - Abschluss als Kammersieger der Handwerkskammer.
+publications: []
+projects:
+- group: Schreinerei Brandl – Referenzprojekte
+  meta: Auswahl seit 2017 · Ladenbau, Innenausbau, Denkmalpflege
+  items:
+  - title: Ladenbau Buchhandlung am Dom
+    period: 02/2024–06/2024
+    org: Buchhandlung am Dom, Regensburg
+    description: Komplette Ladeneinrichtung mit raumhohen Regalsystemen, Verkaufstheke und Leseecke; Fertigung, Lieferung und Montage in drei Bauabschnitten bei laufendem Betrieb.
+    tech: Eiche massiv · CNC-Fertigung · Lichtintegration · Montage in 3 Abschnitten
+  - title: Restaurierung Kassettendecke Stadtmuseum
+    period: 05/2022–11/2022
+    org: Stadt Landshut, Denkmalpflege
+    description: Restaurierung einer barocken Kassettendecke in Abstimmung mit dem Landesamt für Denkmalpflege; Schadenskartierung, Ergänzungsschnitzereien und reversible Befestigung.
+    tech: Denkmalpflege · Holzrestaurierung · Dokumentation
+  - title: Einbauküchen- und Schranksysteme Wohnanlage Isarblick
+    period: 03/2019–12/2019
+    org: Wohnbau Landshut GmbH
+    description: Serienfertigung von 24 Einbauküchen und Garderobensystemen für eine Neubau-Wohnanlage; just-in-time-Montage nach Bauzeitenplan.
+    tech: Serienfertigung · CNC · Bauzeitenplan-Koordination
+skills:
+- category: Handwerk
+  items:
+  - name: Möbelbau
+    level: 6
+    note: Meisterprüfung, durchgängig
+  - name: Innenausbau & Ladenbau
+    level: 5
+    note: Schwerpunkt seit 2017
+  - name: Restaurierung
+    level: 4
+    note: Denkmalpflege-Projekte
+- category: Technik & Planung
+  items:
+  - name: CNC-Fertigung
+    level: 5
+    note: eigener Maschinenpark seit 2018
+  - name: CAD (VectorWorks)
+    level: 4
+    note: Arbeitsvorbereitung
+  - name: Aufmaß & Kalkulation
+    level: 5
+    note: durchgängig
+- category: Betrieb & Führung
+  items:
+  - name: Mitarbeiterführung
+    level: 4
+    note: 4 Mitarbeitende, 1 Auszubildender
+  - name: Ausbildung
+    level: 4
+    note: AEVO, 3 Auszubildende seit 2017
+  - name: Arbeitssicherheit
+    level: 4
+    note: Sicherheitsbeauftragter des Betriebs

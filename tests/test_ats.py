@@ -62,6 +62,14 @@ def test_key_strings_depend_on_document(example_content_de):
     assert normalize("Go · Kafka · Kubernetes · PostgreSQL") in full  # tech line
 
 
+def test_empty_sections_not_expected(example_content_de):
+    content = dict(example_content_de, publications=[], certs=[],
+                   facts=filter_facts(example_content_de["facts"], "ohne-stundensatz"))
+    expected = key_strings("X", content, "cv")
+    assert normalize("Publikationen") not in expected
+    assert normalize("Zertifikate") not in expected
+
+
 @pytest.mark.parametrize("document", ["cv", "projects", "skills", "full"])
 def test_rendered_html_contains_all_key_strings(example_content_de, document):
     # Deterministic stand-in for the PDF check: the text layer of the PDF is

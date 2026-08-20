@@ -1,0 +1,20 @@
+# Comprehensive example: freelance software architect (fictional persona),
+# bilingual, rate variants, structured bullets, project period/org metadata.
+person:
+  name: Daniel Falkner
+
+theme: modern
+level_max: 6
+
+languages: [de, en]
+variants: [mit-stundensatz, ohne-stundensatz]
+documents: [full]
+
+content:
+  de: content/de.yaml
+  en: content/en.yaml
+
+output:
+  html_dir: .build/html
+  pdf_dir: pdf
+  date_prefix: false

@@ -1,0 +1,22 @@
+# Example steering file for Ergograph (fictional person)
+person:
+  name: Alexandra Argyriou
+
+theme: modern
+level_max: 6
+
+languages: [de, en]
+variants: [mit-stundensatz, ohne-stundensatz]
+
+documents:
+  de: [cv, projects, skills, full]
+  en: [full]
+
+content:
+  de: content/de.yaml
+  en: content/en.yaml
+
+output:
+  html_dir: .build/html
+  pdf_dir: pdf
+  date_prefix: false   # stable file names: the rendered PDFs are committed to the repo

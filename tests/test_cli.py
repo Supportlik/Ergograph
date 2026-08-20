@@ -3,7 +3,7 @@ from pathlib import Path
 
 from ergograph.cli import main
 
-EXAMPLES = Path(__file__).parent.parent / "examples"
+EXAMPLES = Path(__file__).parent.parent / "examples" / "minimal"
 
 
 def _copy_example(tmp_path):
@@ -21,7 +21,7 @@ def test_validate_ok(tmp_path, capsys):
 def test_build_html_only(tmp_path):
     cfg = _copy_example(tmp_path)
     assert main(["build", "-c", str(cfg), "--html-only"]) == 0
-    assert (tmp_path / "html/mit-stundensatz/de/dossier-komplett.html").exists()
+    assert (tmp_path / ".build/html/mit-stundensatz/de/dossier-komplett.html").exists()
 
 
 def test_unknown_variant_fails(tmp_path, capsys):

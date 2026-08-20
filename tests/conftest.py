@@ -4,7 +4,7 @@ import pytest
 
 from ergograph.config import load_config, load_content
 
-EXAMPLES = Path(__file__).parent.parent / "examples"
+EXAMPLES = Path(__file__).parent.parent / "examples" / "minimal"
 
 
 @pytest.fixture(scope="session")

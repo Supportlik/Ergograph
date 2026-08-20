@@ -56,7 +56,7 @@ def test_project_description_paragraphs(example_content_de):
     assert html.count('<div class="pd">Event') == 1
     assert '<div class="pd">Verantwortlich für Architektur' in html
     # string description with inline HTML is preserved
-    assert '<a href="https://example.org">Fallstudie</a>' in html
+    assert '<a href="https://github.com/Supportlik/Ergograph">Fallstudie</a>' in html
 
 
 def test_project_period_and_org(example_content_de):

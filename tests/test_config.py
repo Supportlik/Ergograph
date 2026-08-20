@@ -16,7 +16,8 @@ def test_example_config_loads(example_config):
 
 
 def test_paths_relative_to_config_file(example_config):
-    assert example_config.html_dir.parent == example_config.base_dir
+    assert example_config.html_dir == example_config.base_dir / ".build" / "html"
+    assert example_config.pdf_dir.parent == example_config.base_dir
 
 
 def test_missing_config_file():

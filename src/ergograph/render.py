@@ -66,12 +66,16 @@ def sidebar_html(content: dict) -> str:
         verify = f'<a class="verify" href="{url}">↗ {lab["verify"]}</a>' if url else ""
         cert_items.append(f'<div class="cert"><b>{name}</b>{ds}{verify}</div>')
     tags = "".join(f'<span class="tag">{s}</span>' for s in content["top_skills"])
-    return (f'<div class="side">'
-            f'<div class="block"><h3>{lab["facts"]}</h3>{facts}</div>'
-            f'<div class="block"><h3>{lab["languages"]}</h3>{langs}</div>'
-            f'<div class="block"><h3>{lab["certs"]}</h3>{"".join(cert_items)}</div>'
-            f'<div class="block"><h3>{lab["core"]}</h3><div class="tags">{tags}</div></div>'
-            f'</div>')
+    blocks = []
+    if content["facts"]:
+        blocks.append(f'<div class="block"><h3>{lab["facts"]}</h3>{facts}</div>')
+    if content["languages"]:
+        blocks.append(f'<div class="block"><h3>{lab["languages"]}</h3>{langs}</div>')
+    if content["certs"]:
+        blocks.append(f'<div class="block"><h3>{lab["certs"]}</h3>{"".join(cert_items)}</div>')
+    if content["top_skills"]:
+        blocks.append(f'<div class="block"><h3>{lab["core"]}</h3><div class="tags">{tags}</div></div>')
+    return f'<div class="side">{"".join(blocks)}</div>'
 
 
 def _bullet_html(bullet) -> str:
@@ -120,11 +124,13 @@ def publications_html(content: dict) -> str:
 
 def cv_section(content: dict) -> str:
     lab = content["labels"]
+    pubs = (f'<h2 class="section">{lab["publications"]}</h2>{publications_html(content)}'
+            if content["publications"] else "")
     return (f'<div class="profile">{content["tagline"]}</div>'
             f'<div class="cv-grid">{sidebar_html(content)}'
             f'<div class="main"><h2 class="section">{lab["experience"]}</h2>{experience_html(content)}'
             f'<h2 class="section">{lab["education"]}</h2>{education_html(content)}'
-            f'<h2 class="section">{lab["publications"]}</h2>{publications_html(content)}</div></div>')
+            f'{pubs}</div></div>')
 
 
 def _paragraphs(description: str | list[str]) -> list[str]:

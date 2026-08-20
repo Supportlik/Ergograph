@@ -1,0 +1,148 @@
+title: Reporterin & Redakteurin
+tagline: 'Politik- und Investigativreporterin mit 9 Jahren Redaktionserfahrung in Print und Online. Schwerpunkte: Kommunalpolitik, Datenrecherche und lange Formate; sicher in Interview, Podcast-Produktion und crossmedialem Arbeiten.'
+doc_names:
+  cv: lebenslauf
+  projects: recherchen
+  skills: faehigkeiten
+  full: dossier-komplett
+labels:
+  facts: Eckdaten
+  languages: Sprachen
+  certs: Qualifikationen
+  core: Schwerpunkte
+  experience: Beruflicher Werdegang
+  education: Ausbildung
+  publications: Ausgewählte Veröffentlichungen
+  projects: Recherchen & Projekte
+  skills: Fähigkeiten
+  verify: Nachweis
+  link: Link
+  legend: 'Skala 1–6: 3 Grundkenntnisse · 4 fortgeschritten · 5 langjährige Praxis · 6 Spezialgebiet'
+contact:
+- label: Standort
+  value: 04109 Leipzig
+- label: E-Mail
+  value: l.hoffmann@example.org
+- label: Portfolio
+  value: lenahoffmann-reportagen
+  url: https://github.com/Supportlik/Ergograph
+facts:
+- label: Verfügbarkeit
+  value: für Aufträge & Festanstellung offen
+- label: Arbeitsweise
+  value: remote & vor Ort, reisebereit
+- label: Formate
+  value: Reportage, Interview, Podcast, Daten
+languages:
+- name: Deutsch
+  level: Muttersprache
+- name: Englisch
+  level: fließend
+- name: Französisch
+  level: gut
+certs:
+- name: Volontariat
+  description: Leipziger Tagespost, 2017–2019
+  url: https://github.com/Supportlik/Ergograph
+- name: Datenjournalismus-Zertifikat
+  description: Journalistenakademie, 2021
+  url: https://github.com/Supportlik/Ergograph
+top_skills:
+- Investigativrecherche
+- Datenjournalismus
+- Interviewführung
+- Reportage
+- Podcast-Produktion
+- CMS & Online
+- Faktencheck
+- Pressrecht (Grundlagen)
+education:
+- year: '2017'
+  degree: Master of Arts – Journalistik
+  institution: Universität Leipzig
+- year: '2015'
+  degree: Bachelor of Arts – Politikwissenschaft
+  institution: Universität Jena
+experience:
+- period: 01/2023–heute
+  role: Freie Reporterin (Investigativ & Daten)
+  org: verschiedene Redaktionen
+  bullets:
+  - text: Recherche-Serie zur Vergabepraxis kommunaler Bauaufträge (gemeinsam mit dem Rechercheteam)
+    org: Mitteldeutsche Rundschau
+    period: 2024
+  - text: Datenrecherche und Story-Paket zur Wohnungsleerstands-Statistik
+    org: Onlinemagazin Kontrast
+    period: 2023
+- period: 07/2019–12/2022
+  role: Redakteurin Politik & Kommunales
+  org: Leipziger Tagespost
+  bullets:
+  - Tagesaktuelle Berichterstattung aus Stadtrat und Landespolitik; Aufbau des wöchentlichen Kommunal-Newsletters (12.000 Abonnenten).
+  - Konzeption und Moderation des Podcasts „Rathausklatsch“ (über 80 Folgen).
+- period: 07/2017–06/2019
+  role: Volontärin
+  org: Leipziger Tagespost
+  bullets:
+  - Stationen in Lokales, Politik, Online und Investigativteam.
+publications:
+- title: 'Serie: Wem gehört die Stadt? – Immobiliennetzwerke in Leipzig'
+  venue: Leipziger Tagespost, 2022
+  url: https://github.com/Supportlik/Ergograph
+  summary: Fünfteilige Datenrecherche zu Eigentümerstrukturen im Leipziger Wohnungsmarkt; ausgezeichnet mit dem Sächsischen Lokaljournalistenpreis.
+- title: 'Podcast: Rathausklatsch'
+  venue: Leipziger Tagespost, 2020–2022
+  url: https://github.com/Supportlik/Ergograph
+  summary: Wöchentlicher Kommunalpolitik-Podcast mit über 80 Folgen und zuletzt rund 9.000 Hörerinnen und Hörern pro Folge.
+projects:
+- group: Freie Recherchen
+  meta: seit 2023 · Investigativ & Datenjournalismus
+  items:
+  - title: Vergabepraxis kommunaler Bauaufträge
+    period: 03/2024–11/2024
+    org: Mitteldeutsche Rundschau
+    description: Auswertung von über 1.200 Vergabeverfahren aus fünf Jahren; Interviews mit Vergabestellen, Bietern und Aufsichtsbehörden. Ergebnis war eine dreiteilige Serie mit anschließender Anfrage im Stadtrat.
+    tech: Datenanalyse · IFG-Anfragen · Interviews · Faktencheck
+  - title: Wohnungsleerstand in Ostdeutschland
+    period: 05/2023–10/2023
+    org: Onlinemagazin Kontrast
+    description: Scraping und Aufbereitung öffentlicher Leerstandsdaten; interaktive Karte und Longread.
+    tech: Datenaufbereitung · Visualisierung · Longread
+- group: Leipziger Tagespost – Redaktionsprojekte
+  meta: 2019–2022 · Politik & Kommunales
+  items:
+  - title: Kommunal-Newsletter
+    period: 2021–2022
+    description: Konzeption und Aufbau eines wöchentlichen Newsletters; Wachstum auf 12.000 Abonnenten in 18 Monaten.
+    tech: Newsletter-Konzeption · CMS · Themenplanung
+skills:
+- category: Recherche
+  items:
+  - name: Investigativrecherche
+    level: 5
+    note: Vergabe-Serie, Immobiliennetzwerke
+  - name: Datenjournalismus
+    level: 4
+    note: Zertifikat, zwei Datenprojekte
+  - name: Interviewführung
+    level: 5
+    note: durchgängig
+- category: Produktion
+  items:
+  - name: Schreiben (Reportage, Nachricht)
+    level: 5
+    note: durchgängig
+  - name: Podcast-Produktion
+    level: 4
+    note: Rathausklatsch, 80+ Folgen
+  - name: CMS & Online-Redaktion
+    level: 4
+    note: durchgängig
+- category: Handwerkszeug
+  items:
+  - name: Faktencheck & Verifikation
+    level: 5
+    note: Investigativteam
+  - name: Presserecht
+    level: 3
+    note: Grundlagen, Schulungen

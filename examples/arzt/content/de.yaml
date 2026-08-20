@@ -1,0 +1,155 @@
+title: Fachärztin für Innere Medizin & Gastroenterologie
+tagline: 'Fachärztin für Innere Medizin mit Schwerpunkt Gastroenterologie und 12 Jahren klinischer Erfahrung. Oberärztin mit Verantwortung für die Endoskopie-Abteilung; Erfahrung in klinischen Studien, Weiterbildung von Assistenzärztinnen und -ärzten sowie interdisziplinärer Zusammenarbeit.'
+doc_names:
+  cv: lebenslauf
+  projects: taetigkeitsschwerpunkte
+  skills: kompetenzen
+  full: dossier-komplett
+labels:
+  facts: Eckdaten
+  languages: Sprachen
+  certs: Approbation & Facharzt
+  core: Schwerpunkte
+  experience: Beruflicher Werdegang
+  education: Ausbildung & Studium
+  publications: Publikationen
+  projects: Klinische Schwerpunkte & Studien
+  skills: Kompetenzen
+  verify: Nachweis
+  link: Link
+  legend: 'Skala 1–6: 3 Grundkenntnisse · 4 selbstständige Durchführung · 5 langjährige Routine · 6 Ausbilderniveau'
+contact:
+- label: Standort
+  value: 79098 Freiburg
+- label: E-Mail
+  value: j.sander@example.org
+- label: Profil
+  value: julia-sander-md
+  url: https://github.com/Supportlik/Ergograph
+facts:
+- label: Verfügbarkeit
+  value: zum nächsten Quartal
+- label: Gesucht
+  value: Oberarztposition oder Leitung Endoskopie
+- label: Umfang
+  value: Vollzeit oder 80 %
+languages:
+- name: Deutsch
+  level: Muttersprache
+- name: Englisch
+  level: fließend (Fachsprache)
+- name: Spanisch
+  level: Grundkenntnisse
+certs:
+- name: Fachärztin für Innere Medizin
+  description: Landesärztekammer Baden-Württemberg, 2019
+  url: https://github.com/Supportlik/Ergograph
+- name: Schwerpunktbezeichnung Gastroenterologie
+  description: '2022'
+  url: https://github.com/Supportlik/Ergograph
+- name: Fachkunde Notfallmedizin
+  description: '2016'
+  url: https://github.com/Supportlik/Ergograph
+top_skills:
+- Gastroenterologie
+- Endoskopie (ÖGD, Koloskopie, ERCP)
+- Sonographie
+- Intensivmedizin
+- Klinische Studien
+- Weiterbildung & Lehre
+education:
+- year: '2015'
+  degree: Promotion (Dr. med.), magna cum laude
+  institution: Universität Freiburg
+- year: '2013'
+  degree: Approbation als Ärztin
+  institution: Regierungspräsidium Freiburg
+- year: '2013'
+  degree: Studium der Humanmedizin
+  institution: Universität Freiburg
+experience:
+- period: 07/2022–heute
+  role: Oberärztin Gastroenterologie
+  org: Klinikum Breisgau, Freiburg
+  bullets:
+  - Oberärztliche Leitung der Endoskopie-Abteilung mit rund 4.500 Untersuchungen pro Jahr; Supervision von sechs Assistenzärztinnen und -ärzten.
+  - Aufbau der interdisziplinären Sprechstunde für chronisch-entzündliche Darmerkrankungen (CED) gemeinsam mit Chirurgie und Ernährungsmedizin.
+  - Weiterbildungsbeauftragte der Abteilung; strukturiertes Endoskopie-Curriculum für Assistenzärzte.
+- period: 01/2019–06/2022
+  role: Fachärztin Innere Medizin
+  org: Klinikum Breisgau, Freiburg
+  bullets:
+  - Stationsverantwortung für eine internistische Station mit 28 Betten; Rotation Intensivstation.
+  - text: Sub-Investigatorin in zwei multizentrischen CED-Studien (Phase III)
+    org: Studienzentrum Klinikum Breisgau
+    period: 2020–2022
+- period: 09/2013–12/2018
+  role: Assistenzärztin Innere Medizin
+  org: St.-Elisabeth-Krankenhaus, Offenburg
+  bullets:
+  - Weiterbildung Innere Medizin inkl. Rotationen in Kardiologie, Gastroenterologie und Notaufnahme.
+publications:
+- title: Endoscopic Outcomes in Elderly IBD Patients – A Retrospective Cohort Study
+  venue: Journal of Fictional Gastroenterology, 2023
+  url: https://github.com/Supportlik/Ergograph
+  summary: Retrospektive Auswertung von 480 Endoskopien bei über 70-jährigen CED-Patienten mit Fokus auf Komplikationsraten und Sedierungssicherheit.
+- title: Strukturierte Endoskopie-Curricula in der Facharztweiterbildung
+  venue: Zeitschrift für Fiktive Innere Medizin, 2021
+  url: https://github.com/Supportlik/Ergograph
+  summary: Beschreibt Aufbau und Evaluation eines strukturierten Weiterbildungs-Curriculums für die diagnostische Endoskopie.
+projects:
+- group: Klinikum Breisgau – Klinische Schwerpunkte
+  meta: seit 2019 · Gastroenterologie & Endoskopie
+  items:
+  - title: Aufbau der CED-Sprechstunde
+    period: 2022–heute
+    org: Klinikum Breisgau
+    description: Interdisziplinäre Spezialsprechstunde für chronisch-entzündliche Darmerkrankungen; Aufbau der Behandlungspfade, Biologika-Board und Überleitung in die ambulante Versorgung. Rund 300 Patientinnen und Patienten in Betreuung.
+    tech: CED · Biologika-Therapie · interdisziplinäre Behandlungspfade
+  - title: Endoskopie-Curriculum für Assistenzärzte
+    period: 2023–heute
+    org: Klinikum Breisgau
+    description: Strukturiertes Ausbildungsprogramm mit Simulationstraining, supervidierten Untersuchungsstufen und dokumentierten Lernzielen; seit Einführung drei Kolleginnen zur selbstständigen Koloskopie geführt.
+    tech: Weiterbildung · Simulationstraining · Qualitätssicherung
+- group: Klinische Studien
+  meta: 2020–2022 · Studienzentrum Klinikum Breisgau
+  items:
+  - title: Multizentrische CED-Studien (Phase III)
+    period: 2020–2022
+    org: Studienzentrum Klinikum Breisgau
+    description: Sub-Investigatorin in zwei internationalen Zulassungsstudien; Patientenrekrutierung, Visitendurchführung und GCP-konforme Dokumentation.
+    tech: GCP · Phase III · Patientenrekrutierung
+skills:
+- category: Klinische Kompetenzen
+  items:
+  - name: Gastroskopie (ÖGD)
+    level: 6
+    note: Ausbilderniveau, > 4.000 Untersuchungen
+  - name: Koloskopie
+    level: 5
+    note: inkl. Polypektomie, > 2.500 Untersuchungen
+  - name: ERCP
+    level: 4
+    note: selbstständige Durchführung
+  - name: Abdomen-Sonographie
+    level: 5
+    note: durchgängig
+  - name: Intensivmedizin
+    level: 4
+    note: Rotationen, Notfallmanagement
+- category: Wissenschaft & Lehre
+  items:
+  - name: Klinische Studien (GCP)
+    level: 4
+    note: zwei Phase-III-Studien
+  - name: Weiterbildung & Lehre
+    level: 5
+    note: Weiterbildungsbeauftragte, Curriculum
+- category: Organisation
+  items:
+  - name: Abteilungsorganisation
+    level: 4
+    note: Endoskopie-Leitung, Dienstplanung
+  - name: Qualitätsmanagement
+    level: 4
+    note: Zertifizierung Endoskopie 2024

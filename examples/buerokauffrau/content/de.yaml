@@ -1,0 +1,149 @@
+title: Kauffrau für Büromanagement
+tagline: 'Kauffrau für Büromanagement mit 11 Jahren Erfahrung in Assistenz, vorbereitender Buchhaltung und Büroorganisation im Mittelstand. Zuletzt Office Managerin mit Verantwortung für Empfang, Reisemanagement und die Einführung digitaler Ablageprozesse.'
+doc_names:
+  cv: lebenslauf
+  projects: projekte
+  skills: kenntnisse
+  full: dossier-komplett
+labels:
+  facts: Eckdaten
+  languages: Sprachen
+  certs: Qualifikationen
+  core: Schwerpunkte
+  experience: Beruflicher Werdegang
+  education: Ausbildung
+  publications: Publikationen
+  projects: Projekte & Verantwortlichkeiten
+  skills: Kenntnisse
+  verify: Nachweis
+  link: Link
+  legend: 'Skala 1–6: 3 Grundkenntnisse · 4 sicher im Tagesgeschäft · 5 langjährige Routine · 6 Expertin'
+contact:
+- label: Standort
+  value: 44135 Dortmund
+- label: E-Mail
+  value: s.krueger@example.org
+- label: Profil
+  value: sandra-krueger
+  url: https://github.com/Supportlik/Ergograph
+facts:
+- label: Verfügbarkeit
+  value: mit 3 Monaten Kündigungsfrist
+- label: Gesucht
+  value: Office Management / Assistenz GF
+- label: Umfang
+  value: Vollzeit oder Teilzeit ab 30 h
+languages:
+- name: Deutsch
+  level: Muttersprache
+- name: Englisch
+  level: gut (Korrespondenz)
+certs:
+- name: Geprüfte Fachwirtin für Büro- und Projektorganisation (IHK)
+  description: '2020'
+  url: https://github.com/Supportlik/Ergograph
+- name: DATEV-Anwenderin Rechnungswesen
+  description: '2018'
+  url: https://github.com/Supportlik/Ergograph
+top_skills:
+- Büroorganisation
+- Assistenz der Geschäftsführung
+- Vorbereitende Buchhaltung
+- DATEV
+- MS 365
+- Reisemanagement
+- Terminkoordination
+- Empfang & Korrespondenz
+education:
+- year: '2020'
+  degree: Fachwirtin für Büro- und Projektorganisation (IHK)
+  institution: IHK Dortmund
+- year: '2014'
+  degree: Ausbildung zur Kauffrau für Büromanagement
+  institution: Westfalen Anlagenbau GmbH, Dortmund
+- year: '2011'
+  degree: Fachoberschulreife
+  institution: Gesamtschule Dortmund-Hörde
+experience:
+- period: 05/2021–heute
+  role: Office Managerin
+  org: Rheinstahl Consulting GmbH, Dortmund
+  bullets:
+  - Organisation des Büroalltags für 45 Mitarbeitende; Empfang, Telefonzentrale, Post- und Vertragsablage.
+  - Reisemanagement und Abrechnung für Beraterteams (rund 60 Reisen pro Monat).
+  - Vorbereitende Buchhaltung in DATEV Unternehmen online; Schnittstelle zur Steuerkanzlei.
+- period: 08/2017–04/2021
+  role: Assistentin der Geschäftsführung
+  org: Westfalen Anlagenbau GmbH, Dortmund
+  bullets:
+  - Termin- und Korrespondenzmanagement für zwei Geschäftsführer; Vor- und Nachbereitung von Gremiensitzungen.
+  - text: Organisation des Standortumzugs mit 120 Arbeitsplätzen
+    org: Westfalen Anlagenbau GmbH
+    period: 2019
+- period: 08/2014–07/2017
+  role: Sachbearbeiterin Auftragsabwicklung
+  org: Westfalen Anlagenbau GmbH, Dortmund
+  bullets:
+  - Auftragsanlage, Lieferterminverfolgung und Rechnungsstellung im ERP-System.
+- period: 08/2011–07/2014
+  role: Ausbildung zur Kauffrau für Büromanagement
+  org: Westfalen Anlagenbau GmbH, Dortmund
+  bullets:
+  - Stationen in Einkauf, Vertrieb, Buchhaltung und Personalabteilung.
+publications: []
+projects:
+- group: Rheinstahl Consulting GmbH – Projekte
+  meta: seit 2021 · Office Management
+  items:
+  - title: Einführung digitale Ablage & E-Rechnung
+    period: 01/2024–09/2024
+    org: Rheinstahl Consulting GmbH
+    description: Umstellung der Vertrags- und Rechnungsablage auf ein DMS inkl. E-Rechnungs-Workflow; Erarbeitung des Ablageplans, Schulung von 45 Mitarbeitenden und Abstimmung mit der Steuerkanzlei.
+    tech: DMS · E-Rechnung · DATEV Unternehmen online · Schulung
+  - title: Umstellung auf MS 365
+    period: 03/2022–08/2022
+    org: Rheinstahl Consulting GmbH
+    description: Begleitung des Rollouts aus Anwendersicht; Aufbau der Teams-Struktur, Vorlagenpflege und interne Kurzschulungen.
+    tech: MS 365 · Teams · Vorlagenmanagement
+- group: Westfalen Anlagenbau GmbH – Projekte
+  meta: 2017–2021 · Assistenz der Geschäftsführung
+  items:
+  - title: Standortumzug mit 120 Arbeitsplätzen
+    period: 2019
+    org: Westfalen Anlagenbau GmbH
+    description: Koordination von Umzugsplanung, Dienstleistern und Kommunikation; Umzug ohne Unterbrechung des Geschäftsbetriebs an einem Wochenende.
+    tech: Projektkoordination · Dienstleistersteuerung · Kommunikation
+skills:
+- category: Organisation & Assistenz
+  items:
+  - name: Büroorganisation
+    level: 5
+    note: durchgängig
+  - name: Terminkoordination & Korrespondenz
+    level: 5
+    note: Assistenz GF, Office Management
+  - name: Reisemanagement
+    level: 5
+    note: rund 60 Reisen/Monat
+- category: Kaufmännisch
+  items:
+  - name: Vorbereitende Buchhaltung
+    level: 4
+    note: DATEV Unternehmen online
+  - name: Auftragsabwicklung (ERP)
+    level: 4
+    note: Westfalen Anlagenbau
+  - name: Rechnungsstellung & Mahnwesen
+    level: 4
+    note: durchgängig
+- category: IT & Tools
+  items:
+  - name: MS 365 (Word, Excel, Outlook, Teams)
+    level: 5
+    note: durchgängig
+  - name: DATEV
+    level: 4
+    note: Anwenderzertifikat
+  - name: DMS / digitale Ablage
+    level: 4
+    note: DMS-Einführung 2024

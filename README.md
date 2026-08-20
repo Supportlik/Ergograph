@@ -29,7 +29,7 @@ uv run --project /path/to/ergograph ergograph --help
 ## Quick start
 
 ```bash
-cd examples/
+cd examples/minimal/
 ergograph validate          # check config + content files
 ergograph build             # build everything (HTML + PDF)
 ergograph build --html-only # HTML only, no Chrome
@@ -40,7 +40,7 @@ The PDFs end up under `pdf/<variant>/<language>/YYYY-MM-DD_<Name>_<document>_<la
 
 ## Example output
 
-The rendered example PDFs are committed under [`examples/pdf/`](examples/pdf/), e.g. the [German CV](examples/pdf/mit-stundensatz/de/Alexandra-Argyriou_lebenslauf_de.pdf) or the [complete English dossier](examples/pdf/mit-stundensatz/en/Alexandra-Argyriou_dossier-complete_en.pdf).
+The rendered example PDFs are committed per persona under `examples/<name>/pdf/`, e.g. the [German CV](examples/minimal/pdf/mit-stundensatz/de/Alexandra-Argyriou_lebenslauf_de.pdf) or the [comprehensive architect dossier](examples/software-architect/pdf/mit-stundensatz/de/Daniel-Falkner_dossier-komplett_de.pdf).
 
 ## ATS readability
 
@@ -77,7 +77,20 @@ output:
 
 ## The content files
 
-One YAML file per language with the sections `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects` and `skills`. A complete, runnable example lives in [`examples/`](examples/); the format is specified in [`docs/SPEC.md`](docs/SPEC.md).
+One YAML file per language with the sections `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects` and `skills`. Empty lists hide the corresponding section. The format is specified in [`docs/SPEC.md`](docs/SPEC.md).
+
+## Examples
+
+Every example under [`examples/`](examples/) is a fictional persona and ships with its rendered PDFs:
+
+| Example | Shows |
+|---|---|
+| [`minimal`](examples/minimal/) | Small bilingual dossier with rate variants — also the test fixture |
+| [`software-architect`](examples/software-architect/) | Comprehensive bilingual freelance dossier: structured bullets, project `period`/`org` metadata, publications with summaries |
+| [`handwerker`](examples/handwerker/) | Master carpenter — trade CV with certificates and reference projects, no publications |
+| [`reporter`](examples/reporter/) | Journalist — publications with summaries, investigative projects |
+| [`arzt`](examples/arzt/) | Physician — clinical-academic CV with board certifications and studies |
+| [`buerokauffrau`](examples/buerokauffrau/) | Office administrator — commercial CV with internal projects |
 
 Variants are steered declaratively: an entry in `facts` with `variants: [mit-stundensatz]` only appears in that variant, all other facts appear everywhere.
 

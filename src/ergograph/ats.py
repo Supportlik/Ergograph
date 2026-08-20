@@ -67,8 +67,14 @@ def key_strings(name: str, content: dict, document: str) -> list[str]:
         keys += [c["label"], c["value"]]
     if document in ("cv", "full"):
         keys.append(content["tagline"])
-        keys += [lab[k] for k in ("facts", "languages", "certs", "core",
-                                  "experience", "education", "publications")]
+        # section labels only count when their section is non-empty (the
+        # renderer hides empty sections and sidebar blocks)
+        keys += [lab["experience"], lab["education"]]
+        for key, label in (("facts", "facts"), ("languages", "languages"),
+                           ("certs", "certs"), ("top_skills", "core"),
+                           ("publications", "publications")):
+            if content[key]:
+                keys.append(lab[label])
         for fact in content["facts"]:
             keys += [fact["label"], fact["value"]]
         for lang in content["languages"]:

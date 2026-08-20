@@ -1,0 +1,19 @@
+# Persona example: physician (fictional) — shows an academic-clinical CV with
+# board certifications, clinical studies and publications.
+person:
+  name: Dr. med. Julia Sander
+  file_slug: Julia-Sander
+
+theme: modern
+level_max: 6
+
+languages: [de]
+documents: [full]
+
+content:
+  de: content/de.yaml
+
+output:
+  html_dir: .build/html
+  pdf_dir: pdf
+  date_prefix: false

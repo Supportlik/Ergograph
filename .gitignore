@@ -9,8 +9,8 @@ build/
 uv.lock
 
 # Generated intermediate output when building the examples in the repo.
-# The rendered example PDFs (examples/pdf/) ARE committed on purpose.
-examples/html/
+# The rendered example PDFs (examples/*/pdf/) ARE committed on purpose.
+examples/*/.build/
 
 # macOS
 .DS_Store

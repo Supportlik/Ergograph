@@ -1,0 +1,234 @@
+title: Software Architect & Lead Developer
+tagline: 'Software Architect & Lead Developer (M.Sc.) with over 10 years of experience in full-stack development, cloud infrastructure, software architecture and technical project management. Focus: Java/Kotlin microservices (Quarkus, Spring), React frontends, Kubernetes platforms, DevOps and requirements engineering.'
+doc_names:
+  cv: cv
+  projects: project-history
+  skills: skills-matrix
+  full: dossier-complete
+labels:
+  facts: Key facts
+  languages: Languages
+  certs: Certifications
+  core: Core competencies
+  experience: Professional experience
+  education: Education
+  publications: Publications
+  projects: Project history
+  skills: Skills matrix
+  verify: Verification
+  link: Link
+  legend: 'Scale 1–6: 3 basic · 4 advanced (in production) · 5 senior level (multiple projects) · 6 expert'
+contact:
+- label: Location
+  value: Bremen, Germany
+- label: Email
+  value: daniel.falkner@example.org
+- label: GitHub
+  value: dfalkner
+  url: https://github.com/Supportlik/Ergograph
+facts:
+- label: Availability
+  value: immediately
+- label: Hourly rate
+  value: Developer €95/h<br>Lead Developer €110/h<br>Architect €125/h
+  variants:
+  - mit-stundensatz
+- label: Capacity
+  value: full-time, 100% remote (DACH)
+- label: On-site
+  value: by arrangement
+languages:
+- name: German
+  level: native
+- name: English
+  level: fluent
+certs:
+- name: iSAQB® CPSA-F
+  description: Software Architecture
+  url: https://github.com/Supportlik/Ergograph
+- name: CKA
+  description: Certified Kubernetes Administrator
+  url: https://github.com/Supportlik/Ergograph
+top_skills:
+- Java / Kotlin
+- Quarkus
+- Spring Boot
+- TypeScript
+- React
+- Software Architecture
+- Microservices
+- DDD
+- REST
+- CloudEvents
+- Kubernetes
+- DevOps · CI/CD
+education:
+- year: '2016'
+  degree: M.Sc. in Computer Science
+  institution: Weserbergland University of Technology
+- year: '2013'
+  degree: B.Sc. in Computer Science
+  institution: Weserbergland University of Technology
+experience:
+- period: 09/2022–today
+  role: Lead Developer, DevOps & Cloud Engineer
+  org: Nordwind Telematik GmbH, Bremen
+  bullets:
+  - Led full-stack development of the “AtlasCore” platform, based on hexagonal microservices and Domain-Driven Design (Java, Kotlin, TypeScript; Quarkus, React, Kubernetes); provided technical leadership and mentoring for five developers.
+  - Implemented communication between distributed systems via REST with OIDC authentication, plus event-driven messaging via Apache Kafka and CloudEvents.
+  - Designed and built CI/CD and security pipelines (GitLab, Kubernetes) with continuous testing (JUnit 5, 85% coverage) and security gates for code and container scans.
+  - Drove requirements engineering (elicitation, specification, validation) in close collaboration with stakeholders.
+- period: 2015–today
+  role: Software Engineer (freelance, part-time)
+  org: sports club · winery · physiotherapy practice and others
+  bullets:
+  - text: Member and fee management with online registration
+    org: TSV Wesertal e. V.
+    period: 03/2023–11/2023
+  - text: Online shop with inventory-management integration
+    org: Falkenstein Winery
+    period: 05/2019–02/2020
+  - text: Practice website with appointment booking
+    org: Brinkmann Physiotherapy
+    period: 06/2016–10/2016
+- period: 03/2019–08/2022
+  role: Technical Project Manager (IT)
+  org: State Office for Road Infrastructure, Hanover
+  bullets:
+  - 'Led the VIADUKT road-data system (around 2,500 users) as technical project manager, coordinating four areas: requirements engineering, development (two teams), testing and operations.'
+  - Defined a unified software architecture (blueprint) and drove release planning.
+  - 'Drove the agile transformation of the development process: restructured the unit into five functional sub-teams and established Scrum.'
+- period: 10/2016–02/2019
+  role: Research Associate
+  org: Weserbergland University of Technology
+  bullets:
+  - Developed REST web services and operated a Kubernetes cluster for student and research projects.
+  - 'Teaching: tutored the course “Distributed Systems” and supervised student theses.'
+publications:
+- title: 'Adaptive Service Composition in Distributed Environments: A Heuristic Approach'
+  venue: Journal of Fictional Informatics, 2021
+  url: https://github.com/Supportlik/Ergograph
+  summary: Presents a heuristic for runtime-adaptive composition of distributed services under changing constraints.
+- title: Event-Driven Architectures in Public-Sector Systems
+  venue: Fiction Conference on Software Engineering, 2020
+  url: https://github.com/Supportlik/Ergograph
+  summary: Examines how event-driven architectures can modernise public-sector case-handling systems.
+projects:
+- group: Nordwind Telematik GmbH – Lead Developer, DevOps & Cloud Engineer
+  meta: '09/2022–today · Bremen · industry: telematics / software vendor'
+  items:
+  - title: AtlasCore
+    period: 09/2022–today
+    description: 'Design, development and architecture ownership of the “AtlasCore” platform: 8 microservices with multi-database support (H2, PostgreSQL), hexagonal architecture with Domain-Driven Design; technical leadership of five developers. Rollout to two customer cloud platforms; stepwise replacement of the legacy system via the strangler-fig pattern.'
+    tech: Java, Kotlin, TypeScript · Quarkus, React · Kubernetes · PostgreSQL · REST/OIDC · messaging (Kafka, CloudEvents) · DDD
+  - title: Security pipelines & managed GitLab
+    period: 01/2023–06/2024
+    description: 'Implemented the company-wide change project: build and security pipelines, consolidation of the tool landscape, training concept for 20+ employees.'
+    tech: GitLab · CI/CD · security pipelines · change management
+- group: Freelance projects
+  meta: 2015–today · various industries · part-time alongside main employment
+  items:
+  - title: Member and fee management
+    period: 03/2023–11/2023
+    org: TSV Wesertal e. V.
+    description: Web application for member, fee and course management with online registration and SEPA export.
+    tech: PHP/Laravel · Vue.js · REST · MariaDB
+  - title: Online shop with inventory-management integration
+    period: 05/2019–02/2020
+    org: Falkenstein Winery
+    description: Shop including stock synchronisation and shipping interfaces.
+    tech: PHP/Laravel · REST · MariaDB
+  - title: Practice website with appointment booking
+    period: 06/2016–10/2016
+    org: Brinkmann Physiotherapy
+    description: Website with online appointment booking and reminder emails.
+    tech: PHP · JavaScript · MySQL
+- group: State Office for Road Infrastructure – Technical Project Manager
+  meta: '03/2019–08/2022 · Hanover · industry: public sector'
+  items:
+  - title: VIADUKT (road-data system)
+    period: 03/2019–08/2022
+    description:
+    - Technical project lead for a system with around 2,500 users; coordinated four areas with technical leadership of around 12 people. Defined a unified software architecture (blueprint) and drove release planning with 20+ stakeholders.
+    - 'Agile transformation: restructured the unit into five functional sub-teams and established Scrum.'
+    tech: requirements engineering · software architecture · REST · Oracle DB · agile transformation
+- group: Weserbergland University of Technology – Research Associate
+  meta: '10/2016–02/2019 · industry: research & teaching'
+  items:
+  - title: Web services & Kubernetes cluster for research projects
+    period: 10/2016–02/2019
+    description: Developed REST web services; built and operated a cluster hosting 80+ student projects.
+    tech: Java/Spring · REST · Kubernetes, Docker · MariaDB
+skills:
+- category: Programming languages
+  items:
+  - name: Java
+    level: 5
+    note: used throughout
+  - name: Kotlin
+    level: 4
+    note: AtlasCore
+  - name: TypeScript / JavaScript
+    level: 4
+    note: used throughout
+  - name: PHP
+    level: 4
+    note: freelance projects
+- category: Backend & frameworks
+  items:
+  - name: Spring (Boot, Security, Data)
+    level: 5
+    note: used throughout
+  - name: Quarkus
+    level: 4
+    note: AtlasCore
+  - name: REST / OpenAPI
+    level: 5
+    note: interface-first with OpenAPI
+  - name: Testing (JUnit 5, unit/integration)
+    level: 5
+    note: used throughout
+- category: Architecture & methodology
+  items:
+  - name: Software architecture
+    level: 5
+    note: iSAQB CPSA-F, AtlasCore, VIADUKT
+  - name: Microservices & cloud architectures
+    level: 5
+    note: AtlasCore, VIADUKT
+  - name: Requirements engineering
+    level: 5
+    note: VIADUKT, AtlasCore
+  - name: Domain-Driven Design (DDD)
+    level: 4
+    note: AtlasCore
+- category: DevOps, cloud & infrastructure
+  items:
+  - name: Docker / Kubernetes
+    level: 5
+    note: CKA, AtlasCore, university cluster
+  - name: CI/CD concepts
+    level: 5
+    note: managed GitLab, VIADUKT
+  - name: GitLab
+    level: 4
+    note: Nordwind rollout, university
+- category: Frontend
+  items:
+  - name: React
+    level: 4
+    note: AtlasCore
+  - name: Vue.js
+    level: 4
+    note: freelance projects
+- category: Databases
+  items:
+  - name: PostgreSQL
+    level: 4.5
+    note: AtlasCore
+  - name: MySQL / MariaDB
+    level: 5
+    note: university web services, freelance projects
+  - name: Oracle DB
+    level: 3.5
+    note: VIADUKT
