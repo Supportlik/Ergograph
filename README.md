@@ -18,7 +18,7 @@ config.yaml + content/<lang>.yaml  ->  HTML (theme "modern")  ->  PDF (Chrome he
 
 1. `config.yaml` steers the build: person, languages, variants, documents, output paths.
 2. One content file per language (`content/de.yaml`, `content/en.yaml`, …) with all texts, including section labels and document file names.
-3. Chrome (headless) renders the HTML intermediate step to A4 PDFs; with PyMuPDF installed, the PDFs additionally get page numbers.
+3. Chrome (headless) renders the HTML intermediate step to A4 PDFs, which then get page numbers and title/author metadata stamped in.
 
 ## Installation
 
@@ -27,15 +27,15 @@ the PDF step (`ergograph build --html-only` works without it) and is not install
 pip — Ergograph looks for an existing installation (see `chrome:` below).
 
 ```bash
-# as an isolated tool, with the page-numbers extra (recommended)
-uv tool install "ergograph[pagenumbers]"
+# as an isolated tool (recommended)
+uv tool install ergograph
 
 # or into the current environment
-pip install "ergograph[pagenumbers]"
+pip install ergograph
 ```
 
-Without the `pagenumbers` extra everything works as well, the PDFs then simply carry
-no page numbers and the ATS check is skipped (it needs PyMuPDF too).
+There are no extras to pick: page numbers and the ATS check are always included.
+Both dependencies (PyYAML and pypdf) are pure Python and together under 1 MB.
 
 ## Quick start
 
@@ -55,7 +55,7 @@ The rendered example PDFs are committed per persona under `examples/<name>/pdf/`
 
 ## ATS readability
 
-The documents are built to be fully readable by applicant tracking systems: a real text layer (no text in images), reading order equal to content order, skill levels as numbers next to the bars, and PDF title/author metadata. Ergograph verifies this instead of assuming it — after every build it extracts the PDF text layer (PyMuPDF, the same way ATS parsers read PDFs) and asserts that **every** content string from your YAML appears in it. Findings are reported as warnings; `ergograph build --strict` turns them into a build failure. Details in [`docs/SPEC.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md) (R15/D13).
+The documents are built to be fully readable by applicant tracking systems: a real text layer (no text in images), reading order equal to content order, skill levels as numbers next to the bars, and PDF title/author metadata. Ergograph verifies this instead of assuming it — after every build it extracts the PDF text layer (pypdf, the same way ATS parsers read PDFs) and asserts that **every** content string from your YAML appears in it. Findings are reported as warnings; `ergograph build --strict` turns them into a build failure. Details in [`docs/SPEC.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md) (R15/D13).
 
 ## The steering file `config.yaml`
 

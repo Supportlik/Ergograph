@@ -23,6 +23,13 @@ now covered by semantic versioning: breaking changes to it require a major relea
 
 ### Changed
 
+- **Page numbers and the ATS check are no longer optional.** They moved from
+  PyMuPDF (an 18-23 MB binary wheel behind the extra `ergograph[pagenumbers]`) to
+  pypdf (374 kB, pure Python), which is now a regular dependency: `pip install
+  ergograph` delivers both. Verified during the switch — identical stamp position
+  to 0.1 pt with 0 differing pixels at 150 dpi, and 0 missing strings out of 1,639
+  across the 18 example PDFs with either library (D9). The extra `pagenumbers` is
+  kept as an empty alias, so the old install command still works.
 - The version is stamped only in `src/ergograph/__init__.py` and read from there by
   the build backend, so `--version` and the package metadata can no longer drift
   apart (D15). The stamps had in fact drifted: 0.4.0 and 0.5.0 shipped with a

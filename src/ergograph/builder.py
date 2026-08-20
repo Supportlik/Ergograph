@@ -21,7 +21,7 @@ class BuildResult:
     pdf_path: Path | None
     ok: bool
     #: Key strings missing from the PDF text layer (ATS readability check);
-    #: empty if everything was found or the check could not run (no PyMuPDF).
+    #: empty if everything was found or the check could not run (no pypdf).
     ats_missing: list[str] = field(default_factory=list)
 
 

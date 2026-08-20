@@ -1,4 +1,4 @@
-"""PDF generation via Chrome headless plus optional page numbers (PyMuPDF)."""
+"""PDF generation via Chrome headless, plus page numbers and metadata (pypdf)."""
 
 from __future__ import annotations
 
@@ -46,15 +46,26 @@ def render_pdf(chrome: str, html_path: Path, pdf_path: Path) -> bool:
 def extract_text(pdf_path: Path) -> str | None:
     """Extract the text layer of a PDF (for the ATS readability check).
 
-    Requires PyMuPDF (extra `pagenumbers`); without it, returns None and
-    the check is skipped.
+    Returns None only if pypdf is missing, which happens exclusively in
+    deliberately stripped installs (`pip install --no-deps`); the check is
+    then skipped instead of failing the build.
     """
     try:
-        import fitz
+        import pypdf
     except ImportError:
         return None
-    with fitz.open(pdf_path) as doc:
-        return "\n".join(page.get_text() for page in doc)
+    reader = pypdf.PdfReader(pdf_path)
+    return "\n".join(page.extract_text() for page in reader.pages)
+
+
+#: Helvetica advance widths per 1000 units of em, for the only characters a
+#: page-number stamp can contain. Helvetica is one of the PDF base-14 fonts,
+#: so it needs no embedding and no font file to measure against.
+_STAMP_WIDTHS = {**{str(d): 556 for d in range(10)}, " ": 278, "/": 278}
+
+_STAMP_SIZE = 8
+_STAMP_BASELINE = 16
+_STAMP_COLOR = "0.5 0.55 0.62"
 
 
 def finalize_pdf(pdf_path: Path, title: str | None = None,
@@ -63,29 +74,52 @@ def finalize_pdf(pdf_path: Path, title: str | None = None,
 
     Inserts a subtle page number 'i / n' at the bottom center and sets the
     PDF title/author metadata (helps ATS parsers and recruiters identify
-    the document). Requires PyMuPDF (extra `pagenumbers`); without PyMuPDF
-    the PDF stays unchanged and the function reports False.
+    the document). Returns False if pypdf is missing, leaving the PDF
+    unchanged.
     """
     try:
-        import fitz
+        import pypdf
+        from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
     except ImportError:
         return False
-    doc = fitz.open(pdf_path)
-    total = doc.page_count
-    for i, page in enumerate(doc, 1):
-        text = f"{i} / {total}"
-        tw = fitz.get_text_length(text, fontname="helv", fontsize=8)
-        x = (page.rect.width - tw) / 2
-        y = page.rect.height - 16
-        page.insert_text((x, y), text, fontname="helv", fontsize=8,
-                         color=(0.5, 0.55, 0.62))
-    metadata = doc.metadata or {}
+
+    writer = pypdf.PdfWriter(clone_from=pypdf.PdfReader(pdf_path))
+    total = len(writer.pages)
+    helvetica = DictionaryObject({
+        NameObject("/Type"): NameObject("/Font"),
+        NameObject("/Subtype"): NameObject("/Type1"),
+        NameObject("/BaseFont"): NameObject("/Helvetica"),
+    })
+    for number, page in enumerate(writer.pages, 1):
+        text = f"{number} / {total}"
+        width = sum(_STAMP_WIDTHS[c] for c in text) / 1000 * _STAMP_SIZE
+        box = page.mediabox
+        x = float(box.left) + (float(box.width) - width) / 2
+        y = float(box.bottom) + _STAMP_BASELINE
+
+        fonts = page.setdefault(NameObject("/Resources"), DictionaryObject()) \
+                    .setdefault(NameObject("/Font"), DictionaryObject())
+        fonts[NameObject("/ErgoHelv")] = helvetica
+
+        contents = page.get_contents()
+        body = contents.get_data() if contents is not None else b""
+        stamped = DecodedStreamObject()
+        # The page content is wrapped in q/Q before the stamp is appended:
+        # Chrome emits a global `cm` transformation with no enclosing q, which
+        # would otherwise scale and mirror the stamp along with the page.
+        stamped.set_data(
+            b"q\n" + body + b"\nQ\n"
+            + f"q BT /ErgoHelv {_STAMP_SIZE} Tf {_STAMP_COLOR} rg "
+              f"1 0 0 1 {x:.2f} {y:.2f} Tm ({text}) Tj ET Q\n".encode("ascii"))
+        page.replace_contents(stamped)
+        page.compress_content_streams()
+
+    metadata = {"/Creator": "ergograph"}
     if title:
-        metadata["title"] = title
+        metadata["/Title"] = title
     if author:
-        metadata["author"] = author
-    metadata["creator"] = "ergograph"
-    doc.set_metadata(metadata)
-    doc.save(pdf_path, incremental=True, encryption=fitz.PDF_ENCRYPT_KEEP)
-    doc.close()
+        metadata["/Author"] = author
+    writer.add_metadata(metadata)
+    with open(pdf_path, "wb") as fh:
+        writer.write(fh)
     return True

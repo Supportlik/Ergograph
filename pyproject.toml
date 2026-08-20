@@ -27,10 +27,14 @@ classifiers = [
   "Topic :: Printing",
   "Topic :: Text Processing :: Markup :: HTML",
 ]
-dependencies = ["PyYAML>=6.0"]
+# Both dependencies are pure Python and together under 1 MB, so page numbers and
+# the ATS check are always available instead of hiding behind an extra (D9).
+dependencies = ["PyYAML>=6.0", "pypdf>=6.0"]
 
 [project.optional-dependencies]
-pagenumbers = ["pymupdf>=1.24"]
+# Kept as an empty alias so `pip install "ergograph[pagenumbers]"` keeps working
+# for anyone who followed the pre-1.0 instructions.
+pagenumbers = []
 
 [project.scripts]
 ergograph = "ergograph.cli:main"
@@ -43,7 +47,7 @@ Changelog = "https://github.com/Supportlik/Ergograph/blob/main/CHANGELOG.md"
 Specification = "https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md"
 
 [dependency-groups]
-dev = ["pytest>=8", "pymupdf>=1.24"]
+dev = ["pytest>=8"]
 
 # The version lives in src/ergograph/__init__.py only, so the CLI's --version
 # output and the package metadata can never drift apart.
