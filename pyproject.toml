@@ -4,14 +4,29 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ergograph"
-version = "0.5.0"
+dynamic = ["version"]
 description = "YAML-driven CV and dossier generator: HTML rendering plus PDF export via Chrome headless"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Michael Bortlik", email = "michael@bortlik.io" }]
-keywords = ["cv", "resume", "dossier", "pdf", "yaml", "generator"]
+keywords = ["cv", "resume", "dossier", "pdf", "yaml", "generator", "ats"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Office/Business",
+  "Topic :: Printing",
+  "Topic :: Text Processing :: Markup :: HTML",
+]
 dependencies = ["PyYAML>=6.0"]
 
 [project.optional-dependencies]
@@ -21,13 +36,28 @@ pagenumbers = ["pymupdf>=1.24"]
 ergograph = "ergograph.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/Supportlik/ergograph"
+Homepage = "https://github.com/Supportlik/Ergograph"
+Repository = "https://github.com/Supportlik/Ergograph"
+Issues = "https://github.com/Supportlik/Ergograph/issues"
+Changelog = "https://github.com/Supportlik/Ergograph/blob/main/CHANGELOG.md"
+Specification = "https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md"
 
 [dependency-groups]
 dev = ["pytest>=8", "pymupdf>=1.24"]
 
+# The version lives in src/ergograph/__init__.py only, so the CLI's --version
+# output and the package metadata can never drift apart.
+[tool.hatch.version]
+path = "src/ergograph/__init__.py"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/ergograph"]
+
+# The rendered example PDFs are committed for repo visitors (R16) but are dead
+# weight in an sdist (4.5 MB vs. 18 kB for the wheel). The example YAML files
+# stay in: they double as the test fixtures.
+[tool.hatch.build.targets.sdist]
+exclude = ["examples/*/pdf", "examples/*/.build", ".github"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the locked dependencies
+        run: uv sync --locked --all-extras --dev
+
+      - name: Run the test suite
+        run: uv run --no-sync pytest -q
+
+      # The examples double as test fixtures (D8); --html-only keeps CI free of
+      # a Chrome installation while still exercising config, content and render.
+      - name: Validate and render every bundled example (no Chrome needed)
+        run: |
+          ergograph="$GITHUB_WORKSPACE/.venv/bin/ergograph"
+          for example in examples/*/; do
+            echo "::group::$example"
+            (cd "$example" && "$ergograph" validate && "$ergograph" build --html-only)
+            echo "::endgroup::"
+          done
+
+  package:
+    name: Package metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+      - name: Build the sdist and the wheel
+        run: uv build
+
+      - name: Check the distribution metadata
+        run: uvx twine check --strict dist/*
+
+      - name: Verify the version stamp matches the package metadata
+        run: |
+          uv run --no-project --with dist/*.whl python -c "
+          import ergograph, importlib.metadata as md, sys
+          stamp, meta = ergograph.__version__, md.version('ergograph')
+          print(f'__version__={stamp} metadata={meta}')
+          sys.exit(0 if stamp == meta else 1)"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/

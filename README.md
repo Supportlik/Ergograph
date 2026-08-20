@@ -1,5 +1,11 @@
 # Ergograph
 
+[![CI](https://github.com/Supportlik/Ergograph/actions/workflows/ci.yml/badge.svg)](https://github.com/Supportlik/Ergograph/actions/workflows/ci.yml)
+[![Security](https://github.com/Supportlik/Ergograph/actions/workflows/security.yml/badge.svg)](https://github.com/Supportlik/Ergograph/actions/workflows/security.yml)
+[![PyPI](https://img.shields.io/pypi/v/ergograph.svg)](https://pypi.org/project/ergograph/)
+[![Python versions](https://img.shields.io/pypi/pyversions/ergograph.svg)](https://pypi.org/project/ergograph/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Supportlik/Ergograph/blob/main/LICENSE)
+
 **Ergograph** (Greek *ἔργον* "work, deed" + *γράφειν* "to write": "the one that writes down your work") is a YAML-driven CV and dossier generator. From plain content files it produces ready-to-send PDFs: a **CV**, a **project history**, a **skills matrix** and a **complete dossier**, in any number of languages and variants (e.g. with/without an hourly rate).
 
 The generator contains **no personal data**. All content and all build steering come from the outside via YAML files; the code only provides rendering, the theme and the PDF export.
@@ -16,15 +22,20 @@ config.yaml + content/<lang>.yaml  ->  HTML (theme "modern")  ->  PDF (Chrome he
 
 ## Installation
 
-Requirements: Python ≥ 3.10, Google Chrome or Chromium.
+Requirements: Python ≥ 3.10 and Google Chrome or Chromium. Chrome is only needed for
+the PDF step (`ergograph build --html-only` works without it) and is not installed by
+pip — Ergograph looks for an existing installation (see `chrome:` below).
 
 ```bash
-# install as a tool (recommended, with the page-numbers extra)
-uv tool install "ergograph[pagenumbers] @ /path/to/ergograph"
+# as an isolated tool, with the page-numbers extra (recommended)
+uv tool install "ergograph[pagenumbers]"
 
-# or run directly from the repo
-uv run --project /path/to/ergograph ergograph --help
+# or into the current environment
+pip install "ergograph[pagenumbers]"
 ```
+
+Without the `pagenumbers` extra everything works as well, the PDFs then simply carry
+no page numbers and the ATS check is skipped (it needs PyMuPDF too).
 
 ## Quick start
 
@@ -40,11 +51,11 @@ The PDFs end up under `pdf/<variant>/<language>/YYYY-MM-DD_<Name>_<document>_<la
 
 ## Example output
 
-The rendered example PDFs are committed per persona under `examples/<name>/pdf/`, e.g. the [German CV](examples/minimal/pdf/mit-stundensatz/de/Alexandra-Argyriou_lebenslauf_de.pdf) or the [comprehensive architect dossier](examples/software-architect/pdf/mit-stundensatz/de/Daniel-Falkner_dossier-komplett_de.pdf).
+The rendered example PDFs are committed per persona under `examples/<name>/pdf/`, e.g. the [German CV](https://github.com/Supportlik/Ergograph/blob/main/examples/minimal/pdf/mit-stundensatz/de/Alexandra-Argyriou_lebenslauf_de.pdf) or the [comprehensive architect dossier](https://github.com/Supportlik/Ergograph/blob/main/examples/software-architect/pdf/mit-stundensatz/de/Daniel-Falkner_dossier-komplett_de.pdf).
 
 ## ATS readability
 
-The documents are built to be fully readable by applicant tracking systems: a real text layer (no text in images), reading order equal to content order, skill levels as numbers next to the bars, and PDF title/author metadata. Ergograph verifies this instead of assuming it — after every build it extracts the PDF text layer (PyMuPDF, the same way ATS parsers read PDFs) and asserts that **every** content string from your YAML appears in it. Findings are reported as warnings; `ergograph build --strict` turns them into a build failure. Details in [`docs/SPEC.md`](docs/SPEC.md) (R15/D13).
+The documents are built to be fully readable by applicant tracking systems: a real text layer (no text in images), reading order equal to content order, skill levels as numbers next to the bars, and PDF title/author metadata. Ergograph verifies this instead of assuming it — after every build it extracts the PDF text layer (PyMuPDF, the same way ATS parsers read PDFs) and asserts that **every** content string from your YAML appears in it. Findings are reported as warnings; `ergograph build --strict` turns them into a build failure. Details in [`docs/SPEC.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md) (R15/D13).
 
 ## The steering file `config.yaml`
 
@@ -77,20 +88,20 @@ output:
 
 ## The content files
 
-One YAML file per language with the sections `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects` and `skills`. Empty lists hide the corresponding section. The format is specified in [`docs/SPEC.md`](docs/SPEC.md).
+One YAML file per language with the sections `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects` and `skills`. Empty lists hide the corresponding section. The format is specified in [`docs/SPEC.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md).
 
 ## Examples
 
-Every example under [`examples/`](examples/) is a fictional persona and ships with its rendered PDFs:
+Every example under [`examples/`](https://github.com/Supportlik/Ergograph/blob/main/examples/) is a fictional persona and ships with its rendered PDFs:
 
 | Example | Shows |
 |---|---|
-| [`minimal`](examples/minimal/) | Small bilingual dossier with rate variants — also the test fixture |
-| [`software-architect`](examples/software-architect/) | Comprehensive bilingual freelance dossier: structured bullets, project `period`/`org` metadata, publications with summaries |
-| [`handwerker`](examples/handwerker/) | Master carpenter — trade CV with certificates and reference projects, no publications |
-| [`reporter`](examples/reporter/) | Journalist — publications with summaries, investigative projects |
-| [`arzt`](examples/arzt/) | Physician — clinical-academic CV with board certifications and studies |
-| [`buerokauffrau`](examples/buerokauffrau/) | Office administrator — commercial CV with internal projects |
+| [`minimal`](https://github.com/Supportlik/Ergograph/blob/main/examples/minimal/) | Small bilingual dossier with rate variants — also the test fixture |
+| [`software-architect`](https://github.com/Supportlik/Ergograph/blob/main/examples/software-architect/) | Comprehensive bilingual freelance dossier: structured bullets, project `period`/`org` metadata, publications with summaries |
+| [`handwerker`](https://github.com/Supportlik/Ergograph/blob/main/examples/handwerker/) | Master carpenter — trade CV with certificates and reference projects, no publications |
+| [`reporter`](https://github.com/Supportlik/Ergograph/blob/main/examples/reporter/) | Journalist — publications with summaries, investigative projects |
+| [`arzt`](https://github.com/Supportlik/Ergograph/blob/main/examples/arzt/) | Physician — clinical-academic CV with board certifications and studies |
+| [`buerokauffrau`](https://github.com/Supportlik/Ergograph/blob/main/examples/buerokauffrau/) | Office administrator — commercial CV with internal projects |
 
 Variants are steered declaratively: an entry in `facts` with `variants: [mit-stundensatz]` only appears in that variant, all other facts appear everywhere.
 
@@ -105,12 +116,18 @@ facts:
 
 Content values are trusted HTML fragments: write UTF-8 directly (ü, €, "…"), and use `<a href="...">…</a>` for inline links where needed.
 
-## Tests
+## Development
 
 ```bash
-uv run pytest
+uv run pytest                    # test suite, no Chrome and no network needed
+uvx pip-audit -r <(uv export --format requirements-txt --all-extras --no-dev --no-emit-project)
+trivy fs --scanners vuln,secret,misconfig .
 ```
+
+Every push runs the suite on Python 3.10–3.14, renders all examples, and scans
+dependencies and sources (pip-audit, Trivy, CodeQL). Releases go to PyPI from a `v*`
+tag via trusted publishing. Version history: [`CHANGELOG.md`](https://github.com/Supportlik/Ergograph/blob/main/CHANGELOG.md).
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/Supportlik/Ergograph/blob/main/LICENSE)

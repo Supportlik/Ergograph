@@ -6,7 +6,6 @@ __pycache__/
 dist/
 build/
 .pytest_cache/
-uv.lock
 
 # Generated intermediate output when building the examples in the repo.
 # The rendered example PDFs (examples/*/pdf/) ARE committed on purpose.

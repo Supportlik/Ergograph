@@ -1,0 +1,104 @@
+# Changelog
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] - 2026-08-20
+
+First public release on PyPI. The format of `config.yaml` and of the content files is
+now covered by semantic versioning: breaking changes to it require a major release.
+
+### Added
+
+- Continuous integration on GitHub Actions: the test suite across Python 3.10–3.14,
+  plus `validate` and `build --html-only` over every bundled example (R17).
+- Security scanning: `pip-audit` against the locked dependency set, Trivy
+  (vulnerabilities, secrets, misconfigurations), CodeQL, and dependency review on
+  pull requests, all reporting into GitHub code scanning (R18).
+- Automated releases via PyPI trusted publishing on `v*` tags, gated on the test
+  suite and on the tag matching the built version (R19).
+- Weekly Dependabot updates for dependencies and pinned action versions.
+- PyPI classifiers and project URLs (repository, issues, changelog, specification).
+
+### Changed
+
+- The version is stamped only in `src/ergograph/__init__.py` and read from there by
+  the build backend, so `--version` and the package metadata can no longer drift
+  apart (D15). The stamps had in fact drifted: 0.4.0 and 0.5.0 shipped with a
+  `pyproject.toml` still reading 0.3.4.
+- `uv.lock` is committed, which makes CI reproducible and lets Trivy and pip-audit
+  scan the exact dependency set users install (D16).
+- The sdist no longer carries the rendered example PDFs (4.5 MB → 52 kB); the
+  example YAML files stay in, as they double as the test fixtures.
+
+## [0.5.0] - 2026-08-20
+
+### Added
+
+- Six example personas (`examples/<persona>/`) instead of the single example.
+- Empty sections are hidden instead of rendering an empty heading.
+
+### Changed
+
+- In the combined dossier, every part starts on its own page again (D14a).
+
+## [0.4.0] - 2026-08-20
+
+### Added
+
+- Optional `period` and `org` metadata for project items; structured bullets.
+
+## [0.3.4] - 2026-08-18
+
+### Fixed
+
+- The ATS check tolerates line wraps after en dashes.
+
+## [0.3.3] - 2026-08-18
+
+### Changed
+
+- Publication summaries render as their own paragraph.
+
+## [0.3.2] - 2026-08-18
+
+### Added
+
+- Optional publication summaries.
+
+### Changed
+
+- The dossier parts are placed on their own pages again.
+
+## [0.3.1] - 2026-08-18
+
+### Changed
+
+- Publication proof links are styled like certificate links.
+
+## [0.3.0] - 2026-08-18
+
+### Changed
+
+- Layout refinements from an external design review (D14): project-history
+  typography matching the CV, a two-column skills matrix, and page-break rules.
+
+### Fixed
+
+- The ATS check handles `<br>` correctly.
+
+## [0.2.0] - 2026-08-17
+
+### Added
+
+- ATS readability check (R15/D13), PDF metadata, and committed example output.
+
+## [0.1.0] - 2026-08-17
+
+### Added
+
+- Initial release: YAML-driven CV and dossier generator with HTML rendering,
+  the `modern` theme, PDF export via Chrome headless, and optional page numbers.
+
+[1.0.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.0.0
