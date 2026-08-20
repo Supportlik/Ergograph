@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.1] - 2026-08-20
 
 ### Added
 
@@ -130,4 +130,5 @@ now covered by semantic versioning: breaking changes to it require a major relea
 - Initial release: YAML-driven CV and dossier generator with HTML rendering,
   the `modern` theme, PDF export via Chrome headless, and optional page numbers.
 
+[1.0.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.0.0
