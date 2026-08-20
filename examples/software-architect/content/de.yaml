@@ -34,20 +34,20 @@ facts:
   variants:
   - mit-stundensatz
 - label: Auslastung
-  value: Vollzeit, 100 % remote (DACH)
+  value: Vollzeit, überwiegend remote
 - label: Vor-Ort
-  value: nach Absprache
+  value: bis zu 2 Tage pro Woche
 languages:
 - name: Deutsch
   level: Muttersprache
 - name: Englisch
   level: fließend
 certs:
-- name: iSAQB® CPSA-F
-  description: Softwarearchitektur
+- name: TOGAF® 9 Foundation
+  description: Enterprise-Architektur
   url: https://github.com/Supportlik/Ergograph
-- name: CKA
-  description: Certified Kubernetes Administrator
+- name: AWS Certified Solutions Architect
+  description: Associate – Cloud-Architektur
   url: https://github.com/Supportlik/Ergograph
 top_skills:
 - Java / Kotlin
@@ -71,7 +71,7 @@ education:
   institution: Technische Universität Weserbergland
 experience:
 - period: 09/2022–heute
-  role: Lead Developer, DevOps & Cloud Engineer
+  role: Principal Engineer, Plattform & Delivery
   org: Nordwind Telematik GmbH, Bremen
   bullets:
   - Full-Stack-Entwicklung als Lead Developer der Plattform „AtlasCore“ auf Basis hexagonaler Microservices und Domain-Driven Design (Java, Kotlin, TypeScript; Quarkus, React, Kubernetes). Fachliche Führung von fünf Entwicklern inkl. Mentoring.
@@ -79,7 +79,7 @@ experience:
   - Konzeption und Aufbau von CI/CD- und Security-Pipelines (GitLab, Kubernetes) mit kontinuierlichem Testen (JUnit 5, 85 % Testabdeckung) und Security-Gates für Code- und Container-Scans.
   - Requirements Engineering (Erhebung, Spezifikation, Validierung) in Abstimmung mit den Stakeholdern.
 - period: 2015–heute
-  role: Software Engineer (frei- und nebenberuflich)
+  role: Anwendungsentwickler (nebenberuflich)
   org: Sportverein · Weingut · Physiotherapie-Praxis u. a.
   bullets:
   - text: Mitglieder- und Beitragsverwaltung mit Online-Anmeldung
@@ -92,14 +92,14 @@ experience:
     org: Physiotherapie Brinkmann
     period: 06/2016–10/2016
 - period: 03/2019–08/2022
-  role: Technical Project Manager (IT)
+  role: Delivery Manager (IT)
   org: Landesamt für Straßenwesen, Hannover
   bullets:
   - 'Technische Projektleitung des Fachverfahrens VIADUKT (rund 2.500 Nutzer) mit Koordination von vier Bereichen: Requirements Engineering, Entwicklung (zwei Teams), Testing und Betrieb.'
   - Definition einer einheitlichen Softwarearchitektur (Blueprint) und Releaseplanung.
   - 'Agile Transformation des Entwicklungsprozesses: Neustrukturierung in fünf funktionale Teilteams und Etablierung von Scrum.'
 - period: 10/2016–02/2019
-  role: Research Associate
+  role: Lehrbeauftragter, Verteilte Systeme
   org: Technische Universität Weserbergland
   bullets:
   - Entwicklung von REST-Webservices und Betrieb eines Kubernetes-Clusters für Studenten- und Forschungsprojekte.
@@ -114,7 +114,7 @@ publications:
   url: https://github.com/Supportlik/Ergograph
   summary: Untersucht, wie eventgetriebene Architekturen Fachverfahren der öffentlichen Verwaltung modernisieren können.
 projects:
-- group: Nordwind Telematik GmbH – Lead Developer, DevOps & Cloud Engineer
+- group: Nordwind Telematik GmbH – Principal Engineer, Plattform & Delivery
   meta: '09/2022–heute · Bremen · Branche: Telematik / Softwarehersteller'
   items:
   - title: AtlasCore
@@ -125,7 +125,7 @@ projects:
     period: 01/2023–06/2024
     description: 'Umsetzung des unternehmensweiten Change-Projekts: Build- und Security-Pipelines, Vereinheitlichung der Toollandschaft, Schulungskonzept für über 20 Mitarbeitende.'
     tech: GitLab · CI/CD · Security-Pipelines · Change Management
-- group: Freiberufliche Projekte
+- group: Unabhängige Projekte
   meta: 2015–heute · verschiedene Branchen · nebenberuflich, projektweise
   items:
   - title: Mitglieder- und Beitragsverwaltung
@@ -143,7 +143,7 @@ projects:
     org: Physiotherapie Brinkmann
     description: Website mit Online-Terminbuchung und Erinnerungs-E-Mails.
     tech: PHP · JavaScript · MySQL
-- group: Landesamt für Straßenwesen – Technical Project Manager
+- group: Landesamt für Straßenwesen – Delivery Manager
   meta: '03/2019–08/2022 · Hannover · Branche: Öffentlicher Dienst'
   items:
   - title: VIADUKT (Fachverfahren Straßendaten)
@@ -152,7 +152,7 @@ projects:
     - Technische Projektleitung für ein Fachverfahren mit rund 2.500 Nutzern; Koordination von vier Bereichen und fachliche Führung von rund 12 Personen. Definition einer einheitlichen Softwarearchitektur (Blueprint) und Releaseplanung mit über 20 Stakeholdern.
     - 'Agile Transformation: Neustrukturierung in fünf funktionale Teilteams und Etablierung von Scrum.'
     tech: Requirements Engineering · Softwarearchitektur · REST · Oracle DB · agile Transformation
-- group: Technische Universität Weserbergland – Research Associate
+- group: Technische Universität Weserbergland – Lehrbeauftragter
   meta: '10/2016–02/2019 · Branche: Forschung & Lehre'
   items:
   - title: Webservices & Kubernetes-Cluster für Forschungsprojekte
@@ -164,21 +164,21 @@ skills:
   items:
   - name: Java
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
   - name: Kotlin
     level: 4
     note: AtlasCore
   - name: TypeScript / JavaScript
     level: 4
-    note: durchgängig
+    note: täglich im Einsatz
   - name: PHP
     level: 4
-    note: Freelance-Projekte
+    note: Nebenprojekte
 - category: Backend & Frameworks
   items:
   - name: Spring (Boot, Security, Data)
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
   - name: Quarkus
     level: 4
     note: AtlasCore
@@ -187,12 +187,12 @@ skills:
     note: Interface-first mit OpenAPI
   - name: Testing (JUnit 5, Unit/Integration)
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
 - category: Architektur & Methodik
   items:
   - name: Softwarearchitektur
     level: 5
-    note: iSAQB CPSA-F, AtlasCore, VIADUKT
+    note: TOGAF 9, AtlasCore, VIADUKT
   - name: Microservices & Cloud-Architekturen
     level: 5
     note: AtlasCore, VIADUKT
@@ -206,7 +206,7 @@ skills:
   items:
   - name: Docker / Kubernetes
     level: 5
-    note: CKA, AtlasCore, Uni-Cluster
+    note: AWS SAA, AtlasCore, Uni-Cluster
   - name: CI/CD-Konzepte
     level: 5
     note: Managed GitLab, VIADUKT
@@ -220,7 +220,7 @@ skills:
     note: AtlasCore
   - name: Vue.js
     level: 4
-    note: Freelance-Projekte
+    note: Nebenprojekte
 - category: Datenbanken
   items:
   - name: PostgreSQL
@@ -228,7 +228,7 @@ skills:
     note: AtlasCore
   - name: MySQL / MariaDB
     level: 5
-    note: Uni-Webservices, Freelance-Projekte
+    note: Uni-Webservices, eigene Projekte
   - name: Oracle DB
     level: 3.5
     note: VIADUKT

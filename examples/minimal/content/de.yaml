@@ -42,8 +42,8 @@ languages:
 - name: Englisch
   level: fließend (C2)
 certs:
-- name: CKAD
-  description: Certified Kubernetes Application Developer
+- name: Terraform Associate
+  description: HashiCorp Certified – Infrastructure as Code
   url: https://github.com/Supportlik/Ergograph
 top_skills:
 - Go · Java
@@ -65,7 +65,7 @@ experience:
   - Entwurf und Betrieb einer eventgetriebenen Microservice-Plattform (Go, Kafka, Kubernetes).
   - Einführung von Tracing und SLO-basiertem Monitoring; Mentoring von vier Entwicklerinnen.
 - period: 9/2016 – 2/2019
-  role: Software Engineer
+  role: Software-Entwicklerin
   org: Hellas Analytics, Athen
   bullets:
   - text: Aufbau einer Datenpipeline für Echtzeit-Analysen (Java, Spring Boot, PostgreSQL).
@@ -87,7 +87,7 @@ projects:
     - Eventgetriebene Plattform zur Sendungsverfolgung mit 40+ Services.
     - Verantwortlich für Architektur, API-Design und den Kubernetes-Betrieb.
     tech: Go · Kafka · Kubernetes · PostgreSQL
-- group: Freiberufliche Projekte
+- group: Unabhängige Projekte
   meta: 2016 – 2019 · verschiedene Branchen
   items:
   - title: Buchungs-API für ein Reiseportal (2017)
@@ -107,6 +107,6 @@ skills:
   items:
   - name: Kubernetes
     level: 5
-    note: CKAD, Produktionsbetrieb
+    note: Terraform Associate, Produktionsbetrieb
   - name: PostgreSQL
     level: 4

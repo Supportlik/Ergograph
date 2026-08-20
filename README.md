@@ -86,9 +86,71 @@ output:
 # chrome: /path/to/chrome         # optional; otherwise auto-detected
 ```
 
+Every field with its type, default and whether it is required: [`docs/CONFIGURATION.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/CONFIGURATION.md).
+
 ## The content files
 
-One YAML file per language with the sections `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `languages`, `certs`, `top_skills`, `education`, `experience`, `publications`, `projects` and `skills`. Empty lists hide the corresponding section. The format is specified in [`docs/SPEC.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md).
+One YAML file per language holds everything that appears in the documents. The
+picture shows which key renders which region — red comes from
+`content/<lang>.yaml`, green are the headings from `labels`, and blue is the one
+visible field that comes from `config.yaml`:
+
+![Annotated CV showing which YAML key renders which region](https://raw.githubusercontent.com/Supportlik/Ergograph/main/docs/images/content-keys.png)
+
+| # | Key | Type | Renders |
+|---|---|---|---|
+| A | `person.name` (config) | string | Name in the header |
+| 1 | `title` | string | Job title under the name |
+| 2 | `contact` | list of `{label, value, url?}` | Header line |
+| 3 | `tagline` | string | Summary paragraph |
+| 4 | `facts` | list of `{label, value, variants?}` | Sidebar: availability, rate, … |
+| 5 | `languages` | list of `{name, level}` | Sidebar: language skills |
+| 6 | `certs` | list of `{name, description?, url?}` | Sidebar: certificates |
+| 7 | `top_skills` | list of strings | Sidebar: competency tags |
+| 8 | `experience` | list of `{period, role, org, bullets}` | Stations with bullets |
+| 9 | `education` | list of `{year, degree, institution}` | Degrees |
+| 10 | `publications` | list of `{title, venue, url?, summary?}` | Publication list |
+| 11 | `labels` | map of 12 headings | Every heading in both columns |
+
+Three keys are not visible above: `projects` builds the project history, `skills`
+the skills matrix, and `doc_names` supplies the PDF file names. All fourteen keys
+are required, but **every list may be empty** — `publications: []` simply drops
+that section, which is how one format serves a software architect and a carpenter.
+
+Variants are steered declaratively: a fact carrying `variants` appears only in
+those variants, everything else appears everywhere.
+
+```yaml
+facts:
+  - label: Availability
+    value: immediately
+  - label: Hourly rate
+    value: €100/h
+    variants: [mit-stundensatz]
+```
+
+Content values are trusted HTML fragments: write UTF-8 directly (ü, €, "…"), and
+use `<a href="...">…</a>` for inline links where needed.
+
+**Full field reference — every field, its type, whether it is required and its
+default: [`docs/CONFIGURATION.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/CONFIGURATION.md).** The repository
+also ships [JSON Schemas](https://github.com/Supportlik/Ergograph/blob/main/schemas/) for both file types, so an editor can
+complete fields and flag typos while you write.
+
+## Generating content with an AI agent
+
+The content files are plain, flat YAML with every text outside the code, which
+makes them a practical target for an agentic coding tool (Claude Code, Codex,
+Cursor, …): the agent gets a machine-readable contract in
+[`schemas/`](https://github.com/Supportlik/Ergograph/blob/main/schemas/), working examples, and two commands that judge the
+result objectively — `ergograph validate` for the structure and
+`ergograph build --strict`, which fails when a string from the YAML is not
+extractable from the finished PDF. That turns "write my CV data" into a loop the
+agent can close by itself.
+
+A ready-to-use prompt, plus what to check by hand afterwards (numbers, dates,
+certificate titles — a model formats reliably and invents plausibly), is in
+[`docs/CONFIGURATION.md`](https://github.com/Supportlik/Ergograph/blob/main/docs/CONFIGURATION.md#generating-content-with-an-ai-agent).
 
 ## Examples
 
@@ -108,10 +170,7 @@ Variants are steered declaratively: an entry in `facts` with `variants: [mit-stu
 ```yaml
 facts:
   - label: Availability
-    value: from October 2026
-  - label: Hourly rate
-    value: €110-150/h depending on task
-    variants: [mit-stundensatz]
+    value: immediately
 ```
 
 Content values are trusted HTML fragments: write UTF-8 directly (ü, €, "…"), and use `<a href="...">…</a>` for inline links where needed.

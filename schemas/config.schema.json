@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Supportlik/Ergograph/main/schemas/config.schema.json",
+  "title": "Ergograph config.yaml",
+  "description": "Build steering: person, languages, variants, documents, output paths.",
+  "type": "object",
+  "required": ["person", "languages", "content"],
+  "additionalProperties": false,
+  "properties": {
+    "person": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "description": "Name in the document header."},
+        "file_slug": {
+          "type": "string",
+          "description": "Slug for PDF file names; defaults to the name with hyphens."
+        }
+      }
+    },
+    "languages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"},
+      "description": "Language codes to build; each needs an entry under 'content'."
+    },
+    "content": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string"},
+      "description": "Path to the content file per language, relative to this file."
+    },
+    "variants": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Variant names, free-form. Defaults to ['default']."
+    },
+    "documents": {
+      "description": "Documents to build: one list for all languages, or a list per language.",
+      "oneOf": [
+        {"type": "array", "items": {"$ref": "#/$defs/document"}},
+        {"type": "object", "additionalProperties": {
+          "type": "array", "items": {"$ref": "#/$defs/document"}}}
+      ]
+    },
+    "theme": {
+      "type": "string",
+      "default": "modern",
+      "description": "Bundled theme name, or a path to a custom .css file."
+    },
+    "level_max": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "default": 6,
+      "description": "Upper end of the skill-bar scale."
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "html_dir": {"type": "string", "default": "html"},
+        "pdf_dir": {"type": "string", "default": "pdf"},
+        "date_prefix": {
+          "type": "boolean",
+          "default": true,
+          "description": "Prefix file names with YYYY-MM-DD_."
+        }
+      }
+    },
+    "chrome": {
+      "type": "string",
+      "description": "Chrome/Chromium binary, if it is not detected automatically."
+    }
+  },
+  "$defs": {
+    "document": {"enum": ["cv", "projects", "skills", "full"]}
+  }
+}

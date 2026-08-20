@@ -34,20 +34,20 @@ facts:
   variants:
   - mit-stundensatz
 - label: Capacity
-  value: full-time, 100% remote (DACH)
+  value: full-time, mostly remote
 - label: On-site
-  value: by arrangement
+  value: up to 2 days per week
 languages:
 - name: German
   level: native
 - name: English
   level: fluent
 certs:
-- name: iSAQB® CPSA-F
-  description: Software Architecture
+- name: TOGAF® 9 Foundation
+  description: Enterprise Architecture
   url: https://github.com/Supportlik/Ergograph
-- name: CKA
-  description: Certified Kubernetes Administrator
+- name: AWS Certified Solutions Architect
+  description: Associate – Cloud Architecture
   url: https://github.com/Supportlik/Ergograph
 top_skills:
 - Java / Kotlin
@@ -71,7 +71,7 @@ education:
   institution: Weserbergland University of Technology
 experience:
 - period: 09/2022–today
-  role: Lead Developer, DevOps & Cloud Engineer
+  role: Principal Engineer, Platform & Delivery
   org: Nordwind Telematik GmbH, Bremen
   bullets:
   - Led full-stack development of the “AtlasCore” platform, based on hexagonal microservices and Domain-Driven Design (Java, Kotlin, TypeScript; Quarkus, React, Kubernetes); provided technical leadership and mentoring for five developers.
@@ -79,7 +79,7 @@ experience:
   - Designed and built CI/CD and security pipelines (GitLab, Kubernetes) with continuous testing (JUnit 5, 85% coverage) and security gates for code and container scans.
   - Drove requirements engineering (elicitation, specification, validation) in close collaboration with stakeholders.
 - period: 2015–today
-  role: Software Engineer (freelance, part-time)
+  role: Application Developer (part-time)
   org: sports club · winery · physiotherapy practice and others
   bullets:
   - text: Member and fee management with online registration
@@ -92,14 +92,14 @@ experience:
     org: Brinkmann Physiotherapy
     period: 06/2016–10/2016
 - period: 03/2019–08/2022
-  role: Technical Project Manager (IT)
+  role: Delivery Manager (IT)
   org: State Office for Road Infrastructure, Hanover
   bullets:
   - 'Led the VIADUKT road-data system (around 2,500 users) as technical project manager, coordinating four areas: requirements engineering, development (two teams), testing and operations.'
   - Defined a unified software architecture (blueprint) and drove release planning.
   - 'Drove the agile transformation of the development process: restructured the unit into five functional sub-teams and established Scrum.'
 - period: 10/2016–02/2019
-  role: Research Associate
+  role: Adjunct Instructor, Distributed Systems
   org: Weserbergland University of Technology
   bullets:
   - Developed REST web services and operated a Kubernetes cluster for student and research projects.
@@ -114,7 +114,7 @@ publications:
   url: https://github.com/Supportlik/Ergograph
   summary: Examines how event-driven architectures can modernise public-sector case-handling systems.
 projects:
-- group: Nordwind Telematik GmbH – Lead Developer, DevOps & Cloud Engineer
+- group: Nordwind Telematik GmbH – Principal Engineer, Platform & Delivery
   meta: '09/2022–today · Bremen · industry: telematics / software vendor'
   items:
   - title: AtlasCore
@@ -125,7 +125,7 @@ projects:
     period: 01/2023–06/2024
     description: 'Implemented the company-wide change project: build and security pipelines, consolidation of the tool landscape, training concept for 20+ employees.'
     tech: GitLab · CI/CD · security pipelines · change management
-- group: Freelance projects
+- group: Independent projects
   meta: 2015–today · various industries · part-time alongside main employment
   items:
   - title: Member and fee management
@@ -143,7 +143,7 @@ projects:
     org: Brinkmann Physiotherapy
     description: Website with online appointment booking and reminder emails.
     tech: PHP · JavaScript · MySQL
-- group: State Office for Road Infrastructure – Technical Project Manager
+- group: State Office for Road Infrastructure – Delivery Manager
   meta: '03/2019–08/2022 · Hanover · industry: public sector'
   items:
   - title: VIADUKT (road-data system)
@@ -152,7 +152,7 @@ projects:
     - Technical project lead for a system with around 2,500 users; coordinated four areas with technical leadership of around 12 people. Defined a unified software architecture (blueprint) and drove release planning with 20+ stakeholders.
     - 'Agile transformation: restructured the unit into five functional sub-teams and established Scrum.'
     tech: requirements engineering · software architecture · REST · Oracle DB · agile transformation
-- group: Weserbergland University of Technology – Research Associate
+- group: Weserbergland University of Technology – Adjunct Instructor
   meta: '10/2016–02/2019 · industry: research & teaching'
   items:
   - title: Web services & Kubernetes cluster for research projects
@@ -164,21 +164,21 @@ skills:
   items:
   - name: Java
     level: 5
-    note: used throughout
+    note: in daily use
   - name: Kotlin
     level: 4
     note: AtlasCore
   - name: TypeScript / JavaScript
     level: 4
-    note: used throughout
+    note: in daily use
   - name: PHP
     level: 4
-    note: freelance projects
+    note: side projects
 - category: Backend & frameworks
   items:
   - name: Spring (Boot, Security, Data)
     level: 5
-    note: used throughout
+    note: in daily use
   - name: Quarkus
     level: 4
     note: AtlasCore
@@ -187,12 +187,12 @@ skills:
     note: interface-first with OpenAPI
   - name: Testing (JUnit 5, unit/integration)
     level: 5
-    note: used throughout
+    note: in daily use
 - category: Architecture & methodology
   items:
   - name: Software architecture
     level: 5
-    note: iSAQB CPSA-F, AtlasCore, VIADUKT
+    note: TOGAF 9, AtlasCore, VIADUKT
   - name: Microservices & cloud architectures
     level: 5
     note: AtlasCore, VIADUKT
@@ -206,7 +206,7 @@ skills:
   items:
   - name: Docker / Kubernetes
     level: 5
-    note: CKA, AtlasCore, university cluster
+    note: AWS SAA, AtlasCore, university cluster
   - name: CI/CD concepts
     level: 5
     note: managed GitLab, VIADUKT
@@ -220,7 +220,7 @@ skills:
     note: AtlasCore
   - name: Vue.js
     level: 4
-    note: freelance projects
+    note: side projects
 - category: Databases
   items:
   - name: PostgreSQL
@@ -228,7 +228,7 @@ skills:
     note: AtlasCore
   - name: MySQL / MariaDB
     level: 5
-    note: university web services, freelance projects
+    note: university web services, own projects
   - name: Oracle DB
     level: 3.5
     note: VIADUKT

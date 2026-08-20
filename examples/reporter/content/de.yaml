@@ -126,18 +126,18 @@ skills:
     note: Zertifikat, zwei Datenprojekte
   - name: Interviewführung
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
 - category: Produktion
   items:
   - name: Schreiben (Reportage, Nachricht)
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
   - name: Podcast-Produktion
     level: 4
     note: Rathausklatsch, 80+ Folgen
   - name: CMS & Online-Redaktion
     level: 4
-    note: durchgängig
+    note: täglich im Einsatz
 - category: Handwerkszeug
   items:
   - name: Faktencheck & Verifikation

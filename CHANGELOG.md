@@ -4,6 +4,28 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `docs/CONFIGURATION.md`: a field-by-field reference for `config.yaml` and the
+  content files — type, required, default, and which region each key renders —
+  introduced by an annotated screenshot of a rendered CV (R20).
+- JSON Schemas for both file types under `schemas/`, for editor completion and
+  typo detection, validated against every bundled example by the test suite (D18).
+- A documented workflow for generating content files with an AI agent, including a
+  prompt template and the manual review checklist (R22).
+
+### Changed
+
+- The example personas no longer overlap with the author's real dossier. The
+  `software-architect` persona had been derived from it; certificates, role
+  titles, capacity statements, project group names and skill notes were replaced
+  after a field-wise comparison, down to zero matching values (R21).
+- README: the content-file section now leads with the annotated picture and links
+  to the reference instead of listing all keys in one sentence; all snippets use
+  English values from the fictional example person.
+
 ## [1.0.0] - 2026-08-20
 
 First public release on PyPI. The format of `config.yaml` and of the content files is

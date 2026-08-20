@@ -118,7 +118,7 @@ skills:
   items:
   - name: Büroorganisation
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
   - name: Terminkoordination & Korrespondenz
     level: 5
     note: Assistenz GF, Office Management
@@ -135,12 +135,12 @@ skills:
     note: Westfalen Anlagenbau
   - name: Rechnungsstellung & Mahnwesen
     level: 4
-    note: durchgängig
+    note: täglich im Einsatz
 - category: IT & Tools
   items:
   - name: MS 365 (Word, Excel, Outlook, Teams)
     level: 5
-    note: durchgängig
+    note: täglich im Einsatz
   - name: DATEV
     level: 4
     note: Anwenderzertifikat

@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Supportlik/Ergograph/main/schemas/content.schema.json",
+  "title": "Ergograph content/<lang>.yaml",
+  "description": "All texts of one language. Every list may be empty; an empty list hides its section.",
+  "type": "object",
+  "required": ["title", "tagline", "labels", "doc_names", "contact", "facts",
+               "languages", "certs", "top_skills", "education", "experience",
+               "publications", "projects", "skills"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {"type": "string", "description": "Job title under the name."},
+    "tagline": {"type": "string", "description": "The professional summary paragraph."},
+    "labels": {
+      "type": "object",
+      "description": "Section headings and captions. All twelve keys are required.",
+      "required": ["facts", "languages", "certs", "core", "experience", "education",
+                   "publications", "projects", "skills", "verify", "link", "legend"],
+      "additionalProperties": {"type": "string"}
+    },
+    "doc_names": {
+      "type": "object",
+      "description": "Localized file name per document.",
+      "required": ["cv", "projects", "skills", "full"],
+      "additionalProperties": false,
+      "properties": {
+        "cv": {"type": "string"},
+        "projects": {"type": "string"},
+        "skills": {"type": "string"},
+        "full": {"type": "string"}
+      }
+    },
+    "contact": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "label": {"type": "string"},
+          "value": {"$ref": "#/$defs/text"},
+          "url": {"type": "string", "description": "Turns the value into a link."}
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "label": {"type": "string"},
+          "value": {"$ref": "#/$defs/text"},
+          "variants": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Limits this fact to the named variants."
+          }
+        }
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "level"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "level": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "certs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"$ref": "#/$defs/text"},
+          "url": {"type": "string", "description": "Renders a proof link."}
+        }
+      }
+    },
+    "top_skills": {"type": "array", "items": {"$ref": "#/$defs/text"}},
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["year", "degree", "institution"],
+        "additionalProperties": false,
+        "properties": {
+          "year": {"$ref": "#/$defs/text"},
+          "degree": {"$ref": "#/$defs/text"},
+          "institution": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["period", "role", "org", "bullets"],
+        "additionalProperties": false,
+        "properties": {
+          "period": {"$ref": "#/$defs/text"},
+          "role": {"type": "string"},
+          "org": {"type": "string"},
+          "bullets": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {"$ref": "#/$defs/text"},
+                {
+                  "type": "object",
+                  "required": ["text"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {"$ref": "#/$defs/text"},
+                    "org": {"type": "string", "description": "Subtitle under the bullet."},
+                    "period": {"$ref": "#/$defs/text"}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "publications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "venue"],
+        "additionalProperties": false,
+        "properties": {
+          "title": {"$ref": "#/$defs/text"},
+          "venue": {"$ref": "#/$defs/text"},
+          "url": {"type": "string"},
+          "summary": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["group", "meta", "items"],
+        "additionalProperties": false,
+        "properties": {
+          "group": {"$ref": "#/$defs/text"},
+          "meta": {"$ref": "#/$defs/text"},
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["title", "description", "tech"],
+              "additionalProperties": false,
+              "properties": {
+                "title": {"$ref": "#/$defs/text"},
+                "description": {
+                  "description": "One paragraph, or one entry per paragraph.",
+                  "oneOf": [
+                    {"$ref": "#/$defs/text"},
+                    {"type": "array", "items": {"$ref": "#/$defs/text"}}
+                  ]
+                },
+                "tech": {"$ref": "#/$defs/text"},
+                "period": {"$ref": "#/$defs/text"},
+                "org": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "items"],
+        "additionalProperties": false,
+        "properties": {
+          "category": {"type": "string"},
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "level"],
+              "additionalProperties": false,
+              "properties": {
+                "name": {"$ref": "#/$defs/text"},
+                "level": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Bar length on the scale up to level_max; fractions allowed."
+                },
+                "note": {"$ref": "#/$defs/text"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "description": "Trusted HTML fragment: inline tags such as <a> and <br> are allowed. YAML may parse bare years as numbers, so numbers are accepted too.",
+      "type": ["string", "number"]
+    }
+  }
+}

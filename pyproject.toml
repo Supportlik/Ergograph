@@ -47,7 +47,7 @@ Changelog = "https://github.com/Supportlik/Ergograph/blob/main/CHANGELOG.md"
 Specification = "https://github.com/Supportlik/Ergograph/blob/main/docs/SPEC.md"
 
 [dependency-groups]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "jsonschema>=4.20"]
 
 # The version lives in src/ergograph/__init__.py only, so the CLI's --version
 # output and the package metadata can never drift apart.
@@ -61,7 +61,7 @@ packages = ["src/ergograph"]
 # weight in an sdist (4.5 MB vs. 18 kB for the wheel). The example YAML files
 # stay in: they double as the test fixtures.
 [tool.hatch.build.targets.sdist]
-exclude = ["examples/*/pdf", "examples/*/.build", ".github"]
+exclude = ["examples/*/pdf", "examples/*/.build", ".github", "docs/tools"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
