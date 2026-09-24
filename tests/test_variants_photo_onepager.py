@@ -232,3 +232,14 @@ def test_build_writes_markdown_and_flat_folder(tmp_path, architect_config):
     names = sorted(p.name for p in (tmp_path / "active").iterdir())
     assert "2026-09-24_candidate-profile_one-pager_anonym_en.md" in names
     assert "2026-09-24_Daniel-Falkner_dossier-komplett_mit-stundensatz_de.md" in names
+
+
+def test_flat_documents_limit_the_flat_folder(tmp_path, architect_config):
+    cfg = architect_config
+    cfg = type(cfg)(**{**cfg.__dict__, "html_dir": tmp_path / "html",
+                       "md_dir": tmp_path / "md", "flat_dir": tmp_path / "active",
+                       "flat_documents": ["onepager"], "formats": ["md"]})
+    build(cfg, datestamp="2026-09-24", log=lambda *_: None)
+    names = [p.name for p in (tmp_path / "active").iterdir()]
+    assert names and all("one" in n for n in names)
+    assert any("dossier" in p.name for p in (tmp_path / "md").rglob("*.md"))

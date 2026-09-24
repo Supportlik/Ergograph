@@ -81,6 +81,7 @@ class Config:
     docx_dir: Path
     md_dir: Path
     flat_dir: Path | None
+    flat_documents: list[str] | None
     formats: list[str]
     date_prefix: bool
     chrome: str | None
@@ -188,6 +189,7 @@ def load_config(path: str | Path) -> Config:
         docx_dir=base / output.get("docx_dir", "docx"),
         md_dir=base / output.get("md_dir", "md"),
         flat_dir=(base / output["flat_dir"]) if output.get("flat_dir") else None,
+        flat_documents=_flat_documents(output.get("flat_documents")),
         formats=formats,
         date_prefix=bool(output.get("date_prefix", True)),
         chrome=raw.get("chrome"),
@@ -196,6 +198,17 @@ def load_config(path: str | Path) -> Config:
         photo=photo,
         anonymous_slug=str(person.get("anonymous_slug") or "profile"),
     )
+
+
+def _flat_documents(raw) -> list[str] | None:
+    if raw is None:
+        return None
+    if not isinstance(raw, list):
+        raise ConfigError("output.flat_documents: expected a list of documents")
+    for doc in raw:
+        if doc not in CANONICAL_DOCUMENTS:
+            raise ConfigError(f"output.flat_documents: unknown document '{doc}'")
+    return [str(d) for d in raw]
 
 
 def _load_variants(raw) -> dict[str, VariantSpec]:

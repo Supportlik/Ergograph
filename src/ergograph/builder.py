@@ -140,6 +140,8 @@ def build(cfg: Config, *, variants: list[str] | None = None,
                 leaks = leaked_identity(_html_text(html_doc), markers)
 
                 def flat(path: Path, suffix: str) -> None:
+                    if cfg.flat_documents is not None and key not in cfg.flat_documents:
+                        return
                     if cfg.flat_dir is not None:
                         _publish_flat(cfg.flat_dir, path, flat_filename(
                             slug, local, variant, lang, datestamp, suffix,

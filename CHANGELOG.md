@@ -28,7 +28,8 @@ All notable changes to this project are documented here. The format follows
   `anonymous_name` in the header, `anonymous_replace` to generalize employers
   and systems, and a build that fails when any identity marker is left (D33).
 - `output.flat_dir` (R28): every output also lands in one flat folder with
-  variant and language in the file name, replacing earlier builds (D34).
+  variant and language in the file name, replacing earlier builds (D34);
+  `output.flat_documents` limits which documents go there.
 - `docs/tools/make_placeholder_photo.py` draws the placeholder portrait of the
   `software-architect` example, which now shows photo, one-pager, an anonymous
   variant and Markdown.

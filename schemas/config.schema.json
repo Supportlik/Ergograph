@@ -162,6 +162,13 @@
         "flat_dir": {
           "type": "string",
           "description": "Additionally copy every output into this one flat folder, variant and language in the file name."
+        },
+        "flat_documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/document"
+          },
+          "description": "Only these documents go into flat_dir; default: all built documents."
         }
       }
     },

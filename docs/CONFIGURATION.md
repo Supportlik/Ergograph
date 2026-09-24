@@ -60,6 +60,7 @@ Paths are relative to the location of the `config.yaml`.
 | `output.docx_font` | string | no | `Segoe UI` | Base font of the generated Word files |
 | `output.md_dir` | path | no | `md` | Where the Markdown files go |
 | `output.flat_dir` | path | no | — | Also copy every output into this one folder, see [Flat folder](#flat-folder) |
+| `output.flat_documents` | list of strings | no | all built | Only these documents go into `flat_dir` |
 | `output.date_prefix` | boolean | no | `true` | `YYYY-MM-DD_` in front of file names |
 | `chrome` | path | no | auto-detected | Chrome/Chromium binary, if it is not found automatically |
 
@@ -273,6 +274,8 @@ folder, with the variant in the name when there is more than one:
 `2026-09-24_Daniel-Falkner_cv_ohne-stundensatz_en.pdf`. An earlier build of the
 same document (same name, any date) is replaced, so the folder always holds the
 current state. The per-variant folders are written as before.
+`output.flat_documents` limits the folder to some documents, e.g.
+`[full, onepager]`: everything is still built, only the picking folder is smaller.
 
 ## Editor support
 
