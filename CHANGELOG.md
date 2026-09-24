@@ -17,7 +17,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
-- pypdf 6.19.0 in the lock file, `astral-sh/setup-uv` 10.1.0 in the
+- pypdf 6.19.0 in the lock file, `astral-sh/setup-uv` 10.2.0 in the
   workflows (the two open Dependabot updates).
 
 ## [1.2.0] - 2026-09-24
