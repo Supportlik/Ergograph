@@ -48,6 +48,10 @@ class VariantSpec:
     anonymous: bool = False
     documents: list[str] | None = None
     photo: bool = True
+    #: documents of this variant that go into flat_dir (None: output.flat_documents)
+    flat_documents: list[str] | None = None
+    #: name part in flat file names (None: the variant name, "": none)
+    flat_label: str | None = None
 
 
 @dataclass
@@ -227,7 +231,8 @@ def _load_variants(raw) -> dict[str, VariantSpec]:
         opts = opts or {}
         if not isinstance(opts, dict):
             raise ConfigError(f"variants[{name}]: expected a mapping of options")
-        unknown = set(opts) - {"tags", "anonymous", "documents", "photo"}
+        unknown = set(opts) - {"tags", "anonymous", "documents", "photo",
+                               "flat_documents", "flat_label"}
         if unknown:
             raise ConfigError(f"variants[{name}]: unknown option(s) "
                               f"{', '.join(sorted(unknown))}")
@@ -238,10 +243,15 @@ def _load_variants(raw) -> dict[str, VariantSpec]:
         docs = opts.get("documents")
         if docs is not None and not isinstance(docs, list):
             raise ConfigError(f"variants[{name}].documents: expected a list")
+        flat_docs = opts.get("flat_documents")
+        if flat_docs is not None:
+            flat_docs = _flat_documents(flat_docs)
+        label = opts.get("flat_label")
         specs[name] = VariantSpec(
             name, frozenset(tags), anonymous,
             [str(d) for d in docs] if docs is not None else None,
-            bool(opts.get("photo", True)) and not anonymous)
+            bool(opts.get("photo", True)) and not anonymous,
+            flat_docs, None if label is None else str(label))
     return specs
 
 

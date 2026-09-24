@@ -30,7 +30,9 @@ All notable changes to this project are documented here. The format follows
 - `output.flat_dir` (R28): every output also lands in one flat folder with
   variant and language in the file name, replacing earlier builds (D34);
   `output.flat_documents` limits which documents go there, and
-  `output.flat_by_format` sorts them into one subfolder per format.
+  `output.flat_by_format` sorts them into one subfolder per format; per
+  variant, `flat_documents` and `flat_label` choose what goes there and how
+  it is named.
 - `docs/tools/make_placeholder_photo.py` draws the placeholder portrait of the
   `software-architect` example, which now shows photo, one-pager, an anonymous
   variant and Markdown.

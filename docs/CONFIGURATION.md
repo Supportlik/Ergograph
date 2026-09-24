@@ -197,6 +197,8 @@ variants:
 | `anonymous` | `false` | No name, no contact block, no photo, no links; see below |
 | `documents` | all configured | Restricts the documents built for this variant |
 | `photo` | `true` | `false` leaves the photo out of this variant |
+| `flat_documents` | `output.flat_documents` | Documents of this variant that go into `flat_dir`; `[]` for none |
+| `flat_label` | the variant name | Name part in flat file names; `""` leaves the variant out of the name |
 
 The content file reacts to the active tags in three ways:
 

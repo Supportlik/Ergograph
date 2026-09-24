@@ -89,6 +89,17 @@
                   "photo": {
                     "type": "boolean",
                     "default": true
+                  },
+                  "flat_documents": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/document"
+                    },
+                    "description": "Documents of this variant that go into flat_dir; overrides output.flat_documents ([] = none)."
+                  },
+                  "flat_label": {
+                    "type": "string",
+                    "description": "Name part in flat file names instead of the variant name; '' = none."
                   }
                 }
               }

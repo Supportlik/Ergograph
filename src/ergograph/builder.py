@@ -58,10 +58,12 @@ def docx_filename(slug: str, doc_name: str, lang: str, datestamp: str | None) ->
 
 
 def flat_filename(slug: str, doc_name: str, variant: str, lang: str,
-                  datestamp: str | None, suffix: str, single_variant: bool) -> str:
-    """Name in the flat folder: the variant joins the name unless there is
-    only one, so every file of a build can sit side by side."""
-    middle = doc_name if single_variant else f"{doc_name}_{variant}"
+                  datestamp: str | None, suffix: str, single_variant: bool,
+                  label: str | None = None) -> str:
+    """Name in the flat folder: the variant (or its `flat_label`) joins the
+    name unless there is only one variant or the label is empty."""
+    part = variant if label is None else label
+    middle = doc_name if single_variant or not part else f"{doc_name}_{part}"
     return output_filename(slug, middle, lang, datestamp, suffix)
 
 
@@ -140,14 +142,16 @@ def build(cfg: Config, *, variants: list[str] | None = None,
                 leaks = leaked_identity(_html_text(html_doc), markers)
 
                 def flat(path: Path, suffix: str) -> None:
-                    if cfg.flat_documents is not None and key not in cfg.flat_documents:
+                    wanted = (spec.flat_documents if spec.flat_documents is not None
+                              else cfg.flat_documents)
+                    if wanted is not None and key not in wanted:
                         return
                     if cfg.flat_dir is not None:
                         target = (cfg.flat_dir / suffix if cfg.flat_by_format
                                   else cfg.flat_dir)
                         _publish_flat(target, path, flat_filename(
                             slug, local, variant, lang, datestamp, suffix,
-                            single_variant), datestamp)
+                            single_variant, spec.flat_label), datestamp)
 
                 md_path = None
                 md_missing: list[str] = []

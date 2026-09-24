@@ -253,3 +253,13 @@ def test_flat_by_format_uses_one_subfolder_per_format(tmp_path, architect_config
     build(cfg, datestamp="2026-09-24", log=lambda *_: None)
     assert [p.name for p in (tmp_path / "active").iterdir()] == ["md"]
     assert list((tmp_path / "active" / "md").glob("*.md"))
+
+
+def test_flat_label_and_variant_flat_documents(tmp_path):
+    assert (flat_filename("A", "cv", "ohne", "de", None, "pdf", False, "") == "A_cv_de.pdf")
+    assert (flat_filename("A", "cv", "mit", "de", None, "pdf", False, "rate") == "A_cv_rate_de.pdf")
+    p = tmp_path / "config.yaml"
+    p.write_text("person: {name: X}\nlanguages: [de]\ncontent: {de: c.yaml}\n"
+                 "variants: {a: {flat_documents: [], flat_label: ''}}\n", encoding="utf-8")
+    spec = load_config(p).spec("a")
+    assert spec.flat_documents == [] and spec.flat_label == ""
