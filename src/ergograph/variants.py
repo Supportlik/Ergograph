@@ -91,8 +91,8 @@ def anonymize(content: dict, where: str) -> tuple[str, dict]:
     Besides the name, contact block and links, `anonymous_replace` (a
     mapping text -> replacement) generalizes whatever else identifies the
     person, typically employers, internal system names and places. The
-    longest key is replaced first, so "Universität Regensburg" can map to
-    something else than "Regensburg" alone.
+    longest key is replaced first, so "Universität Musterstadt" can map to
+    something else than "Musterstadt" alone.
     """
     name = content.get("anonymous_name")
     if not name:

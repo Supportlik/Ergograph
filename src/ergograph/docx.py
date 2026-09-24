@@ -567,8 +567,8 @@ _ROW_RESERVE = 1400   # about 25 mm
 #: The CSS arithmetic alone lands about a tenth tighter than the PDF: Word
 #: measures a line from the font's metrics, the browser adds the half-leading
 #: on top of a slightly different ascent, and Segoe UI is not Inter. Measured
-#: on the English CV, where the tenth is the difference between the BAMF
-#: position opening page 2, as in the PDF, and being pulled onto page 1.
+#: on an English CV, where the tenth is the difference between a position
+#: opening page 2, as in the PDF, and being pulled onto page 1.
 _LINE_TRIM = 1.10
 
 #: Exact line heights for the header and the sidebar, taken straight from
@@ -991,7 +991,7 @@ def _experience_chunks(content: dict, rels: _Rels, right: int) -> list[str]:
         # bound to the first bullet as well: without this the role and its
         # employer stay behind alone at the foot of a page while the bullets
         # move on, and the break lands elsewhere than in the PDF (observed
-        # with the BAMF position)
+        # on a real CV)
         out.append(_p(_frag(entry["org"], rels, bold=True, size=15, color=BLUE),
                       after=70, keep_next=True))
         for bullet in entry["bullets"]:
