@@ -285,3 +285,22 @@ def test_timeline_mixed_from_is_rejected(architect_de):
         {"from": "2011-10", "period": "a", "label": "A"}, {"period": "b", "label": "B"}])
     with pytest.raises(ConfigError, match="every station"):
         check_documents(dict(architect_de, onepager=block), ["onepager"], "de.yaml")
+
+
+def test_variant_names_and_anonymous_slug_per_language(tmp_path, architect_config):
+    cfg = architect_config
+    cfg = type(cfg)(**{**cfg.__dict__, "html_dir": tmp_path / "html",
+                       "md_dir": tmp_path / "md", "flat_dir": tmp_path / "active",
+                       "content": {**cfg.content}, "formats": ["md"]})
+    for lang in ("de", "en"):
+        src = cfg.content[lang].read_text(encoding="utf-8")
+        extra = ("variant_names: {mit-stundensatz: with-rate, anonym: anonymous}\n"
+                 "anonymous_slug: Candidate-Profile\n") if lang == "en" else ""
+        path = tmp_path / f"{lang}.yaml"
+        path.write_text(src + "\n" + extra, encoding="utf-8")
+        cfg.content[lang] = path
+    build(cfg, datestamp="2026-09-24", log=lambda *_: None)
+    names = {p.name for p in (tmp_path / "active").iterdir()}
+    assert "2026-09-24_Candidate-Profile_one-pager_anonymous_en.md" in names
+    assert "2026-09-24_Daniel-Falkner_dossier-complete_with-rate_en.md" in names
+    assert "2026-09-24_candidate-profile_onepager_anonym_de.md" in names

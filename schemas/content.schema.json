@@ -110,6 +110,14 @@
           },
           "except_variants": {
             "$ref": "#/$defs/tags"
+          },
+          "break_before": {
+            "enum": [
+              true,
+              false,
+              "photo"
+            ],
+            "description": "Start a new line before this entry; 'photo' only when a photo narrows the header."
           }
         }
       }
@@ -683,6 +691,17 @@
         "type": "string"
       },
       "description": "Anonymous variants: text -> replacement, applied to every value (longest key first)."
+    },
+    "variant_names": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Variant name -> name part in flat file names for this language ('' = none); overrides the variant's flat_label."
+    },
+    "anonymous_slug": {
+      "type": "string",
+      "description": "File-name slug of anonymous variants in this language; overrides person.anonymous_slug."
     }
   },
   "$defs": {

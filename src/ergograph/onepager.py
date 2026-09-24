@@ -73,6 +73,7 @@ def _head(name: str, content: dict, photo) -> str:
             f'<div class="op-id"><div class="name">{name}</div>'
             f'<div class="title">{content["title"]}</div>'
             f'<div class="op-summary">{summary}</div></div>{facts_html}</div>'
+            # full width here, so a photo does not narrow it
             f'{contact_html(content)}</div>')
 
 

@@ -119,7 +119,10 @@ def build(cfg: Config, *, variants: list[str] | None = None,
             if spec.anonymous:
                 markers = identity_markers(cfg.person_name, content)
                 name, content = anonymize(content, where)
-                slug, author = cfg.anonymous_slug, ""
+                slug = str(content.get("anonymous_slug") or cfg.anonymous_slug)
+                author = ""
+            # the name part of the variant in flat file names, per language
+            label = (content.get("variant_names") or {}).get(variant, spec.flat_label)
             doc_keys = cfg.documents_for(variant, lang)
             check_documents(content, doc_keys, where)
             photos = {}
@@ -151,7 +154,7 @@ def build(cfg: Config, *, variants: list[str] | None = None,
                                   else cfg.flat_dir)
                         _publish_flat(target, path, flat_filename(
                             slug, local, variant, lang, datestamp, suffix,
-                            single_variant, spec.flat_label), datestamp)
+                            single_variant, label), datestamp)
 
                 md_path = None
                 md_missing: list[str] = []

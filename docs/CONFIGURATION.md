@@ -119,11 +119,13 @@ links (see SPEC D2).
 | `tagline` | string (HTML) | One paragraph, the professional summary |
 | `labels` | map | Section headings, see below — all twelve keys required |
 | `doc_names` | map | File name per document: `cv`, `projects`, `skills`, `full` required, `onepager` when it is built |
-| `contact` | list of `{label, value, url?}` | `url` turns the value into a link |
+| `contact` | list of `{label, value, url?, break_before?}` | `url` turns the value into a link; `break_before: true` starts a new line before the entry, `photo` only when a photo is shown |
 | `facts` | list of `{label, value, variants?}` | Order is display order; `variants` limits a fact to those variants (works in every list, see [Variants](#variants)) |
 | `onepager` | map | Only when `onepager` is built, see [One-pager](#one-pager) |
 | `anonymous_name` | string | Only for anonymous variants: shown instead of the name |
 | `anonymous_replace` | map text → text | Only for anonymous variants: generalizes employers, systems, places |
+| `anonymous_slug` | string | File-name slug of anonymous variants in this language; overrides `person.anonymous_slug` |
+| `variant_names` | map variant → string | Name part of a variant in flat file names for this language, so an English file name stays English; `''` for none. Overrides the variant's `flat_label` |
 | `languages` | list of `{name, level}` | The person's language skills, as free text |
 | `certs` | list of `{name, description?, url?}` | With `url`, a proof link is rendered |
 | `top_skills` | list of strings | Rendered as tags |

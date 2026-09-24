@@ -806,14 +806,17 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
     """Name, title and the inline contact row, closed by the thick blue rule
     of `.header { border-bottom: 3px solid #2563eb }`.
 
-    With a photo, name and title keep clear of it by a right indent and move
-    down so that they end level with the photo's lower edge, as
-    `align-items: flex-end` does in the theme; the contact row follows at
-    full width below both."""
+    With a photo the text keeps clear of it by a right indent, and the name
+    moves down so that the text ends level with the photo's lower edge, as
+    `align-items: flex-end` does in the theme. A contact entry with
+    `break_before` starts a new line (`photo`: only when a photo is shown)."""
     right = _PHOTO_W + _PHOTO_GAP if photo is not None else 0
     row = []
+    from .render import breaks_before
     for index, contact in enumerate(content["contact"]):
-        if index:
+        if index and breaks_before(contact, photo is not None):
+            row.append("<w:r><w:br/></w:r>")
+        elif index:
             row.append(_run("     ", size=13, color=MUTED))
         row.append(_run(f'{contact["label"]}: ', bold=True, size=13, color=BODY))
         row.append(_frag(_link_value(contact), rels, size=13, color=MUTED,
@@ -823,9 +826,8 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
                      indent_right=right)
     contact_par = ""
     if row:
-        # full width even beside a photo: the photo ends above this row
         contact_par = _p("".join(row), after=170, **rule, line=_CONTACT_LINE,
-                         line_rule="exact")
+                         line_rule="exact", indent_right=right)
     else:
         title_fmt.update(after=170, **rule)
     before = 0
@@ -833,6 +835,8 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
     if photo is not None:
         height = round(_PHOTO_W * photo.ratio)
         text = _NAME_LINE + 20 + _TITLE_LINE + 90
+        if contact_par:
+            text += _estimate_height(contact_par, _TEXT_W) - 170
         before = max(0, height - text)
         anchor = _photo_anchor(photo, rels, _PHOTO_W, height, name)
     out = [_p(anchor + _run(name, bold=True, size=40, color=INK, spacing=-6),

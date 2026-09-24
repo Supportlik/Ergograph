@@ -32,7 +32,8 @@ All notable changes to this project are documented here. The format follows
   `output.flat_documents` limits which documents go there, and
   `output.flat_by_format` sorts them into one subfolder per format; per
   variant, `flat_documents` and `flat_label` choose what goes there and how
-  it is named.
+  it is named; `variant_names` and `anonymous_slug` in a content file do the
+  naming per language.
 - `docs/tools/make_placeholder_photo.py` draws the placeholder portrait of the
   `software-architect` example, which now shows photo, one-pager, an anonymous
   variant and Markdown.
