@@ -144,3 +144,4 @@ body.onepager-doc { font-size: 10px; }
 .gantt .bt .ss { font-size: 7.8px; color: #64748b; }
 .gantt .bt .ss::before { content: " · "; }
 .op-side .pub a { color: #1d4ed8; }
+.op-legend { white-space: nowrap; }
