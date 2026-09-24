@@ -70,7 +70,7 @@ h2.section { font-size: 11px; font-weight: 700; text-transform: uppercase; lette
 .entry .verify { color: #2563eb; }
 .pub-summary { margin-top: 1.5px; color: #475569; }
 /* photo in the document header (R24) */
-.header.has-photo { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.header.has-photo .header-main { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
 .header.has-photo .header-text { flex: 1; min-width: 0; }
 .header .photo { width: 25mm; height: auto; display: block; border-radius: 2.5mm; flex: none; margin-bottom: 1px; }
 
@@ -78,15 +78,16 @@ h2.section { font-size: 11px; font-weight: 700; text-transform: uppercase; lette
 @page onepager { size: A4 landscape; margin: 10mm 12mm; }
 body.onepager-doc { font-size: 10px; }
 .onepager { page: onepager; min-height: 188mm; display: flex; flex-direction: column; }
-.op-head { display: flex; gap: 16px; align-items: stretch; border-bottom: 3px solid #2563eb; padding-bottom: 9px; }
+.op-head { border-bottom: 3px solid #2563eb; padding-bottom: 8px; }
+.op-head-row { display: flex; gap: 16px; align-items: flex-start; }
 .op-photo { width: 26mm; height: auto; align-self: flex-start; border-radius: 2.5mm; display: block; flex: none; }
 .op-id { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .op-id .name { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #0f172a; line-height: 1.1; }
 .op-id .title { font-size: 13px; font-weight: 600; color: #2563eb; margin-top: 2px; }
 .op-summary { font-size: 10.2px; color: #334155; margin-top: 7px; line-height: 1.45; }
-.op-id .contact { font-size: 8.6px; color: #64748b; margin-top: auto; padding-top: 7px; display: flex; flex-wrap: wrap; gap: 3px 12px; }
-.op-id .contact b { color: #334155; font-weight: 600; }
-.op-id .contact a { color: #2563eb; }
+.op-head .contact { font-size: 8.6px; color: #64748b; margin-top: 7px; display: flex; flex-wrap: wrap; gap: 3px 14px; }
+.op-head .contact b { color: #334155; font-weight: 600; }
+.op-head .contact a { color: #2563eb; }
 .op-facts { width: 80mm; flex: none; align-self: flex-start; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; background: #f8fafc; border-radius: 2mm; padding: 7px 10px; }
 .op-facts h3 { grid-column: 1 / -1; font-size: 8.6px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0f172a; margin: 0 0 4px; }
 .op-facts .row { font-size: 8.6px; margin-bottom: 3px; line-height: 1.35; }

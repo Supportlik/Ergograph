@@ -53,12 +53,14 @@ def photo_html(photo, name: str, css_class: str = "photo") -> str:
 
 def header_html(name: str, content: dict, photo=None) -> str:
     text = (f'<div class="name">{name}</div>'
-            f'<div class="title">{content["title"]}</div>'
-            f'{contact_html(content)}')
+            f'<div class="title">{content["title"]}</div>')
     if photo is None:
-        return f'<div class="header">{text}</div>'
-    return (f'<div class="header has-photo"><div class="header-text">{text}</div>'
-            f'{photo_html(photo, name)}</div>')
+        return f'<div class="header">{text}{contact_html(content)}</div>'
+    # with a photo the contact row runs under text and photo at full width:
+    # beside the photo it would lose a third of its width and wrap
+    return (f'<div class="header has-photo"><div class="header-main">'
+            f'<div class="header-text">{text}</div>{photo_html(photo, name)}</div>'
+            f'{contact_html(content)}</div>')
 
 
 def sidebar_html(content: dict) -> str:

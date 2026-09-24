@@ -806,9 +806,10 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
     """Name, title and the inline contact row, closed by the thick blue rule
     of `.header { border-bottom: 3px solid #2563eb }`.
 
-    With a photo the text keeps clear of it by a right indent, and the name
-    moves down so that the text ends level with the photo's lower edge, as
-    `align-items: flex-end` does in the theme."""
+    With a photo, name and title keep clear of it by a right indent and move
+    down so that they end level with the photo's lower edge, as
+    `align-items: flex-end` does in the theme; the contact row follows at
+    full width below both."""
     right = _PHOTO_W + _PHOTO_GAP if photo is not None else 0
     row = []
     for index, contact in enumerate(content["contact"]):
@@ -822,8 +823,9 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
                      indent_right=right)
     contact_par = ""
     if row:
+        # full width even beside a photo: the photo ends above this row
         contact_par = _p("".join(row), after=170, **rule, line=_CONTACT_LINE,
-                         line_rule="exact", indent_right=right)
+                         line_rule="exact")
     else:
         title_fmt.update(after=170, **rule)
     before = 0
@@ -831,8 +833,6 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
     if photo is not None:
         height = round(_PHOTO_W * photo.ratio)
         text = _NAME_LINE + 20 + _TITLE_LINE + 90
-        if contact_par:
-            text += _estimate_height(contact_par, _TEXT_W) - 170
         before = max(0, height - text)
         anchor = _photo_anchor(photo, rels, _PHOTO_W, height, name)
     out = [_p(anchor + _run(name, bold=True, size=40, color=INK, spacing=-6),

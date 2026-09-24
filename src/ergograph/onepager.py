@@ -68,11 +68,12 @@ def _head(name: str, content: dict, photo) -> str:
         for f in onepager_facts(content))
     facts_html = (f'<div class="op-facts"><h3>{lab["facts"]}</h3>{facts}</div>'
                   if facts else "")
-    return (f'<div class="op-head">{photo_html(photo, name, "op-photo")}'
+    return (f'<div class="op-head"><div class="op-head-row">'
+            f'{photo_html(photo, name, "op-photo")}'
             f'<div class="op-id"><div class="name">{name}</div>'
             f'<div class="title">{content["title"]}</div>'
-            f'<div class="op-summary">{summary}</div>'
-            f'{contact_html(content)}</div>{facts_html}</div>')
+            f'<div class="op-summary">{summary}</div></div>{facts_html}</div>'
+            f'{contact_html(content)}</div>')
 
 
 def _highlights(content: dict) -> str:
