@@ -6,7 +6,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/ergograph.svg)](https://pypi.org/project/ergograph/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Supportlik/Ergograph/blob/main/LICENSE)
 
-**Ergograph** (Greek *ἔργον* "work, deed" + *γράφειν* "to write": "the one that writes down your work") is a YAML-driven CV and dossier generator. From plain content files it produces ready-to-send PDFs: a **CV**, a **project history**, a **skills matrix**, a **complete dossier** and a landscape **one-pager**, in any number of languages and variants (with/without an hourly rate, tailored to a role, or anonymized for agencies). The same content also comes out as editable Word files and as Markdown text, optionally with a photo in the header.
+**Ergograph** (Greek *ἔργον* "work, deed" + *γράφειν* "to write": "the one that writes down your work") is a YAML-driven CV and dossier generator. From plain content files it produces ready-to-send PDFs: a **CV**, a **project history**, a **skills matrix**, a **complete dossier** and a landscape **one-pager**, in any number of languages and variants (with/without an hourly rate, tailored to a role, or anonymized for agencies). The same content also comes out as editable Word files and as Markdown text, optionally with a photo in the header and a faint logo watermark on every PDF page.
 
 The generator contains **no personal data**. All content and all build steering come from the outside via YAML files; the code only provides rendering, the theme and the PDF export.
 

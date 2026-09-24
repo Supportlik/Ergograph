@@ -90,6 +90,11 @@
                     "type": "boolean",
                     "default": true
                   },
+                  "watermark": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show the watermark; always off for an anonymous variant."
+                  },
                   "flat_documents": {
                     "type": "array",
                     "items": {
@@ -247,6 +252,53 @@
                 "type": "string"
               },
               "description": "Another file per document, e.g. {onepager: other.jpg}."
+            }
+          }
+        }
+      ]
+    },
+    "watermark": {
+      "description": "Faint image centred behind the text on every PDF page (not in DOCX or Markdown, never in anonymous variants): a path, or options.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "required": [
+            "file"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "SVG, PNG or JPEG, embedded as a data URI."
+            },
+            "opacity": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "default": 0.05
+            },
+            "width": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "default": 0.6,
+              "description": "Share of the page width."
+            },
+            "documents": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/document"
+              },
+              "description": "Default: all documents."
+            },
+            "languages": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }

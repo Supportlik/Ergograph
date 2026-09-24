@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-09-24
+
+### Added
+
+- Watermark (R29, D35). `watermark:` in the config names an SVG, PNG or JPEG
+  that sits centred and faint behind the text of every PDF page, with
+  `opacity` (default 0.05), `width` as a share of the page width (default
+  0.6) and optional `documents` and `languages`. It is a fixed layer that
+  takes no space, so page breaks and the one-page check are unaffected. PDF
+  only, never in an anonymous variant; `watermark: false` switches it off for
+  any other variant.
+
 ## [1.2.1] - 2026-09-24
 
 ### Fixed
@@ -272,6 +284,7 @@ now covered by semantic versioning: breaking changes to it require a major relea
 - Initial release: YAML-driven CV and dossier generator with HTML rendering,
   the `modern` theme, PDF export via Chrome headless, and optional page numbers.
 
+[1.3.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.3.0
 [1.2.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.1
 [1.2.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.1.0

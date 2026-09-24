@@ -40,6 +40,7 @@ Ergograph is the decoupling of a previously monolithic build script (`build.py` 
 | R26 | The content is also available as plain text for portal forms, mails and prompts. | `formats: [md]`, `markdown.py:build_markdown`, same section order as the HTML, checked against the content strings by `ats.missing_strings_md`. |
 | R27 | Variants can tailor any part of the content, and an anonymous variant hides the person reliably. | Mapping form of `variants` (`config.py:VariantSpec`), `variants.resolve` for `variants`/`except_variants`/`by_variant` everywhere, `variants.anonymize` plus the identity check `ats.leaked_identity` over HTML, PDF, DOCX and Markdown (D32, D33). |
 | R28 | All current outputs can be picked from one folder. | `output.flat_dir`, `builder._publish_flat`; the variant goes into the file name, an older build of the same document is replaced (D34). |
+| R29 | A logo can sit faintly behind the text of every PDF page as a watermark, without affecting the layout, and never in an anonymous variant. | `watermark:` in the config (`config.py:WatermarkSpec`), embedded as a data URI by `watermark.py`; `render.page` places a fixed, non-interactive layer first in the body, which Chrome repeats on every printed page. `VariantSpec.watermark` is forced off for anonymous variants. PDF route only (D35). |
 
 ## 3. Formats
 
@@ -152,13 +153,15 @@ Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `l
 
 **D34 – One flat folder for picking, the tree for history.** The per-variant tree (`pdf/<variant>/<lang>/`) is good for builds and archiving and poor for finding a file quickly. `output.flat_dir` adds one folder with everything of the current state; the variant joins the file name, and a newer build replaces the older copy of the same document regardless of its date, so the folder never accumulates stale versions.
 
+**D35 – Watermark in the PDF only, as a fixed layer, never in anonymous variants.** A faint logo behind the text marks a document as the sender's own without costing space. It is an absolutely positioned layer with `position: fixed`, so Chrome prints it on every page and the flow, page breaks and the one-page check of the one-pager stay exactly as they were; a background image on `@page` would need a raster file and is not repeated reliably. SVG is embedded as a data URI and stays a vector. DOCX and Markdown are left without it: agencies edit the Word file and paste the text into forms, where a background image only gets in the way. An anonymous variant never carries it, because a company logo points to the person as clearly as the name (D33).
+
 ## 5. Out of scope (deliberately not implemented)
 
 - **No additional sections via configuration.** The section structure (contact, facts, …, skills) is hard-wired; new sections are a code change. A generic "section construction kit" schema would be considerably more complex and will only be built once it is needed.
 - **No HTML escaping / no sanitization** (see D2).
 - **No image processing.** Photos are embedded as they are (D30); cropping and scaling happen before, at full quality.
 - **No one-pager as DOCX** (D31).
-- **No watermark, encryption or signature support** for PDFs.
+- **No encryption or signature support** for PDFs; a watermark is available (R29, D35), and only in the PDF.
 - **No round-trip from DOCX back into YAML.** The Word file is an output format, not an input one.
 - **No parallel rendering**; the build time (a few seconds per document) does not justify the complexity.
 

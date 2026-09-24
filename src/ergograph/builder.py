@@ -16,6 +16,7 @@ from .docx import extract_text as extract_docx_text
 from .markdown import build_markdown
 from .pdf import extract_text, finalize_pdf, find_chrome, page_count, render_pdf
 from .photo import load_photo
+from .watermark import watermark_html, watermark_uri
 from .render import build_documents, load_theme, page
 from .variants import anonymize, identity_markers, resolve
 
@@ -108,6 +109,8 @@ def build(cfg: Config, *, variants: list[str] | None = None,
             photo_cache[path] = load_photo(path)
         return photo_cache[path]
 
+    mark_uri = watermark_uri(cfg.watermark.file) if cfg.watermark else None
+
     results: list[BuildResult] = []
     for variant in variants or cfg.variants:
         spec = cfg.spec(variant)
@@ -138,8 +141,11 @@ def build(cfg: Config, *, variants: list[str] | None = None,
                 # document title, also picked up as PDF metadata by Chrome
                 title = f"{name} – {local}"
                 html_path = html_dir / f"{local}.html"
+                mark = (watermark_html(cfg.watermark, mark_uri)
+                        if mark_uri and spec.watermark
+                        and cfg.watermark.applies(key, lang) else "")
                 html_doc = page(title, docs[key], css, lang,
-                                "onepager-doc" if one_page else "")
+                                "onepager-doc" if one_page else "", mark)
                 html_path.write_text(html_doc, encoding="utf-8")
                 expected = key_strings(name, content, key)
                 leaks = leaked_identity(_html_text(html_doc), markers)

@@ -54,6 +54,7 @@ Paths are relative to the location of the `config.yaml`.
 | `level_max` | number | no | `6` | Upper end of the skill-bar scale |
 | `formats` | list of strings | no | `[pdf]` | Output formats to write: any of `pdf`, `docx`, `md` |
 | `photo` | path, or `{file, documents?, languages?, files?}` | no | — | Photo in the header, see [Photo](#photo) |
+| `watermark` | path, or `{file, opacity?, width?, documents?, languages?}` | no | — | Faint image behind the text of every PDF page, see [Watermark](#watermark) |
 | `output.html_dir` | path | no | `html` | Where the HTML intermediate goes |
 | `output.pdf_dir` | path | no | `pdf` | Where the PDFs go |
 | `output.docx_dir` | path | no | `docx` | Where the Word files go |
@@ -199,6 +200,7 @@ variants:
 | `anonymous` | `false` | No name, no contact block, no photo, no links; see below |
 | `documents` | all configured | Restricts the documents built for this variant |
 | `photo` | `true` | `false` leaves the photo out of this variant |
+| `watermark` | `true` | `false` leaves the watermark out of this variant (an anonymous variant never has one) |
 | `flat_documents` | `output.flat_documents` | Documents of this variant that go into `flat_dir`; `[]` for none |
 | `flat_label` | the variant name | Name part in flat file names; `""` leaves the variant out of the name |
 
@@ -251,6 +253,25 @@ DOCX carry the original pixels. Prepare the crop and size you want (a 4:5
 portrait of about 1000 px width is plenty for the 25 mm header photo). The
 header shows it top right at 25 mm width, the one-pager at 30 mm; the height
 follows the image. The EXIF orientation is not applied, so save the file upright.
+
+## Watermark
+
+```yaml
+watermark:
+  file: branding/logo.svg   # SVG, PNG or JPEG
+  opacity: 0.05             # default; 0 < opacity <= 1
+  width: 0.6                # default; share of the page width
+  documents: [full, onepager]  # default: all documents
+  languages: [de, en]       # default: all
+```
+
+A plain path (`watermark: logo.svg`) is short for `{file: logo.svg}`. The image
+sits centred behind the text on **every page** of the PDF, takes no space and
+does not change page breaks, so the one-pager still has to fit on one page as
+before. SVG stays a vector. The watermark is **PDF only**: DOCX and Markdown are
+handed on for editing and copying, where a background image gets in the way. An
+anonymous variant never shows it, because a logo identifies the person as
+clearly as a name; any other variant can switch it off with `watermark: false`.
 
 ## One-pager
 

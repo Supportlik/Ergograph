@@ -27,6 +27,9 @@ CANONICAL_FORMATS = ("pdf", "docx", "md")
 #: Image types a photo may have; the PDF and the DOCX embed the file as is.
 PHOTO_TYPES = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png"}
 
+#: Image types a watermark may have; SVG stays a vector in the PDF.
+WATERMARK_TYPES = {".svg": "image/svg+xml", **PHOTO_TYPES}
+
 REQUIRED_CONTENT_KEYS = (
     "title", "tagline", "labels", "doc_names", "contact", "facts",
     "languages", "certs", "top_skills", "education", "experience",
@@ -48,6 +51,8 @@ class VariantSpec:
     anonymous: bool = False
     documents: list[str] | None = None
     photo: bool = True
+    #: show the watermark (always off for an anonymous variant)
+    watermark: bool = True
     #: documents of this variant that go into flat_dir (None: output.flat_documents)
     flat_documents: list[str] | None = None
     #: name part in flat file names (None: the variant name, "": none)
@@ -67,6 +72,20 @@ class PhotoSpec:
         if self.languages is not None and lang not in self.languages:
             return None
         return self.files.get(document, self.file)
+
+
+@dataclass
+class WatermarkSpec:
+    """A faint image centred behind the text on every page of the PDF."""
+    file: Path
+    opacity: float
+    width: float
+    documents: list[str]
+    languages: list[str] | None
+
+    def applies(self, document: str, lang: str) -> bool:
+        return document in self.documents and (
+            self.languages is None or lang in self.languages)
 
 
 @dataclass
@@ -93,6 +112,7 @@ class Config:
     docx_font: str
     variant_specs: dict[str, VariantSpec] = field(default_factory=dict)
     photo: PhotoSpec | None = None
+    watermark: WatermarkSpec | None = None
     anonymous_slug: str = "profile"
 
     def spec(self, variant: str) -> VariantSpec:
@@ -177,6 +197,7 @@ def load_config(path: str | Path) -> Config:
                     f"(allowed: {', '.join(CANONICAL_DOCUMENTS)})")
 
     photo = _load_photo(raw.get("photo"), base, languages)
+    watermark = _load_watermark(raw.get("watermark"), base, languages)
 
     output = raw.get("output") or {}
     return Config(
@@ -202,6 +223,7 @@ def load_config(path: str | Path) -> Config:
         docx_font=str(output.get("docx_font", "Segoe UI")),
         variant_specs=variant_specs,
         photo=photo,
+        watermark=watermark,
         anonymous_slug=str(person.get("anonymous_slug") or "profile"),
     )
 
@@ -232,7 +254,7 @@ def _load_variants(raw) -> dict[str, VariantSpec]:
         if not isinstance(opts, dict):
             raise ConfigError(f"variants[{name}]: expected a mapping of options")
         unknown = set(opts) - {"tags", "anonymous", "documents", "photo",
-                               "flat_documents", "flat_label"}
+                               "watermark", "flat_documents", "flat_label"}
         if unknown:
             raise ConfigError(f"variants[{name}]: unknown option(s) "
                               f"{', '.join(sorted(unknown))}")
@@ -251,6 +273,7 @@ def _load_variants(raw) -> dict[str, VariantSpec]:
             name, frozenset(tags), anonymous,
             [str(d) for d in docs] if docs is not None else None,
             bool(opts.get("photo", True)) and not anonymous,
+            bool(opts.get("watermark", True)) and not anonymous,
             flat_docs, None if label is None else str(label))
     return specs
 
@@ -291,6 +314,44 @@ def _load_photo(raw, base: Path, languages: list) -> PhotoSpec | None:
             raise ConfigError(f"photo.files: unknown document '{doc}'")
         files[str(doc)] = _photo_path(value, base, f"photo.files.{doc}")
     return PhotoSpec(file, docs, langs, files)
+
+
+def _load_watermark(raw, base: Path, languages: list) -> WatermarkSpec | None:
+    """`watermark` is a path, or {file, opacity?, width?, documents?, languages?}."""
+    if raw is None:
+        return None
+    if isinstance(raw, str):
+        raw = {"file": raw}
+    if not isinstance(raw, dict):
+        raise ConfigError("watermark: expected a path or a mapping")
+    unknown = set(raw) - {"file", "opacity", "width", "documents", "languages"}
+    if unknown:
+        raise ConfigError(f"watermark: unknown option(s) {', '.join(sorted(unknown))}")
+    path = Path(str(_require(raw, "file", "watermark"))).expanduser()
+    path = path if path.is_absolute() else base / path
+    if path.suffix.lower() not in WATERMARK_TYPES:
+        raise ConfigError(f"watermark.file: unsupported image type '{path.suffix}' "
+                          f"(allowed: {', '.join(WATERMARK_TYPES)})")
+    if not path.is_file():
+        raise ConfigError(f"watermark.file: file not found: {path}")
+    numbers = {}
+    for key, default in (("opacity", 0.05), ("width", 0.6)):
+        value = raw.get(key, default)
+        if isinstance(value, bool) or not isinstance(value, (int, float)) \
+                or not 0 < value <= 1:
+            raise ConfigError(f"watermark.{key}: expected a number in (0, 1]")
+        numbers[key] = float(value)
+    docs = [str(d) for d in raw.get("documents") or CANONICAL_DOCUMENTS]
+    for doc in docs:
+        if doc not in CANONICAL_DOCUMENTS:
+            raise ConfigError(f"watermark.documents: unknown document '{doc}'")
+    langs = raw.get("languages")
+    if langs is not None:
+        langs = [str(lang) for lang in langs]
+        for lang in langs:
+            if lang not in languages:
+                raise ConfigError(f"watermark.languages: unknown language '{lang}'")
+    return WatermarkSpec(path, numbers["opacity"], numbers["width"], docs, langs)
 
 
 def load_content(path: str | Path) -> dict:

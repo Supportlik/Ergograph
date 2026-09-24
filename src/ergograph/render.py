@@ -220,10 +220,12 @@ def build_documents(name: str, content: dict, level_max: float,
     return out
 
 
-def page(title: str, body: str, css: str, lang: str, body_class: str = "") -> str:
+def page(title: str, body: str, css: str, lang: str, body_class: str = "",
+         watermark: str = "") -> str:
+    """`watermark` is an HTML fragment placed first in the body (see watermark.py)."""
     cls = f' class="{body_class}"' if body_class else ""
     return (f'<!doctype html><html lang="{lang}"><head><meta charset="utf-8">'
             f'<title>{title}</title>'
             f'<link rel="preconnect" href="https://fonts.googleapis.com">'
             f'<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">'
-            f'<style>{css}</style></head><body{cls}>{body}</body></html>')
+            f'<style>{css}</style></head><body{cls}>{watermark}{body}</body></html>')
