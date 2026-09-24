@@ -169,6 +169,11 @@
             "$ref": "#/$defs/document"
           },
           "description": "Only these documents go into flat_dir; default: all built documents."
+        },
+        "flat_by_format": {
+          "type": "boolean",
+          "default": false,
+          "description": "One subfolder per format (pdf/, docx/, md/) inside flat_dir."
         }
       }
     },

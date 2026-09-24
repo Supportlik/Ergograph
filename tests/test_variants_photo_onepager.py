@@ -243,3 +243,13 @@ def test_flat_documents_limit_the_flat_folder(tmp_path, architect_config):
     names = [p.name for p in (tmp_path / "active").iterdir()]
     assert names and all("one" in n for n in names)
     assert any("dossier" in p.name for p in (tmp_path / "md").rglob("*.md"))
+
+
+def test_flat_by_format_uses_one_subfolder_per_format(tmp_path, architect_config):
+    cfg = architect_config
+    cfg = type(cfg)(**{**cfg.__dict__, "html_dir": tmp_path / "html",
+                       "md_dir": tmp_path / "md", "flat_dir": tmp_path / "active",
+                       "flat_by_format": True, "formats": ["md"]})
+    build(cfg, datestamp="2026-09-24", log=lambda *_: None)
+    assert [p.name for p in (tmp_path / "active").iterdir()] == ["md"]
+    assert list((tmp_path / "active" / "md").glob("*.md"))

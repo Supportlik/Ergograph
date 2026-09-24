@@ -61,6 +61,7 @@ Paths are relative to the location of the `config.yaml`.
 | `output.md_dir` | path | no | `md` | Where the Markdown files go |
 | `output.flat_dir` | path | no | — | Also copy every output into this one folder, see [Flat folder](#flat-folder) |
 | `output.flat_documents` | list of strings | no | all built | Only these documents go into `flat_dir` |
+| `output.flat_by_format` | boolean | no | `false` | One subfolder per format (`pdf/`, `docx/`, `md/`) inside `flat_dir` |
 | `output.date_prefix` | boolean | no | `true` | `YYYY-MM-DD_` in front of file names |
 | `chrome` | path | no | auto-detected | Chrome/Chromium binary, if it is not found automatically |
 
@@ -276,6 +277,7 @@ same document (same name, any date) is replaced, so the folder always holds the
 current state. The per-variant folders are written as before.
 `output.flat_documents` limits the folder to some documents, e.g.
 `[full, onepager]`: everything is still built, only the picking folder is smaller.
+`output.flat_by_format: true` puts one subfolder per format into it.
 
 ## Editor support
 

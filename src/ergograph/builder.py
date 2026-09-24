@@ -143,7 +143,9 @@ def build(cfg: Config, *, variants: list[str] | None = None,
                     if cfg.flat_documents is not None and key not in cfg.flat_documents:
                         return
                     if cfg.flat_dir is not None:
-                        _publish_flat(cfg.flat_dir, path, flat_filename(
+                        target = (cfg.flat_dir / suffix if cfg.flat_by_format
+                                  else cfg.flat_dir)
+                        _publish_flat(target, path, flat_filename(
                             slug, local, variant, lang, datestamp, suffix,
                             single_variant), datestamp)
 

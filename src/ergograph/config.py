@@ -82,6 +82,7 @@ class Config:
     md_dir: Path
     flat_dir: Path | None
     flat_documents: list[str] | None
+    flat_by_format: bool
     formats: list[str]
     date_prefix: bool
     chrome: str | None
@@ -190,6 +191,7 @@ def load_config(path: str | Path) -> Config:
         md_dir=base / output.get("md_dir", "md"),
         flat_dir=(base / output["flat_dir"]) if output.get("flat_dir") else None,
         flat_documents=_flat_documents(output.get("flat_documents")),
+        flat_by_format=bool(output.get("flat_by_format", False)),
         formats=formats,
         date_prefix=bool(output.get("date_prefix", True)),
         chrome=raw.get("chrome"),
