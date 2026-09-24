@@ -263,3 +263,25 @@ def test_flat_label_and_variant_flat_documents(tmp_path):
                  "variants: {a: {flat_documents: [], flat_label: ''}}\n", encoding="utf-8")
     spec = load_config(p).spec("a")
     assert spec.flat_documents == [] and spec.flat_label == ""
+
+
+def test_timeline_with_tracks_uses_a_proportional_axis(architect_de):
+    content = resolve(architect_de, frozenset({"ohne-stundensatz"}))
+    stations = [
+        {"track": "Education", "from": "2011-10", "to": "2015-03", "period": "2011–2015", "label": "B.Sc."},
+        {"track": "Work", "from": "2015-04", "period": "since 2015", "label": "Engineer"},
+    ]
+    block = dict(content["onepager"], timeline=stations)
+    html = build_documents("X", dict(content, onepager=block), 6.0,
+                           documents=["onepager"])["onepager"]
+    assert 'class="gantt"' in html and html.count('class="tr-lane"') == 2
+    assert 'class="bar open"' in html
+    text = build_markdown("X", dict(content, onepager=block), "onepager")
+    assert "### Education" in text and "### Work" in text
+
+
+def test_timeline_mixed_from_is_rejected(architect_de):
+    block = dict(architect_de["onepager"], timeline=[
+        {"from": "2011-10", "period": "a", "label": "A"}, {"period": "b", "label": "B"}])
+    with pytest.raises(ConfigError, match="every station"):
+        check_documents(dict(architect_de, onepager=block), ["onepager"], "de.yaml")

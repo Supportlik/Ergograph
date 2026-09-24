@@ -258,14 +258,14 @@ and languages come from the normal keys; the block `onepager` adds the rest:
 
 | Key | Type | Notes |
 |---|---|---|
-| `labels` | `{competencies, projects, timeline}` | Required |
+| `labels` | `{competencies, projects, timeline, legend?}` | `legend` explains the level scale under the competencies |
 | `summary` | string (HTML) | Default: `tagline` |
 | `facts` | list of labels | Which facts to show, in this order; default: all |
 | `highlights` | list of `{value, label}` | Key figures in a row of tiles, e.g. `12+` / `years of experience` |
 | `competencies` | list of `{name, level?, items}` | Clusters with a level bar and tags |
-| `projects` | list of `{ref?, title?, period?, org?, role?, bullets, tech?}` | `ref` names the `id` of a `projects[].items[]` entry; every other field falls back to it |
+| `projects` | list of `{ref?, title?, period?, org?, role?, description?, bullets, tech?}` | `ref` names the `id` of a `projects[].items[]` entry; every other field falls back to it |
 | `extra` | list of `{title, items}` | Further boxes in the right column, e.g. publications |
-| `timeline` | list of `{period, label, sub?}` | Stations along the bottom, oldest first |
+| `timeline` | list of `{period, label, sub?, track?, from?, to?}` | Stations along the bottom. With `from` (`YYYY-MM`) on every station they are drawn as bars on a proportional time axis, one row per `track` (e.g. education, employment, freelance); `to` left out = still running. Without `from`, evenly spaced stations |
 
 The one-pager is written as PDF and Markdown; `docx` skips it (a multi-column
 landscape page is not reproduced in Word).

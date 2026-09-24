@@ -35,6 +35,7 @@ def reference_projects(content: dict) -> list[dict]:
             "period": entry.get("period", item.get("period")),
             "org": entry.get("org", item.get("org")),
             "role": entry.get("role"),
+            "description": entry.get("description"),
             "bullets": list(entry.get("bullets") or []),
             "tech": entry.get("tech", item.get("tech")),
         })
@@ -91,6 +92,9 @@ def _competencies(content: dict, level_max: float) -> str:
                        for t in cluster.get("items") or [])
         out.append(f'<div class="cl"><div class="cl-top">{top}</div>'
                    f'<div class="tags">{tags}</div></div>')
+    legend = content["onepager"]["labels"].get("legend")
+    if legend:
+        out.append(f'<div class="op-legend">{legend}</div>')
     return "".join(out)
 
 
@@ -102,6 +106,8 @@ def _projects(content: dict) -> str:
             top += f'<span class="pp">{proj["period"]}</span>'
         sub = " · ".join(x for x in (proj["role"], proj["org"]) if x)
         sub_html = f'<div class="po">{sub}</div>' if sub else ""
+        desc = f'<div class="pd">{proj["description"]}</div>' if proj["description"] else ""
+        sub_html += desc
         bullets = "".join(f"<li>{b}</li>" for b in proj["bullets"])
         ul = f"<ul>{bullets}</ul>" if bullets else ""
         tech = f'<div class="pt">{proj["tech"]}</div>' if proj["tech"] else ""
@@ -128,9 +134,80 @@ def _side(content: dict) -> str:
         blocks.append(f'<h2 class="section">{lab["languages"]}</h2>{langs}')
     extra = content["onepager"].get("extra") or []
     for box in extra:
-        rows = "".join(f'<div class="row">{r}</div>' for r in box.get("items") or [])
+        rows = "".join(f'<div class="pub">{r}</div>' for r in box.get("items") or [])
         blocks.append(f'<h2 class="section">{box["title"]}</h2>{rows}')
     return "".join(blocks)
+
+
+def _month(value, where: str) -> float:
+    """'YYYY-MM' (or a bare year) as a fractional year."""
+    text = str(value).strip()
+    try:
+        if "-" in text:
+            year, month = text.split("-", 1)
+            return int(year) + (int(month) - 1) / 12
+        return float(int(text))
+    except ValueError:
+        raise ValueError(f"onepager.timeline: '{text}' is not YYYY-MM ({where})") from None
+
+
+def timeline_tracks(stations: list[dict]) -> list[tuple[str, list[dict]]]:
+    """Stations grouped by `track`, in the order the tracks first appear."""
+    tracks: dict[str, list[dict]] = {}
+    for st in stations:
+        tracks.setdefault(str(st.get("track") or ""), []).append(st)
+    return list(tracks.items())
+
+
+def _stations(stations: list[dict]) -> str:
+    items = "".join(
+        f'<div class="st"><i></i><span class="sp">{s["period"]}</span>'
+        f'<b>{s["label"]}</b>'
+        + (f'<span class="ss">{s["sub"]}</span>' if s.get("sub") else "")
+        + "</div>"
+        for s in stations)
+    return f'<div class="stations">{items}</div>'
+
+
+def _gantt(stations: list[dict]) -> str:
+    """Several tracks on one proportional time axis (every station has
+    `from`, and `to` unless it is still running)."""
+    spans = []
+    for st in stations:
+        start = _month(st["from"], st["label"])
+        end = _month(st["to"], st["label"]) + 1 / 12 if st.get("to") else None
+        spans.append((st, start, end))
+    first = min(start for _, start, _ in spans)
+    last = max(end or start for _, start, end in spans)
+    lo = int(first)
+    hi = int(last) + 1 + (1 if any(end is None for *_, end in spans) else 0)
+    width = hi - lo
+
+    def pct(value):
+        return (value - lo) / width * 100
+
+    ticks = "".join(
+        f'<span class="tk" style="left:{pct(year):.2f}%">{year}</span>'
+        for year in range(lo, hi + 1) if (year - lo) % 2 == 0)
+    rows = [f'<div class="tr-label"></div><div class="tr-axis">{ticks}</div>']
+    for track, items in timeline_tracks(stations):
+        bars = []
+        for st, start, end in ((s, a, b) for s, a, b in spans if s in items):
+            left = pct(start)
+            right = pct(end if end is not None else hi)
+            open_cls = "" if end is not None else " open"
+            text_pos = (f"right:{100 - right:.2f}%;text-align:right" if left > 72
+                        else f"left:{left:.2f}%")
+            text = (f'<b>{st["label"]}</b>'
+                    + (f'<span class="ss">{st["sub"]}</span>' if st.get("sub") else "")
+                    + f'<span class="sp">{st["period"]}</span>')
+            bars.append(
+                f'<i class="bar{open_cls}" style="left:{left:.2f}%;'
+                f'width:{max(right - left, 0.8):.2f}%"></i>'
+                f'<div class="bt" style="{text_pos}">{text}</div>')
+        rows.append(f'<div class="tr-label">{track}</div>'
+                    f'<div class="tr-lane">{"".join(bars)}</div>')
+    return f'<div class="gantt">{"".join(rows)}</div>'
 
 
 def _timeline(content: dict) -> str:
@@ -138,14 +215,10 @@ def _timeline(content: dict) -> str:
     if not stations:
         return ""
     lab = content["onepager"]["labels"]
-    items = "".join(
-        f'<div class="st"><i></i><span class="sp">{s["period"]}</span>'
-        f'<b>{s["label"]}</b>'
-        + (f'<span class="ss">{s["sub"]}</span>' if s.get("sub") else "")
-        + "</div>"
-        for s in stations)
+    proportional = all(st.get("from") for st in stations)
+    body = _gantt(stations) if proportional else _stations(stations)
     return (f'<div class="op-timeline"><h2 class="section">{lab["timeline"]}</h2>'
-            f'<div class="stations">{items}</div></div>')
+            f'{body}</div>')
 
 
 def onepager_html(name: str, content: dict, level_max: float, photo=None) -> str:

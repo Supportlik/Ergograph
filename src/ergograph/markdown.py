@@ -158,10 +158,14 @@ def _onepager(content: dict) -> list[str]:
         level = f" ({float(cl['level']):g})" if cl.get("level") is not None else ""
         items = ", ".join(md(t) for t in cl.get("items") or [])
         out.append(f"- **{md(cl['name'])}**{level}" + (f": {items}" if items else ""))
+    if lab.get("legend"):
+        out += ["", md(lab["legend"])]
     out += ["", f"## {md(lab['projects'])}", ""]
     for proj in reference_projects(content):
         meta = " · ".join(md(x) for x in (proj["role"], proj["org"], proj["period"]) if x)
         out += [f"**{md(proj['title'])}**" + (f" ({meta})" if meta else ""), ""]
+        if proj["description"]:
+            out += [md(proj["description"]), ""]
         out += [f"- {md(b)}" for b in proj["bullets"]]
         if proj["tech"]:
             out += ["", md(proj["tech"])]
@@ -173,9 +177,14 @@ def _onepager(content: dict) -> list[str]:
         out.append("")
     if block.get("timeline"):
         out += [f"## {md(lab['timeline'])}", ""]
-        for s in block["timeline"]:
-            sub = f", {md(s['sub'])}" if s.get("sub") else ""
-            out.append(f"- {md(s['period'])}: {md(s['label'])}{sub}")
+        from .onepager import timeline_tracks
+        for track, stations in timeline_tracks(block["timeline"]):
+            if track:
+                out += [f"### {md(track)}", ""]
+            for s in stations:
+                sub = f", {md(s['sub'])}" if s.get("sub") else ""
+                out.append(f"- {md(s['period'])}: {md(s['label'])}{sub}")
+            out.append("")
         out.append("")
     return out
 

@@ -333,9 +333,20 @@ def check_documents(content: dict, documents: list[str], path) -> None:
             _require(entry, "title", f"{where}.projects[{index}]")
     for index, cluster in enumerate(block.get("competencies") or []):
         _require(cluster, "name", f"{where}.competencies[{index}]")
-    for index, station in enumerate(block.get("timeline") or []):
+    import re
+    stations = block.get("timeline") or []
+    for index, station in enumerate(stations):
         _require(station, "period", f"{where}.timeline[{index}]")
         _require(station, "label", f"{where}.timeline[{index}]")
+        for key in ("from", "to"):
+            value = station.get(key)
+            if value is not None and not re.fullmatch(r"\d{4}(-\d{2})?", str(value)):
+                raise ConfigError(f"{where}.timeline[{index}].{key}: expected "
+                                  f"'YYYY-MM', got '{value}'")
+    with_from = [s for s in stations if s.get("from")]
+    if with_from and len(with_from) != len(stations):
+        raise ConfigError(f"{where}.timeline: either every station has 'from' "
+                          f"(proportional time axis) or none")
 
 
 def filter_facts(facts: list[dict], variant: str) -> list[dict]:

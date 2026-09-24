@@ -132,7 +132,7 @@ def _onepager_keys(content: dict) -> list:
         keys += [cl["name"], *(cl.get("items") or [])]
     for proj in reference_projects(content):
         keys += [proj["title"], proj["period"], proj["org"], proj["role"],
-                 proj["tech"], *proj["bullets"]]
+                 proj["description"], proj["tech"], *proj["bullets"]]
     if content["certs"]:
         keys.append(lab["certs"])
     for cert in content["certs"]:
@@ -146,7 +146,8 @@ def _onepager_keys(content: dict) -> list:
     if block.get("timeline"):
         keys.append(olab["timeline"])
     for st in block.get("timeline") or []:
-        keys += [st["period"], st["label"], st.get("sub")]
+        keys += [st["period"], st["label"], st.get("sub"), st.get("track")]
+    keys.append(olab.get("legend"))
     return keys
 
 
