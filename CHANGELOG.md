@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-09-24
+
+### Fixed
+
+- All open CodeQL findings: the import cycles `config` ↔ `variants` and
+  `render` ↔ `onepager` are gone (`ConfigError` now lives in `errors.py` and
+  is still importable from `ergograph.config`; the shared HTML fragments
+  moved to `fragments.py`), unused constants in `docx.py` are removed, and
+  three test functions that were defined twice in `tests/test_docx.py` exist
+  once.
+
+### Changed
+
+- pypdf 6.19.0 in the lock file, `astral-sh/setup-uv` 10.1.0 in the
+  workflows (the two open Dependabot updates).
+
 ## [1.2.0] - 2026-09-24
 
 ### Added
@@ -256,6 +272,7 @@ now covered by semantic versioning: breaking changes to it require a major relea
 - Initial release: YAML-driven CV and dossier generator with HTML rendering,
   the `modern` theme, PDF export via Chrome headless, and optional page numbers.
 
+[1.2.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.1
 [1.2.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.1.0
 [1.0.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.0.1

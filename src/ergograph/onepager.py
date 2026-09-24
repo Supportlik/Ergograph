@@ -10,7 +10,7 @@ figures, the competency clusters and the stations of the timeline.
 
 from __future__ import annotations
 
-from .render import _link, contact_html, photo_html
+from .fragments import _link, contact_html, photo_html
 
 
 def find_project(content: dict, ref: str) -> tuple[dict, dict]:

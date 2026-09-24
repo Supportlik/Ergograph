@@ -10,6 +10,8 @@ from importlib import resources
 from pathlib import Path
 
 from .config import ConfigError
+from .fragments import _link, contact_html, photo_html
+from .onepager import onepager_html
 
 PAGE_BREAK = '<div class="page-break"></div>'
 #: Spacer between the parts of the combined dossier: the sections flow
@@ -34,29 +36,12 @@ def load_theme(theme: str, base_dir: Path | None = None) -> str:
     return ref.read_text(encoding="utf-8")
 
 
-def _link(value: str, url: str | None) -> str:
-    return f'<a href="{url}">{value}</a>' if url else value
 
 
-def breaks_before(contact: dict, photo: bool) -> bool:
-    """`break_before: true` always starts a new line before the entry,
-    `break_before: photo` only when a photo narrows the header."""
-    flag = contact.get("break_before")
-    return flag is True or (flag == "photo" and photo)
 
 
-def contact_html(content: dict, photo: bool = False) -> str:
-    parts = "".join(
-        ('<span class="br"></span>' if breaks_before(c, photo) else "")
-        + f'<span><b>{c["label"]}:</b> {_link(c["value"], c.get("url"))}</span>'
-        for c in content["contact"])
-    return f'<div class="contact">{parts}</div>' if parts else ""
 
 
-def photo_html(photo, name: str, css_class: str = "photo") -> str:
-    if photo is None:
-        return ""
-    return f'<img class="{css_class}" src="{photo.data_uri()}" alt="{name}">'
 
 
 def header_html(name: str, content: dict, photo=None) -> str:
@@ -223,7 +208,6 @@ def build_documents(name: str, content: dict, level_max: float,
 
     for doc in documents:
         if doc == "onepager":
-            from .onepager import onepager_html
             out[doc] = onepager_html(name, content, level_max, photos.get(doc))
             continue
         header = header_html(name, content, photos.get(doc))

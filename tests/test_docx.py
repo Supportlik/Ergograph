@@ -29,7 +29,6 @@ REQUIRED_PARTS = {
 }
 
 _R_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
-_PKG_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
 
 
 @pytest.fixture
@@ -280,55 +279,6 @@ def test_table_width_is_absolute_and_matches_its_columns(written):
         assert sum(cols) == width, (width, cols)
 
 
-def test_body_never_ends_with_a_table(written):
-    """A table directly followed by w:sectPr is malformed; a trailing empty
-    paragraph has to close the body."""
-    _, paths = written
-    for doc, path in paths.items():
-        with zipfile.ZipFile(path) as zf:
-            xml = zf.read("word/document.xml").decode("utf-8")
-        assert "</w:tbl><w:sectPr" not in xml, f"{doc}: table runs into sectPr"
-
-
-def test_table_rows_may_break_across_pages(written):
-    """w:cantSplit is written as a bare element, never with a value.
-
-    A reader that only tests for the element's presence would read
-    val="false" as "keep together". It is used deliberately on the grid rows,
-    which each hold one short block, so a position never breaks between its
-    heading and its bullets."""
-    _, paths = written
-    for doc, path in paths.items():
-        with zipfile.ZipFile(path) as zf:
-            xml = zf.read("word/document.xml").decode("utf-8")
-        # every row that carries it must be a short one-block row of the grid
-        assert xml.count("<w:cantSplit/>") == xml.count("<w:trPr>"), doc
-        assert 'w:cantSplit w:val=' not in xml, f"{doc}: use presence, not a value"
-
-
-def test_table_width_is_absolute_and_matches_its_columns(written):
-    """Declaring the width in percent while asking for a fixed layout is
-    contradictory; Word wants dxa plus the column widths that add up to it."""
-    import re as _re
-    _, paths = written
-    with zipfile.ZipFile(paths["cv"]) as zf:
-        xml = zf.read("word/document.xml").decode("utf-8")
-    for tbl in _re.findall(r"<w:tbl>.*?</w:tblGrid>", xml, _re.DOTALL):
-        width = int(_re.search(r'<w:tblW w:w="(\d+)" w:type="dxa"/>', tbl).group(1))
-        cols = [int(w) for w in _re.findall(r'<w:gridCol w:w="(\d+)"/>', tbl)]
-        assert sum(cols) == width, (width, cols)
-
-
-def test_body_never_ends_with_a_table(written):
-    """A table directly followed by w:sectPr is malformed; a trailing empty
-    paragraph has to close the body."""
-    _, paths = written
-    for doc, path in paths.items():
-        with zipfile.ZipFile(path) as zf:
-            xml = zf.read("word/document.xml").decode("utf-8")
-        assert "</w:tbl><w:sectPr" not in xml, f"{doc}: table runs into sectPr"
-
-
 def test_cv_puts_the_sidebar_in_an_anchored_frame(written):
     """The CV keeps the side-by-side layout of the PDF, but without a table:
     the reading view of Word for the web moves any table to a fresh page as
@@ -546,7 +496,6 @@ def test_periods_keep_their_own_room(written):
     """`.entry .period { white-space: nowrap }` in a flex row: the text beside
     a period wraps before it instead of the period being broken in half. The
     paragraph reserves that room with a right indent."""
-    import re
     from ergograph.docx import _period_room
     content, paths = written
     period = content["experience"][0]["period"]

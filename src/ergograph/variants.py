@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import re
 
-from .config import ConfigError
+from .errors import ConfigError
 
 _FILTER_KEYS = ("variants", "except_variants")
 

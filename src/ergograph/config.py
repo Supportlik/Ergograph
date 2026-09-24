@@ -7,9 +7,9 @@ from pathlib import Path
 
 import yaml
 
+from .errors import ConfigError  # re-exported for callers of ergograph.config
 
-class ConfigError(Exception):
-    """Error in the config.yaml or in a content file."""
+
 
 
 #: Canonical document keys; localized file names come from `doc_names`

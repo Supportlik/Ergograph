@@ -51,7 +51,6 @@ _LINE = 347
 #: `.cv-grid { grid-template-columns: 1fr 2.25fr; gap: 22px }`
 _GAP = 330
 _SIDE_W = int((_TEXT_W - _GAP) / 3.25)
-_MAIN_W = _TEXT_W - _GAP - _SIDE_W
 #: `.skills-cols { column-count: 2; column-gap: 7mm }` — the skills matrix is
 #: typeset in two columns, which is why a single-column Word version came out
 #: twice as tall and cost an extra page in the combined dossier.
@@ -557,13 +556,6 @@ def _table(rows: list[list[tuple[int, str]]], *, right_margin=0) -> str:
     return f"<w:tbl>{props}<w:tblGrid>{grid}</w:tblGrid>{body}</w:tbl>"
 
 
-#: Usable height of one page: A4 minus the two margins.
-_PAGE_TEXT_H = _PAGE_H - 2 * _MARGIN_V
-#: Safety margin on the first grid row. `_estimate_height` is a rough
-#: model and the reading view is unforgiving: a row one line too tall
-#: does not break, it moves to the next page and leaves the rest of
-#: this one empty.
-_ROW_RESERVE = 1400   # about 25 mm
 #: The CSS arithmetic alone lands about a tenth tighter than the PDF: Word
 #: measures a line from the font's metrics, the browser adds the half-leading
 #: on top of a slightly different ascent, and Segoe UI is not Inter. Measured
@@ -585,7 +577,6 @@ _SIDE_HEAD_LINE = 214  # .side h3, 9.5px
 _SIDE_ROW_LINE = 203   # .side .row, 9px
 _SIDE_KEY_LINE = 176   # .side .row .k, 7.8px
 _CERT_SUB_LINE = 180   # .cert span, 8px
-_TAG_LINE = 189        # .tag, 8.4px
 
 
 def _estimate_height(block: str, width: int) -> int:
@@ -812,7 +803,7 @@ def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
     `break_before` starts a new line (`photo`: only when a photo is shown)."""
     right = _PHOTO_W + _PHOTO_GAP if photo is not None else 0
     row = []
-    from .render import breaks_before
+    from .fragments import breaks_before
     for index, contact in enumerate(content["contact"]):
         if index and breaks_before(contact, photo is not None):
             row.append("<w:r><w:br/></w:r>")
