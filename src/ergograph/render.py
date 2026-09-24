@@ -38,13 +38,27 @@ def _link(value: str, url: str | None) -> str:
     return f'<a href="{url}">{value}</a>' if url else value
 
 
-def header_html(name: str, content: dict) -> str:
+def contact_html(content: dict) -> str:
     parts = "".join(
         f'<span><b>{c["label"]}:</b> {_link(c["value"], c.get("url"))}</span>'
         for c in content["contact"])
-    return (f'<div class="header"><div class="name">{name}</div>'
+    return f'<div class="contact">{parts}</div>' if parts else ""
+
+
+def photo_html(photo, name: str, css_class: str = "photo") -> str:
+    if photo is None:
+        return ""
+    return f'<img class="{css_class}" src="{photo.data_uri()}" alt="{name}">'
+
+
+def header_html(name: str, content: dict, photo=None) -> str:
+    text = (f'<div class="name">{name}</div>'
             f'<div class="title">{content["title"]}</div>'
-            f'<div class="contact">{parts}</div></div>')
+            f'{contact_html(content)}')
+    if photo is None:
+        return f'<div class="header">{text}</div>'
+    return (f'<div class="header has-photo"><div class="header-text">{text}</div>'
+            f'{photo_html(photo, name)}</div>')
 
 
 def sidebar_html(content: dict) -> str:
@@ -179,24 +193,45 @@ def skills_section(content: dict, level_max: float) -> str:
     return "".join(out)
 
 
-def build_documents(name: str, content: dict, level_max: float) -> dict[str, str]:
-    """Build all four document bodies (without the <html> frame)."""
-    header = header_html(name, content)
-    cv = cv_section(content)
-    projects = projects_section(content)
-    skills = skills_section(content, level_max)
-    return {
-        "cv": header + cv,
-        "projects": header + projects,
-        "skills": header + skills,
-        # each part of the combined dossier starts on a fresh page
-        "full": header + cv + PAGE_BREAK + projects + PAGE_BREAK + skills,
-    }
+def build_documents(name: str, content: dict, level_max: float,
+                    photos: dict | None = None,
+                    documents: list[str] | None = None) -> dict[str, str]:
+    """Build the document bodies (without the <html> frame).
+
+    `photos` maps a document key to its Photo (or None); `documents` limits
+    the build, which matters for the one-pager: it needs its own block.
+    """
+    photos = photos or {}
+    documents = documents or ["cv", "projects", "skills", "full"]
+    out = {}
+    parts = {}
+
+    def part(key):
+        if key not in parts:
+            parts[key] = {"cv": lambda: cv_section(content),
+                          "projects": lambda: projects_section(content),
+                          "skills": lambda: skills_section(content, level_max)}[key]()
+        return parts[key]
+
+    for doc in documents:
+        if doc == "onepager":
+            from .onepager import onepager_html
+            out[doc] = onepager_html(name, content, level_max, photos.get(doc))
+            continue
+        header = header_html(name, content, photos.get(doc))
+        if doc == "full":
+            # each part of the combined dossier starts on a fresh page
+            out[doc] = (header + part("cv") + PAGE_BREAK + part("projects")
+                        + PAGE_BREAK + part("skills"))
+        else:
+            out[doc] = header + part(doc)
+    return out
 
 
-def page(title: str, body: str, css: str, lang: str) -> str:
+def page(title: str, body: str, css: str, lang: str, body_class: str = "") -> str:
+    cls = f' class="{body_class}"' if body_class else ""
     return (f'<!doctype html><html lang="{lang}"><head><meta charset="utf-8">'
             f'<title>{title}</title>'
             f'<link rel="preconnect" href="https://fonts.googleapis.com">'
             f'<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">'
-            f'<style>{css}</style></head><body>{body}</body></html>')
+            f'<style>{css}</style></head><body{cls}>{body}</body></html>')

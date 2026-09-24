@@ -1,14 +1,26 @@
 # Comprehensive example: freelance software architect (fictional persona),
-# bilingual, rate variants, structured bullets, project period/org metadata.
+# bilingual, rate variants, an anonymous variant, a photo, the one-pager,
+# structured bullets and project period/org metadata.
 person:
   name: Daniel Falkner
+  anonymous_slug: candidate-profile
 
 theme: modern
 level_max: 6
 
 languages: [de, en]
-variants: [mit-stundensatz, ohne-stundensatz]
-documents: [full]
+variants:
+  mit-stundensatz: {}
+  ohne-stundensatz: {}
+  # no name, no contact block, no photo, no links; identity is verified
+  anonym: {anonymous: true, documents: [full, onepager]}
+documents: [full, onepager]
+formats: [pdf, md]
+
+# a drawn placeholder (docs/tools/make_placeholder_photo.py), not a person
+photo:
+  file: photo.jpg
+  documents: [full, onepager]
 
 content:
   de: content/de.yaml
@@ -17,4 +29,5 @@ content:
 output:
   html_dir: .build/html
   pdf_dir: pdf
+  md_dir: md
   date_prefix: false

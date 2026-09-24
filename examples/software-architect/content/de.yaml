@@ -5,6 +5,7 @@ doc_names:
   projects: projektlebenslauf
   skills: skill-matrix
   full: dossier-komplett
+  onepager: onepager
 labels:
   facts: Eckdaten
   languages: Sprachen
@@ -93,7 +94,10 @@ experience:
     period: 06/2016–10/2016
 - period: 03/2019–08/2022
   role: Delivery Manager (IT)
-  org: Landesamt für Straßenwesen, Hannover
+  org:
+    by_variant:
+      anonymous: Landesbehörde (Verkehr)
+      default: Landesamt für Straßenwesen, Hannover
   bullets:
   - 'Technische Projektleitung des Fachverfahrens VIADUKT (rund 2.500 Nutzer) mit Koordination von vier Bereichen: Requirements Engineering, Entwicklung (zwei Teams), Testing und Betrieb.'
   - Definition einer einheitlichen Softwarearchitektur (Blueprint) und Releaseplanung.
@@ -118,6 +122,7 @@ projects:
   meta: '09/2022–heute · Bremen · Branche: Telematik / Softwarehersteller'
   items:
   - title: AtlasCore
+    id: atlascore
     period: 09/2022–heute
     description: 'Konzeption, Entwicklung und Architekturverantwortung für die Plattform „AtlasCore“: 8 Microservices mit Multi-Datenbank-Support (H2, PostgreSQL), hexagonale Architektur mit Domain-Driven Design; fachliche Führung von fünf Entwicklern. Rollout auf zwei Kunden-Cloud-Plattformen; schrittweise Ablösung des Altsystems per Strangler-Fig-Pattern.'
     tech: Java, Kotlin, TypeScript · Quarkus, React · Kubernetes · PostgreSQL · REST/OIDC · Messaging (Kafka, CloudEvents) · DDD
@@ -147,6 +152,7 @@ projects:
   meta: '03/2019–08/2022 · Hannover · Branche: Öffentlicher Dienst'
   items:
   - title: VIADUKT (Fachverfahren Straßendaten)
+    id: viadukt
     period: 03/2019–08/2022
     description:
     - Technische Projektleitung für ein Fachverfahren mit rund 2.500 Nutzern; Koordination von vier Bereichen und fachliche Führung von rund 12 Personen. Definition einer einheitlichen Softwarearchitektur (Blueprint) und Releaseplanung mit über 20 Stakeholdern.
@@ -156,6 +162,7 @@ projects:
   meta: '10/2016–02/2019 · Branche: Forschung & Lehre'
   items:
   - title: Webservices & Kubernetes-Cluster für Forschungsprojekte
+    id: tu-cluster
     period: 10/2016–02/2019
     description: Entwicklung von REST-Webservices; Aufbau und Betrieb eines Clusters mit über 80 Studentenprojekten.
     tech: Java/Spring · REST · Kubernetes, Docker · MariaDB
@@ -232,3 +239,72 @@ skills:
   - name: Oracle DB
     level: 3.5
     note: VIADUKT
+
+# Name im Kopf anonymer Varianten (config.yaml: variants.anonym.anonymous)
+anonymous_name: Kandidatenprofil
+
+# Der OnePager (A4 quer): nur, was es sonst nirgends gibt. Kontakt, Eckdaten,
+# Zertifikate und Sprachen kommen aus den Blöcken oben, Projekte per `ref`.
+onepager:
+  labels:
+    competencies: Kompetenzen
+    projects: Referenzprojekte
+    timeline: Werdegang
+  summary: Architekt und Lead Developer für verteilte Systeme. Entwirft Zielarchitekturen aus den fachlichen Anforderungen heraus und setzt sie selbst oder im Team um, von Java- und Kotlin-Backends über React-Frontends bis zum Betrieb auf Kubernetes.
+  highlights:
+  - {value: 10+, label: Jahre Erfahrung}
+  - {value: '2.500', label: Nutzer im Fachverfahren}
+  - {value: '12', label: Personen fachlich geführt}
+  - {value: '8', label: Microservices verantwortet}
+  - {value: M.Sc., label: Informatik}
+  competencies:
+  - name: Softwarearchitektur
+    level: 5
+    items: [Microservices, DDD, hexagonale Architektur, Blueprints]
+  - name: Backend
+    level: 5
+    items: [Java, Kotlin, Quarkus, Spring Boot, REST/OIDC]
+  - name: Messaging
+    level: 4
+    items: [Kafka, CloudEvents, eventgetriebene Systeme]
+  - name: Plattform & DevOps
+    level: 4.5
+    items: [Kubernetes, Docker, GitLab CI/CD, Security-Pipelines]
+  - name: Frontend
+    level: 4
+    items: [TypeScript, React]
+  - name: Methodik
+    level: 5
+    items: [Requirements Engineering, Scrum, agile Transformation]
+  projects:
+  - ref: atlascore
+    org: Nordwind Telematik GmbH
+    role: Principal Engineer
+    bullets:
+    - Architekturverantwortung für 8 Microservices, hexagonal mit DDD
+    - CI/CD- und Security-Pipelines mit durchgängigem Testen
+  - ref: viadukt
+    org:
+      by_variant:
+        anonymous: Landesbehörde (Verkehr)
+        default: Landesamt für Straßenwesen
+    role: Delivery Manager
+    bullets:
+    - Technische Projektleitung, rund 2.500 Nutzer, 12 Personen
+    - Agile Transformation in fünf Teilteams
+  - ref: tu-cluster
+    org: TU Weserbergland
+    role: Lehrbeauftragter
+    bullets:
+    - Kubernetes-Cluster für über 80 Studentenprojekte
+  timeline:
+  - {period: 2013, label: B.Sc. Informatik, sub: TU Weserbergland}
+  - {period: 2016, label: M.Sc. Informatik, sub: TU Weserbergland}
+  - {period: 10/2016–02/2019, label: Lehrbeauftragter, sub: Verteilte Systeme}
+  - period: 03/2019–08/2022
+    label: Delivery Manager
+    sub:
+      by_variant:
+        anonymous: Landesbehörde
+        default: Landesamt für Straßenwesen
+  - {period: seit 09/2022, label: Principal Engineer, sub: Nordwind Telematik}

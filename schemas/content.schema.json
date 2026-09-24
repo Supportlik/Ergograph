@@ -4,42 +4,113 @@
   "title": "Ergograph content/<lang>.yaml",
   "description": "All texts of one language. Every list may be empty; an empty list hides its section.",
   "type": "object",
-  "required": ["title", "tagline", "labels", "doc_names", "contact", "facts",
-               "languages", "certs", "top_skills", "education", "experience",
-               "publications", "projects", "skills"],
+  "required": [
+    "title",
+    "tagline",
+    "labels",
+    "doc_names",
+    "contact",
+    "facts",
+    "languages",
+    "certs",
+    "top_skills",
+    "education",
+    "experience",
+    "publications",
+    "projects",
+    "skills"
+  ],
   "additionalProperties": false,
   "properties": {
-    "title": {"type": "string", "description": "Job title under the name."},
-    "tagline": {"type": "string", "description": "The professional summary paragraph."},
+    "title": {
+      "$ref": "#/$defs/text",
+      "description": "Job title under the name."
+    },
+    "tagline": {
+      "$ref": "#/$defs/text",
+      "description": "The professional summary paragraph."
+    },
     "labels": {
       "type": "object",
       "description": "Section headings and captions. All twelve keys are required.",
-      "required": ["facts", "languages", "certs", "core", "experience", "education",
-                   "publications", "projects", "skills", "verify", "link", "legend"],
-      "additionalProperties": {"type": "string"}
+      "required": [
+        "facts",
+        "languages",
+        "certs",
+        "core",
+        "experience",
+        "education",
+        "publications",
+        "projects",
+        "skills",
+        "verify",
+        "link",
+        "legend"
+      ],
+      "additionalProperties": {
+        "$ref": "#/$defs/text"
+      }
     },
     "doc_names": {
       "type": "object",
       "description": "Localized file name per document.",
-      "required": ["cv", "projects", "skills", "full"],
+      "required": [
+        "cv",
+        "projects",
+        "skills",
+        "full"
+      ],
       "additionalProperties": false,
       "properties": {
-        "cv": {"type": "string"},
-        "projects": {"type": "string"},
-        "skills": {"type": "string"},
-        "full": {"type": "string"}
+        "cv": {
+          "$ref": "#/$defs/text"
+        },
+        "projects": {
+          "$ref": "#/$defs/text"
+        },
+        "skills": {
+          "$ref": "#/$defs/text"
+        },
+        "full": {
+          "$ref": "#/$defs/text"
+        },
+        "variants": {
+          "$ref": "#/$defs/tags"
+        },
+        "except_variants": {
+          "$ref": "#/$defs/tags"
+        },
+        "onepager": {
+          "$ref": "#/$defs/text"
+        }
       }
     },
     "contact": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["label", "value"],
+        "required": [
+          "label",
+          "value"
+        ],
         "additionalProperties": false,
         "properties": {
-          "label": {"type": "string"},
-          "value": {"$ref": "#/$defs/text"},
-          "url": {"type": "string", "description": "Turns the value into a link."}
+          "label": {
+            "$ref": "#/$defs/text"
+          },
+          "value": {
+            "$ref": "#/$defs/text"
+          },
+          "url": {
+            "type": "string",
+            "description": "Turns the value into a link."
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
+          }
         }
       }
     },
@@ -47,15 +118,27 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["label", "value"],
+        "required": [
+          "label",
+          "value"
+        ],
         "additionalProperties": false,
         "properties": {
-          "label": {"type": "string"},
-          "value": {"$ref": "#/$defs/text"},
+          "label": {
+            "$ref": "#/$defs/text"
+          },
+          "value": {
+            "$ref": "#/$defs/text"
+          },
           "variants": {
             "type": "array",
-            "items": {"type": "string"},
+            "items": {
+              "$ref": "#/$defs/text"
+            },
             "description": "Limits this fact to the named variants."
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
           }
         }
       }
@@ -64,11 +147,24 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["name", "level"],
+        "required": [
+          "name",
+          "level"
+        ],
         "additionalProperties": false,
         "properties": {
-          "name": {"type": "string"},
-          "level": {"$ref": "#/$defs/text"}
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "level": {
+            "$ref": "#/$defs/text"
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
+          }
         }
       }
     },
@@ -76,26 +172,62 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "additionalProperties": false,
         "properties": {
-          "name": {"type": "string"},
-          "description": {"$ref": "#/$defs/text"},
-          "url": {"type": "string", "description": "Renders a proof link."}
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "description": {
+            "$ref": "#/$defs/text"
+          },
+          "url": {
+            "type": "string",
+            "description": "Renders a proof link."
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
+          }
         }
       }
     },
-    "top_skills": {"type": "array", "items": {"$ref": "#/$defs/text"}},
+    "top_skills": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
     "education": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["year", "degree", "institution"],
+        "required": [
+          "year",
+          "degree",
+          "institution"
+        ],
         "additionalProperties": false,
         "properties": {
-          "year": {"$ref": "#/$defs/text"},
-          "degree": {"$ref": "#/$defs/text"},
-          "institution": {"$ref": "#/$defs/text"}
+          "year": {
+            "$ref": "#/$defs/text"
+          },
+          "degree": {
+            "$ref": "#/$defs/text"
+          },
+          "institution": {
+            "$ref": "#/$defs/text"
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
+          }
         }
       }
     },
@@ -103,29 +235,63 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["period", "role", "org", "bullets"],
+        "required": [
+          "period",
+          "role",
+          "org",
+          "bullets"
+        ],
         "additionalProperties": false,
         "properties": {
-          "period": {"$ref": "#/$defs/text"},
-          "role": {"type": "string"},
-          "org": {"type": "string"},
+          "period": {
+            "$ref": "#/$defs/text"
+          },
+          "role": {
+            "$ref": "#/$defs/text"
+          },
+          "org": {
+            "$ref": "#/$defs/text"
+          },
           "bullets": {
             "type": "array",
             "items": {
               "oneOf": [
-                {"$ref": "#/$defs/text"},
+                {
+                  "$ref": "#/$defs/text"
+                },
                 {
                   "type": "object",
-                  "required": ["text"],
+                  "required": [
+                    "text"
+                  ],
                   "additionalProperties": false,
                   "properties": {
-                    "text": {"$ref": "#/$defs/text"},
-                    "org": {"type": "string", "description": "Subtitle under the bullet."},
-                    "period": {"$ref": "#/$defs/text"}
+                    "text": {
+                      "$ref": "#/$defs/text"
+                    },
+                    "org": {
+                      "$ref": "#/$defs/text",
+                      "description": "Subtitle under the bullet."
+                    },
+                    "period": {
+                      "$ref": "#/$defs/text"
+                    },
+                    "variants": {
+                      "$ref": "#/$defs/tags"
+                    },
+                    "except_variants": {
+                      "$ref": "#/$defs/tags"
+                    }
                   }
                 }
               ]
             }
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
           }
         }
       }
@@ -134,13 +300,30 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["title", "venue"],
+        "required": [
+          "title",
+          "venue"
+        ],
         "additionalProperties": false,
         "properties": {
-          "title": {"$ref": "#/$defs/text"},
-          "venue": {"$ref": "#/$defs/text"},
-          "url": {"type": "string"},
-          "summary": {"$ref": "#/$defs/text"}
+          "title": {
+            "$ref": "#/$defs/text"
+          },
+          "venue": {
+            "$ref": "#/$defs/text"
+          },
+          "url": {
+            "type": "string"
+          },
+          "summary": {
+            "$ref": "#/$defs/text"
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
+          }
         }
       }
     },
@@ -148,31 +331,74 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["group", "meta", "items"],
+        "required": [
+          "group",
+          "meta",
+          "items"
+        ],
         "additionalProperties": false,
         "properties": {
-          "group": {"$ref": "#/$defs/text"},
-          "meta": {"$ref": "#/$defs/text"},
+          "group": {
+            "$ref": "#/$defs/text"
+          },
+          "meta": {
+            "$ref": "#/$defs/text"
+          },
           "items": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["title", "description", "tech"],
+              "required": [
+                "title",
+                "description",
+                "tech"
+              ],
               "additionalProperties": false,
               "properties": {
-                "title": {"$ref": "#/$defs/text"},
+                "title": {
+                  "$ref": "#/$defs/text"
+                },
                 "description": {
                   "description": "One paragraph, or one entry per paragraph.",
                   "oneOf": [
-                    {"$ref": "#/$defs/text"},
-                    {"type": "array", "items": {"$ref": "#/$defs/text"}}
+                    {
+                      "$ref": "#/$defs/text"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/$defs/text"
+                      }
+                    }
                   ]
                 },
-                "tech": {"$ref": "#/$defs/text"},
-                "period": {"$ref": "#/$defs/text"},
-                "org": {"type": "string"}
+                "tech": {
+                  "$ref": "#/$defs/text"
+                },
+                "period": {
+                  "$ref": "#/$defs/text"
+                },
+                "org": {
+                  "$ref": "#/$defs/text"
+                },
+                "variants": {
+                  "$ref": "#/$defs/tags"
+                },
+                "except_variants": {
+                  "$ref": "#/$defs/tags"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Referenced by onepager.projects[].ref."
+                }
               }
             }
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
           }
         }
       }
@@ -181,35 +407,297 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["category", "items"],
+        "required": [
+          "category",
+          "items"
+        ],
         "additionalProperties": false,
         "properties": {
-          "category": {"type": "string"},
+          "category": {
+            "$ref": "#/$defs/text"
+          },
           "items": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["name", "level"],
+              "required": [
+                "name",
+                "level"
+              ],
               "additionalProperties": false,
               "properties": {
-                "name": {"$ref": "#/$defs/text"},
+                "name": {
+                  "$ref": "#/$defs/text"
+                },
                 "level": {
                   "type": "number",
                   "minimum": 0,
                   "description": "Bar length on the scale up to level_max; fractions allowed."
                 },
-                "note": {"$ref": "#/$defs/text"}
+                "note": {
+                  "$ref": "#/$defs/text"
+                },
+                "variants": {
+                  "$ref": "#/$defs/tags"
+                },
+                "except_variants": {
+                  "$ref": "#/$defs/tags"
+                }
               }
             }
+          },
+          "variants": {
+            "$ref": "#/$defs/tags"
+          },
+          "except_variants": {
+            "$ref": "#/$defs/tags"
           }
         }
       }
+    },
+    "variants": {
+      "$ref": "#/$defs/tags"
+    },
+    "except_variants": {
+      "$ref": "#/$defs/tags"
+    },
+    "anonymous_name": {
+      "$ref": "#/$defs/text",
+      "description": "Name shown in anonymous variants instead of the person's name."
+    },
+    "onepager": {
+      "type": "object",
+      "required": [
+        "labels"
+      ],
+      "additionalProperties": false,
+      "description": "The landscape one-pager; only needed when 'onepager' is built.",
+      "properties": {
+        "labels": {
+          "type": "object",
+          "required": [
+            "competencies",
+            "projects",
+            "timeline"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "competencies": {
+              "$ref": "#/$defs/text"
+            },
+            "projects": {
+              "$ref": "#/$defs/text"
+            },
+            "timeline": {
+              "$ref": "#/$defs/text"
+            }
+          }
+        },
+        "summary": {
+          "$ref": "#/$defs/text",
+          "description": "Defaults to the tagline."
+        },
+        "highlights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "value",
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/text"
+              },
+              "label": {
+                "$ref": "#/$defs/text"
+              },
+              "variants": {
+                "$ref": "#/$defs/tags"
+              },
+              "except_variants": {
+                "$ref": "#/$defs/tags"
+              }
+            }
+          }
+        },
+        "competencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/text"
+              },
+              "level": {
+                "type": "number"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "variants": {
+                "$ref": "#/$defs/tags"
+              },
+              "except_variants": {
+                "$ref": "#/$defs/tags"
+              }
+            }
+          }
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "title": {
+                "$ref": "#/$defs/text"
+              },
+              "period": {
+                "$ref": "#/$defs/text"
+              },
+              "org": {
+                "$ref": "#/$defs/text"
+              },
+              "role": {
+                "$ref": "#/$defs/text"
+              },
+              "bullets": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "tech": {
+                "$ref": "#/$defs/text"
+              },
+              "variants": {
+                "$ref": "#/$defs/tags"
+              },
+              "except_variants": {
+                "$ref": "#/$defs/tags"
+              }
+            }
+          }
+        },
+        "extra": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "$ref": "#/$defs/text"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "variants": {
+                "$ref": "#/$defs/tags"
+              },
+              "except_variants": {
+                "$ref": "#/$defs/tags"
+              }
+            }
+          }
+        },
+        "timeline": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "period",
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "period": {
+                "$ref": "#/$defs/text"
+              },
+              "label": {
+                "$ref": "#/$defs/text"
+              },
+              "sub": {
+                "$ref": "#/$defs/text"
+              },
+              "variants": {
+                "$ref": "#/$defs/tags"
+              },
+              "except_variants": {
+                "$ref": "#/$defs/tags"
+              }
+            }
+          }
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Labels of the facts to show; default: all."
+        }
+      }
+    },
+    "anonymous_replace": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Anonymous variants: text -> replacement, applied to every value (longest key first)."
     }
   },
   "$defs": {
     "text": {
-      "description": "Trusted HTML fragment: inline tags such as <a> and <br> are allowed. YAML may parse bare years as numbers, so numbers are accepted too.",
-      "type": ["string", "number"]
+      "description": "Trusted HTML fragment: inline tags such as <a> and <br> are allowed. YAML may parse bare years as numbers, so numbers are accepted too. Any value may instead be {by_variant: {<tag>: value, default: value}}.",
+      "oneOf": [
+        {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        {
+          "$ref": "#/$defs/by_variant"
+        }
+      ]
+    },
+    "by_variant": {
+      "type": "object",
+      "required": [
+        "by_variant"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "by_variant": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "Value per variant tag; the first active tag wins, 'default' otherwise."
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Variant names or tags (see config 'variants')."
     }
   }
 }

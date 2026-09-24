@@ -60,13 +60,15 @@ def _paragraphs(description) -> list:
 def key_strings(name: str, content: dict, document: str) -> list[str]:
     """All strings that must be machine-readable in the given document.
 
-    `content` is the language content with the facts already filtered to
-    the built variant; `document` is a canonical key (cv/projects/skills/full).
+    `content` is the language content already resolved for the built
+    variant; `document` is a canonical key (cv/projects/skills/full/onepager).
     """
     lab = content["labels"]
     keys: list = [name, content["title"]]
     for c in content["contact"]:
         keys += [c["label"], c["value"]]
+    if document == "onepager":
+        keys += _onepager_keys(content)
     if document in ("cv", "full"):
         keys.append(content["tagline"])
         # section labels only count when their section is non-empty (the
@@ -109,6 +111,59 @@ def key_strings(name: str, content: dict, document: str) -> list[str]:
             for item in cat["items"]:
                 keys += [item["name"], item.get("note")]
     return [plain_text(k) for k in keys if k is not None and str(k).strip()]
+
+
+def _onepager_keys(content: dict) -> list:
+    from .onepager import onepager_facts, reference_projects
+
+    lab = content["labels"]
+    block = content["onepager"]
+    olab = block["labels"]
+    keys: list = [block.get("summary") or content["tagline"], olab["competencies"],
+                  olab["projects"]]
+    facts = onepager_facts(content)
+    if facts:
+        keys.append(lab["facts"])
+    for fact in facts:
+        keys += [fact["label"], fact["value"]]
+    for h in block.get("highlights") or []:
+        keys += [h["value"], h["label"]]
+    for cl in block.get("competencies") or []:
+        keys += [cl["name"], *(cl.get("items") or [])]
+    for proj in reference_projects(content):
+        keys += [proj["title"], proj["period"], proj["org"], proj["role"],
+                 proj["tech"], *proj["bullets"]]
+    if content["certs"]:
+        keys.append(lab["certs"])
+    for cert in content["certs"]:
+        keys += [cert["name"], cert.get("description")]
+    if content["languages"]:
+        keys.append(lab["languages"])
+    for lang in content["languages"]:
+        keys += [lang["name"], lang["level"]]
+    for box in block.get("extra") or []:
+        keys += [box["title"], *(box.get("items") or [])]
+    if block.get("timeline"):
+        keys.append(olab["timeline"])
+    for st in block.get("timeline") or []:
+        keys += [st["period"], st["label"], st.get("sub")]
+    return keys
+
+
+def missing_strings_md(markdown_text: str, expected: list[str]) -> list[str]:
+    """Like `missing_strings`, for the Markdown export. The export writes a
+    `<br>` as a comma, so commas are ignored on both sides of the check."""
+    from .markdown import plain
+
+    haystack = normalize(plain(markdown_text)).replace(",", "")
+    return [s for s in expected
+            if normalize(s).replace(",", "") not in haystack]
+
+
+def leaked_identity(text: str, markers: list[str]) -> list[str]:
+    """The identity markers (name parts, contact values) found in `text`."""
+    haystack = normalize(text)
+    return [m for m in markers if normalize(m) and normalize(m) in haystack]
 
 
 def missing_strings(pdf_text: str, expected: list[str]) -> list[str]:

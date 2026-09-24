@@ -95,6 +95,7 @@ _CONTENT_TYPES = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
 <Default Extension="xml" ContentType="application/xml"/>
 <Default Extension="png" ContentType="image/png"/>
+<Default Extension="jpeg" ContentType="image/jpeg"/>
 <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
 <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
 <Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
@@ -218,13 +219,13 @@ class _Rels:
         self._items.append((rid, target))
         return rid
 
-    def image(self, data: bytes) -> str:
-        """Add a PNG part and return its relationship id. Identical bytes are
-        stored once: the bars repeat, there are only a handful of distinct
-        (width, level) pairs per document."""
+    def image(self, data: bytes, extension: str = "png") -> str:
+        """Add an image part and return its relationship id. Identical bytes
+        are stored once: the bars repeat, there are only a handful of
+        distinct (width, level) pairs per document."""
         rid = self._by_bytes.get(data)
         if rid is None:
-            name = f"image{len(self.media) + 1}.png"
+            name = f"image{len(self.media) + 1}.{extension}"
             self.media[name] = data
             rid = f"mId{len(self.media)}"
             self._by_bytes[data] = rid
@@ -761,13 +762,54 @@ def _link_value(entry: dict) -> str:
 # Header
 # --------------------------------------------------------------------------
 
-def _header_blocks(name: str, content: dict, rels: _Rels) -> str:
+#: `.header .photo { width: 25mm }` and the 16px flex gap beside it.
+_PHOTO_W = 1417
+_PHOTO_GAP = 240
+
+
+def _photo_anchor(photo, rels: _Rels, width: int, height: int, name: str) -> str:
+    """The photo as a picture anchored to the top right corner of the text
+    area, outside the text flow, with rounded corners like the theme's
+    `border-radius: 2.5mm`. The file is embedded unchanged (see photo.py)."""
+    rid = rels.image(photo.data, photo.extension)
+    ident = rels.next_drawing_id()
+    cx, cy = width * _EMU_TWIP, height * _EMU_TWIP
+    return (
+        '<w:r><w:rPr><w:noProof/></w:rPr><w:drawing>'
+        '<wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="0"'
+        ' relativeHeight="251659264" behindDoc="0" locked="0"'
+        ' layoutInCell="1" allowOverlap="1">'
+        '<wp:simplePos x="0" y="0"/>'
+        '<wp:positionH relativeFrom="margin"><wp:align>right</wp:align>'
+        '</wp:positionH>'
+        '<wp:positionV relativeFrom="margin"><wp:posOffset>0</wp:posOffset>'
+        '</wp:positionV>'
+        f'<wp:extent cx="{cx}" cy="{cy}"/>'
+        '<wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapNone/>'
+        f'<wp:docPr id="{ident}" name="Photo" descr={quoteattr(name)}/>'
+        '<wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/>'
+        '</wp:cNvGraphicFramePr>'
+        '<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/'
+        'drawingml/2006/picture"><pic:pic>'
+        f'<pic:nvPicPr><pic:cNvPr id="{ident}" name="photo.{photo.extension}"'
+        f' descr={quoteattr(name)}/><pic:cNvPicPr/></pic:nvPicPr>'
+        f'<pic:blipFill><a:blip r:embed="{rid}"/>'
+        '<a:stretch><a:fillRect/></a:stretch></pic:blipFill>'
+        '<pic:spPr><a:xfrm><a:off x="0" y="0"/>'
+        f'<a:ext cx="{cx}" cy="{cy}"/></a:xfrm>'
+        '<a:prstGeom prst="roundRect"><a:avLst><a:gd name="adj" fmla="val 10000"/>'
+        '</a:avLst></a:prstGeom></pic:spPr>'
+        '</pic:pic></a:graphicData></a:graphic></wp:anchor></w:drawing></w:r>')
+
+
+def _header_blocks(name: str, content: dict, rels: _Rels, photo=None) -> str:
     """Name, title and the inline contact row, closed by the thick blue rule
-    of `.header { border-bottom: 3px solid #2563eb }`."""
-    out = [_p(_run(name, bold=True, size=40, color=INK, spacing=-6),
-              after=20, line=_NAME_LINE, line_rule="exact"),
-           _p(_frag(content["title"], rels, bold=True, size=19, color=BLUE),
-              after=90, line=_TITLE_LINE, line_rule="exact")]
+    of `.header { border-bottom: 3px solid #2563eb }`.
+
+    With a photo the text keeps clear of it by a right indent, and the name
+    moves down so that the text ends level with the photo's lower edge, as
+    `align-items: flex-end` does in the theme."""
+    right = _PHOTO_W + _PHOTO_GAP if photo is not None else 0
     row = []
     for index, contact in enumerate(content["contact"]):
         if index:
@@ -775,8 +817,30 @@ def _header_blocks(name: str, content: dict, rels: _Rels) -> str:
         row.append(_run(f'{contact["label"]}: ', bold=True, size=13, color=BODY))
         row.append(_frag(_link_value(contact), rels, size=13, color=MUTED,
                          link_color=BLUE))
-    out.append(_p("".join(row), after=170, border_bottom=(BLUE, 18),
-                  line=_CONTACT_LINE, line_rule="exact"))
+    rule = {"border_bottom": (BLUE, 18)}
+    title_fmt = dict(after=90, line=_TITLE_LINE, line_rule="exact",
+                     indent_right=right)
+    contact_par = ""
+    if row:
+        contact_par = _p("".join(row), after=170, **rule, line=_CONTACT_LINE,
+                         line_rule="exact", indent_right=right)
+    else:
+        title_fmt.update(after=170, **rule)
+    before = 0
+    anchor = ""
+    if photo is not None:
+        height = round(_PHOTO_W * photo.ratio)
+        text = _NAME_LINE + 20 + _TITLE_LINE + 90
+        if contact_par:
+            text += _estimate_height(contact_par, _TEXT_W) - 170
+        before = max(0, height - text)
+        anchor = _photo_anchor(photo, rels, _PHOTO_W, height, name)
+    out = [_p(anchor + _run(name, bold=True, size=40, color=INK, spacing=-6),
+              before=before, after=20, line=_NAME_LINE, line_rule="exact",
+              indent_right=right),
+           _p(_frag(content["title"], rels, bold=True, size=19, color=BLUE),
+              **title_fmt),
+           contact_par]
     return "".join(out)
 
 
@@ -1207,9 +1271,9 @@ def _skills_blocks(content: dict, level_max: float, rels: _Rels) -> str:
 # --------------------------------------------------------------------------
 
 def document_body(name: str, content: dict, level_max: float, document: str,
-                  rels: _Rels) -> str:
+                  rels: _Rels, photo=None) -> str:
     """Body blocks for one canonical document key (cv/projects/skills/full)."""
-    header = _header_blocks(name, content, rels)
+    header = _header_blocks(name, content, rels, photo)
     parts = {"cv": ["cv"], "projects": ["projects"], "skills": ["skills"],
              "full": ["cv", "projects", "skills"]}[document]
     # the CV emits the header itself, right above its indented main column
@@ -1273,14 +1337,15 @@ _APP_XML = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
 
 def build_docx(path, name: str, content: dict, level_max: float, document: str,
                *, title: str, lang: str = "de",
-               base_font: str = "Segoe UI") -> None:
+               base_font: str = "Segoe UI", photo=None,
+               author: str | None = None) -> None:
     """Write one document as a .docx package to `path`.
 
     `title` goes into the package metadata only; the visible content is
     identical to the HTML/PDF route for the same `document` key.
     """
     rels = _Rels()
-    body = document_body(name, content, level_max, document, rels)
+    body = document_body(name, content, level_max, document, rels, photo)
     if body.rstrip().endswith("</w:tbl>"):
         # OOXML forbids a body that ends in a table. A normal empty paragraph
         # there costs a full line, and where the last page is full that line
@@ -1317,7 +1382,7 @@ def build_docx(path, name: str, content: dict, level_max: float, document: str,
     parts = {
         "[Content_Types].xml": _CONTENT_TYPES,
         "_rels/.rels": _ROOT_RELS,
-        "docProps/core.xml": _core_xml(title, name),
+        "docProps/core.xml": _core_xml(title, name if author is None else author),
         "docProps/app.xml": _APP_XML,
         "word/_rels/document.xml.rels": rels.xml(),
         "word/document.xml": document_xml,

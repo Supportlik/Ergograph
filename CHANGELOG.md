@@ -4,6 +4,42 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-09-24
+
+### Added
+
+- Photo in the header (R24). `photo:` in the config names a JPEG or PNG, the
+  documents and languages that show it and optionally another file per
+  document. The file is embedded byte for byte, in the PDF (Chrome passes the
+  JPEG through) as in the DOCX, where it is an anchored picture with rounded
+  corners top right. No scaling, no re-encoding (D30).
+- The one-pager (R25): a new document `onepager`, landscape A4, that has to fit
+  on one page or the build fails. It reuses contact, facts, certificates and
+  languages and references project items by `id`; its own block adds the
+  summary, key figures, competency clusters and a timeline. PDF and Markdown
+  only (D31).
+- Markdown export (R26): `formats: [..., md]` writes every document as plain,
+  copy-paste-ready Markdown, verified against the content strings like the
+  DOCX.
+- Variants in the mapping form (R27): options `tags`, `anonymous`, `documents`
+  and `photo` per variant. `variants`/`except_variants` now filter entries of
+  every list, and any value can be written as `{by_variant: …}` (D32).
+- Anonymous variants (R27): no name, contact block, photo or links,
+  `anonymous_name` in the header, `anonymous_replace` to generalize employers
+  and systems, and a build that fails when any identity marker is left (D33).
+- `output.flat_dir` (R28): every output also lands in one flat folder with
+  variant and language in the file name, replacing earlier builds (D34).
+- `docs/tools/make_placeholder_photo.py` draws the placeholder portrait of the
+  `software-architect` example, which now shows photo, one-pager, an anonymous
+  variant and Markdown.
+
+### Changed
+
+- The default `documents` stay `cv, projects, skills, full`; `onepager` is
+  opt-in. `doc_names.onepager` is only required when it is built.
+- `filter_facts` is kept for compatibility and now delegates to
+  `variants.resolve`, which also removes the `variants` keys from the entries.
+
 ## [1.1.0] - 2026-09-11
 
 ### Added
@@ -215,5 +251,7 @@ now covered by semantic versioning: breaking changes to it require a major relea
 - Initial release: YAML-driven CV and dossier generator with HTML rendering,
   the `modern` theme, PDF export via Chrome headless, and optional page numbers.
 
+[1.2.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.0
+[1.1.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.1.0
 [1.0.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.0.0

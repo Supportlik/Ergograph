@@ -45,23 +45,29 @@ Paths are relative to the location of the `config.yaml`.
 |---|---|---|---|---|
 | `person.name` | string | **yes** | — | Name in the header and, slugged, in the file names |
 | `person.file_slug` | string | no | `name` with `-` for spaces | Slug used in PDF file names |
+| `person.anonymous_slug` | string | no | `profile` | Slug of anonymous variants, so their file names carry no name |
 | `languages` | list of strings | **yes** | — | Language codes to build; must be non-empty |
 | `content` | map: lang → path | **yes** | — | One content file per language listed above |
-| `variants` | list of strings | no | `[default]` | Variant names, free-form (e.g. with/without rate) |
-| `documents` | list of strings, or map lang → list | no | all four | Which of `cv`, `projects`, `skills`, `full` to build |
+| `variants` | list of strings, or map name → options | no | `[default]` | Variant names, free-form (e.g. with/without rate); options see [Variants](#variants) |
+| `documents` | list of strings, or map lang → list | no | `cv, projects, skills, full` | Which of `cv`, `projects`, `skills`, `full`, `onepager` to build |
 | `theme` | string | no | `modern` | Bundled theme name, or a path to your own `.css` |
 | `level_max` | number | no | `6` | Upper end of the skill-bar scale |
-| `formats` | list of strings | no | `[pdf]` | Output formats to write: `pdf`, `docx`, or both |
+| `formats` | list of strings | no | `[pdf]` | Output formats to write: any of `pdf`, `docx`, `md` |
+| `photo` | path, or `{file, documents?, languages?, files?}` | no | — | Photo in the header, see [Photo](#photo) |
 | `output.html_dir` | path | no | `html` | Where the HTML intermediate goes |
 | `output.pdf_dir` | path | no | `pdf` | Where the PDFs go |
 | `output.docx_dir` | path | no | `docx` | Where the Word files go |
 | `output.docx_font` | string | no | `Segoe UI` | Base font of the generated Word files |
+| `output.md_dir` | path | no | `md` | Where the Markdown files go |
+| `output.flat_dir` | path | no | — | Also copy every output into this one folder, see [Flat folder](#flat-folder) |
 | `output.date_prefix` | boolean | no | `true` | `YYYY-MM-DD_` in front of file names |
 | `chrome` | path | no | auto-detected | Chrome/Chromium binary, if it is not found automatically |
 
-Only `cv`, `projects`, `skills` and `full` are valid document keys; anything else
-is rejected by name. `full` is the combined dossier: CV, then project history,
-then skills matrix, each starting on its own page.
+Only `cv`, `projects`, `skills`, `full` and `onepager` are valid document keys;
+anything else is rejected by name. `full` is the combined dossier: CV, then
+project history, then skills matrix, each starting on its own page. `onepager`
+is a landscape A4 page, see [One-pager](#one-pager); it is opt-in because it
+needs its own content block.
 
 `formats` selects what is written. HTML is always produced, because it is the
 intermediate step of the PDF route; `pdf` renders it with Chrome, and `docx`
@@ -110,9 +116,12 @@ links (see SPEC D2).
 | `title` | string (HTML) | Job title in the header |
 | `tagline` | string (HTML) | One paragraph, the professional summary |
 | `labels` | map | Section headings, see below — all twelve keys required |
-| `doc_names` | map | File name per document: `cv`, `projects`, `skills`, `full` — all four required |
+| `doc_names` | map | File name per document: `cv`, `projects`, `skills`, `full` required, `onepager` when it is built |
 | `contact` | list of `{label, value, url?}` | `url` turns the value into a link |
-| `facts` | list of `{label, value, variants?}` | Order is display order; `variants` limits a fact to those variants |
+| `facts` | list of `{label, value, variants?}` | Order is display order; `variants` limits a fact to those variants (works in every list, see [Variants](#variants)) |
+| `onepager` | map | Only when `onepager` is built, see [One-pager](#one-pager) |
+| `anonymous_name` | string | Only for anonymous variants: shown instead of the name |
+| `anonymous_replace` | map text → text | Only for anonymous variants: generalizes employers, systems, places |
 | `languages` | list of `{name, level}` | The person's language skills, as free text |
 | `certs` | list of `{name, description?, url?}` | With `url`, a proof link is rendered |
 | `top_skills` | list of strings | Rendered as tags |
@@ -166,6 +175,104 @@ The surrounding group carries `group` (its heading, e.g. employer and role) and
 
 The level is printed as a number next to the bar as well, so applicant tracking
 systems can read it (SPEC R15).
+
+## Variants
+
+A variant is a named build. In its short form `variants` is a list of names;
+the mapping form adds options:
+
+```yaml
+variants:
+  mit-stundensatz: {}
+  ohne-stundensatz: {}
+  anonym: {anonymous: true, documents: [cv, onepager]}
+  fokus-architektur: {tags: [architektur], documents: [cv, onepager]}
+```
+
+| Option | Default | Meaning |
+|---|---|---|
+| `tags` | `[]` | Extra tags; a variant's own name is always a tag, an anonymous one also has `anonymous` |
+| `anonymous` | `false` | No name, no contact block, no photo, no links; see below |
+| `documents` | all configured | Restricts the documents built for this variant |
+| `photo` | `true` | `false` leaves the photo out of this variant |
+
+The content file reacts to the active tags in three ways:
+
+- **Any list entry** (a mapping) may carry `variants: [tag, …]` (kept only when
+  one of them is active) and/or `except_variants: [tag, …]` (dropped when one of
+  them is active). This works in `facts`, `experience`, `projects`, `certs`,
+  `publications`, the one-pager block, everywhere.
+- **Any value** may be written as `{by_variant: {<tag>: value, …, default: value}}`.
+  The first key whose tag is active wins, otherwise `default`; a missing
+  `default` is an error when no key matches.
+- **Anonymous variants** replace the name by `anonymous_name`, drop the contact
+  block, the photo and every link (a badge URL or a DOI identifies a person as
+  well as the name does), and apply `anonymous_replace` to every value, longest
+  key first. The build then **verifies** the anonymity: if a part of the name,
+  a contact value or a key of `anonymous_replace` appears anywhere in the HTML,
+  PDF, DOCX or Markdown text, the build fails.
+
+```yaml
+title:
+  by_variant:
+    architektur: Software Architect
+    default: Software Architect & Lead Developer
+
+publications:
+- except_variants: [anonymous]
+  title: …
+
+anonymous_name: Candidate profile
+anonymous_replace:
+  Nordwind Telematik GmbH: software company (telematics)
+  Nordwind: software company
+```
+
+## Photo
+
+```yaml
+photo:
+  file: photos/portrait.jpg        # JPEG or PNG
+  documents: [cv, full, onepager]  # default
+  languages: [de, en]              # default: all
+  files:
+    onepager: photos/half-body.jpg # another file for one document
+```
+
+A plain path (`photo: portrait.jpg`) is short for `{file: portrait.jpg}`. The
+file is embedded **unchanged**: no scaling and no re-encoding, so the PDF and the
+DOCX carry the original pixels. Prepare the crop and size you want (a 4:5
+portrait of about 1000 px width is plenty for the 25 mm header photo). The
+header shows it top right at 25 mm width, the one-pager at 30 mm; the height
+follows the image. The EXIF orientation is not applied, so save the file upright.
+
+## One-pager
+
+A landscape A4 page that shows at a glance what the person can do. It has to fit
+on **one page**: if it runs over, the build fails. Contact, facts, certificates
+and languages come from the normal keys; the block `onepager` adds the rest:
+
+| Key | Type | Notes |
+|---|---|---|
+| `labels` | `{competencies, projects, timeline}` | Required |
+| `summary` | string (HTML) | Default: `tagline` |
+| `facts` | list of labels | Which facts to show, in this order; default: all |
+| `highlights` | list of `{value, label}` | Key figures in a row of tiles, e.g. `12+` / `years of experience` |
+| `competencies` | list of `{name, level?, items}` | Clusters with a level bar and tags |
+| `projects` | list of `{ref?, title?, period?, org?, role?, bullets, tech?}` | `ref` names the `id` of a `projects[].items[]` entry; every other field falls back to it |
+| `extra` | list of `{title, items}` | Further boxes in the right column, e.g. publications |
+| `timeline` | list of `{period, label, sub?}` | Stations along the bottom, oldest first |
+
+The one-pager is written as PDF and Markdown; `docx` skips it (a multi-column
+landscape page is not reproduced in Word).
+
+## Flat folder
+
+`output.flat_dir` copies every PDF, DOCX and Markdown file of a build into one
+folder, with the variant in the name when there is more than one:
+`2026-09-24_Daniel-Falkner_cv_ohne-stundensatz_en.pdf`. An earlier build of the
+same document (same name, any date) is replaced, so the folder always holds the
+current state. The per-variant folders are written as before.
 
 ## Editor support
 

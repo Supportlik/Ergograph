@@ -5,6 +5,7 @@ doc_names:
   projects: project-history
   skills: skills-matrix
   full: dossier-complete
+  onepager: one-pager
 labels:
   facts: Key facts
   languages: Languages
@@ -93,7 +94,10 @@ experience:
     period: 06/2016–10/2016
 - period: 03/2019–08/2022
   role: Delivery Manager (IT)
-  org: State Office for Road Infrastructure, Hanover
+  org:
+    by_variant:
+      anonymous: state authority (transport)
+      default: State Office for Road Infrastructure, Hanover
   bullets:
   - 'Led the VIADUKT road-data system (around 2,500 users) as technical project manager, coordinating four areas: requirements engineering, development (two teams), testing and operations.'
   - Defined a unified software architecture (blueprint) and drove release planning.
@@ -118,6 +122,7 @@ projects:
   meta: '09/2022–today · Bremen · industry: telematics / software vendor'
   items:
   - title: AtlasCore
+    id: atlascore
     period: 09/2022–today
     description: 'Design, development and architecture ownership of the “AtlasCore” platform: 8 microservices with multi-database support (H2, PostgreSQL), hexagonal architecture with Domain-Driven Design; technical leadership of five developers. Rollout to two customer cloud platforms; stepwise replacement of the legacy system via the strangler-fig pattern.'
     tech: Java, Kotlin, TypeScript · Quarkus, React · Kubernetes · PostgreSQL · REST/OIDC · messaging (Kafka, CloudEvents) · DDD
@@ -147,6 +152,7 @@ projects:
   meta: '03/2019–08/2022 · Hanover · industry: public sector'
   items:
   - title: VIADUKT (road-data system)
+    id: viadukt
     period: 03/2019–08/2022
     description:
     - Technical project lead for a system with around 2,500 users; coordinated four areas with technical leadership of around 12 people. Defined a unified software architecture (blueprint) and drove release planning with 20+ stakeholders.
@@ -156,6 +162,7 @@ projects:
   meta: '10/2016–02/2019 · industry: research & teaching'
   items:
   - title: Web services & Kubernetes cluster for research projects
+    id: tu-cluster
     period: 10/2016–02/2019
     description: Developed REST web services; built and operated a cluster hosting 80+ student projects.
     tech: Java/Spring · REST · Kubernetes, Docker · MariaDB
@@ -232,3 +239,70 @@ skills:
   - name: Oracle DB
     level: 3.5
     note: VIADUKT
+
+# Name in the header of anonymous variants
+anonymous_name: Candidate profile
+
+onepager:
+  labels:
+    competencies: Competencies
+    projects: Reference projects
+    timeline: Career
+  summary: Architect and lead developer for distributed systems. Designs target architectures from the business requirements and builds them hands-on or with a team, from Java and Kotlin back ends and React front ends to operations on Kubernetes.
+  highlights:
+  - {value: 10+, label: years of experience}
+  - {value: '2,500', label: users of the public-sector system}
+  - {value: '12', label: people led}
+  - {value: '8', label: microservices owned}
+  - {value: M.Sc., label: Computer Science}
+  competencies:
+  - name: Software architecture
+    level: 5
+    items: [microservices, DDD, hexagonal architecture, blueprints]
+  - name: Back end
+    level: 5
+    items: [Java, Kotlin, Quarkus, Spring Boot, REST/OIDC]
+  - name: Messaging
+    level: 4
+    items: [Kafka, CloudEvents, event-driven systems]
+  - name: Platform & DevOps
+    level: 4.5
+    items: [Kubernetes, Docker, GitLab CI/CD, security pipelines]
+  - name: Front end
+    level: 4
+    items: [TypeScript, React]
+  - name: Methods
+    level: 5
+    items: [requirements engineering, Scrum, agile transformation]
+  projects:
+  - ref: atlascore
+    org: Nordwind Telematik GmbH
+    role: Principal Engineer
+    bullets:
+    - Architecture ownership for 8 microservices, hexagonal with DDD
+    - CI/CD and security pipelines with continuous testing
+  - ref: viadukt
+    org:
+      by_variant:
+        anonymous: state road authority
+        default: State Office for Road Infrastructure
+    role: Delivery Manager
+    bullets:
+    - Technical project lead, about 2,500 users, 12 people
+    - Agile transformation into five sub-teams
+  - ref: tu-cluster
+    org: Weserbergland University of Technology
+    role: Lecturer
+    bullets:
+    - Kubernetes cluster for more than 80 student projects
+  timeline:
+  - {period: 2013, label: B.Sc. Computer Science, sub: Weserbergland UT}
+  - {period: 2016, label: M.Sc. Computer Science, sub: Weserbergland UT}
+  - {period: 10/2016–02/2019, label: Lecturer, sub: Distributed Systems}
+  - period: 03/2019–08/2022
+    label: Delivery Manager
+    sub:
+      by_variant:
+        anonymous: state authority
+        default: State Office for Road Infrastructure
+  - {period: since 09/2022, label: Principal Engineer, sub: Nordwind Telematik}

@@ -25,6 +25,11 @@
         "file_slug": {
           "type": "string",
           "description": "Slug for PDF file names; defaults to the name with hyphens."
+        },
+        "anonymous_slug": {
+          "type": "string",
+          "default": "profile",
+          "description": "File-name slug of anonymous variants."
         }
       }
     },
@@ -45,11 +50,52 @@
       "description": "Path to the content file per language, relative to this file."
     },
     "variants": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Variant names, free-form. Defaults to ['default']."
+      "description": "Variant names, or a mapping name -> options. Defaults to ['default'].",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Extra tags for variants/except_variants/by_variant."
+                  },
+                  "anonymous": {
+                    "type": "boolean",
+                    "description": "No name, contact, photo or links."
+                  },
+                  "documents": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/document"
+                    }
+                  },
+                  "photo": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "documents": {
       "description": "Documents to build: one list for all languages, or a list per language.",
@@ -108,6 +154,14 @@
           "type": "string",
           "default": "Segoe UI",
           "description": "Base font of the generated DOCX documents."
+        },
+        "md_dir": {
+          "type": "string",
+          "default": "md"
+        },
+        "flat_dir": {
+          "type": "string",
+          "description": "Additionally copy every output into this one flat folder, variant and language in the file name."
         }
       }
     },
@@ -121,13 +175,59 @@
       "items": {
         "enum": [
           "pdf",
-          "docx"
+          "docx",
+          "md"
         ]
       },
       "default": [
         "pdf"
       ],
-      "description": "Output formats to write. HTML is always produced as the intermediate step; 'pdf' renders it via Chrome, 'docx' writes an Office Open XML document from the same content."
+      "description": "Output formats to write. HTML is always produced as the intermediate step; 'pdf' renders it via Chrome, 'docx' writes an Office Open XML document from the same content. 'md' writes a Markdown text version."
+    },
+    "photo": {
+      "description": "Photo in the header: a path, or options.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "required": [
+            "file"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "JPEG or PNG, embedded unchanged."
+            },
+            "documents": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/document"
+              },
+              "default": [
+                "cv",
+                "full",
+                "onepager"
+              ]
+            },
+            "languages": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "files": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Another file per document, e.g. {onepager: other.jpg}."
+            }
+          }
+        }
+      ]
     }
   },
   "$defs": {
@@ -136,7 +236,8 @@
         "cv",
         "projects",
         "skills",
-        "full"
+        "full",
+        "onepager"
       ]
     }
   }

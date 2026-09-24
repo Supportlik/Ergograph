@@ -68,8 +68,16 @@ _STAMP_BASELINE = 16
 _STAMP_COLOR = "0.5 0.55 0.62"
 
 
+def page_count(pdf_path: Path) -> int | None:
+    try:
+        import pypdf
+    except ImportError:
+        return None
+    return len(pypdf.PdfReader(pdf_path).pages)
+
+
 def finalize_pdf(pdf_path: Path, title: str | None = None,
-                 author: str | None = None) -> bool:
+                 author: str | None = None, page_numbers: bool = True) -> bool:
     """Post-process a rendered PDF: page numbers and document metadata.
 
     Inserts a subtle page number 'i / n' at the bottom center and sets the
@@ -90,7 +98,7 @@ def finalize_pdf(pdf_path: Path, title: str | None = None,
         NameObject("/Subtype"): NameObject("/Type1"),
         NameObject("/BaseFont"): NameObject("/Helvetica"),
     })
-    for number, page in enumerate(writer.pages, 1):
+    for number, page in enumerate(writer.pages if page_numbers else [], 1):
         text = f"{number} / {total}"
         width = sum(_STAMP_WIDTHS[c] for c in text) / 1000 * _STAMP_SIZE
         box = page.mediabox

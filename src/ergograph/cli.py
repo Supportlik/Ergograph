@@ -7,7 +7,8 @@ import sys
 
 from . import __version__
 from .builder import build
-from .config import CANONICAL_FORMATS, ConfigError, load_config, load_content
+from .config import (CANONICAL_FORMATS, ConfigError, check_documents,
+                     load_config, load_content)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -45,8 +46,16 @@ def main(argv: list[str] | None = None) -> int:
     try:
         cfg = load_config(args.config)
         if args.command == "validate":
+            from .variants import anonymize, resolve
             for lang in cfg.languages:
-                load_content(cfg.content[lang])
+                base = load_content(cfg.content[lang])
+                for variant in cfg.variants:
+                    spec = cfg.spec(variant)
+                    where = str(cfg.content[lang])
+                    content = resolve(base, spec.tags, where)
+                    if spec.anonymous:
+                        _, content = anonymize(content, where)
+                    check_documents(content, cfg.documents_for(variant, lang), where)
             print("OK: configuration and content files are valid.")
             return 0
 
@@ -75,10 +84,23 @@ def main(argv: list[str] | None = None) -> int:
         # A DOCX is written from the same content as the HTML, so a missing
         # string is a generator defect rather than a rendering artifact and
         # fails the build regardless of --strict.
-        bad_docx = [r for r in results if r.docx_ats_missing]
+        bad_docx = [r for r in results if r.docx_ats_missing or r.md_missing]
         if bad_docx:
-            print(f"Error: {len(bad_docx)} DOCX document(s) are missing content "
-                  f"that is present in the YAML.", file=sys.stderr)
+            print(f"Error: {len(bad_docx)} DOCX/Markdown document(s) are missing "
+                  f"content that is present in the YAML.", file=sys.stderr)
+            return 1
+        # both are defects of the output itself, not warnings: a one-pager
+        # on two pages is not a one-pager, and an anonymous profile that
+        # names the person is not anonymous
+        overflow = [r for r in results if r.overflow_pages]
+        if overflow:
+            print(f"Error: {len(overflow)} one-pager(s) do not fit on one page.",
+                  file=sys.stderr)
+            return 1
+        leaking = [r for r in results if r.identity_leaks]
+        if leaking:
+            print(f"Error: {len(leaking)} anonymous document(s) reveal the person "
+                  f"({'; '.join(leaking[0].identity_leaks)}).", file=sys.stderr)
             return 1
         print("done.")
         return 0

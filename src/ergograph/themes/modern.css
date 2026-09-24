@@ -69,3 +69,58 @@ h2.section { font-size: 11px; font-weight: 700; text-transform: uppercase; lette
 .cert .verify { display: inline-block; color: #2563eb; font-size: 7.6px; margin-top: 1px; }
 .entry .verify { color: #2563eb; }
 .pub-summary { margin-top: 1.5px; color: #475569; }
+/* photo in the document header (R24) */
+.header.has-photo { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.header.has-photo .header-text { flex: 1; min-width: 0; }
+.header .photo { width: 25mm; height: auto; display: block; border-radius: 2.5mm; flex: none; margin-bottom: 1px; }
+
+/* one-pager: landscape A4, exactly one page (R25) */
+@page onepager { size: A4 landscape; margin: 10mm 12mm; }
+body.onepager-doc { font-size: 10px; }
+.onepager { page: onepager; height: 188mm; display: flex; flex-direction: column; overflow: hidden; }
+.op-head { display: flex; gap: 16px; align-items: stretch; border-bottom: 3px solid #2563eb; padding-bottom: 9px; }
+.op-photo { width: 30mm; height: auto; align-self: flex-start; border-radius: 2.5mm; display: block; flex: none; }
+.op-id { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.op-id .name { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #0f172a; line-height: 1.1; }
+.op-id .title { font-size: 13px; font-weight: 600; color: #2563eb; margin-top: 2px; }
+.op-summary { font-size: 10.8px; color: #334155; margin-top: 7px; line-height: 1.45; }
+.op-id .contact { font-size: 8.6px; color: #64748b; margin-top: auto; padding-top: 7px; display: flex; flex-wrap: wrap; gap: 3px 12px; }
+.op-id .contact b { color: #334155; font-weight: 600; }
+.op-id .contact a { color: #2563eb; }
+.op-facts { width: 62mm; flex: none; background: #f8fafc; border-radius: 2mm; padding: 7px 10px; }
+.op-facts h3 { font-size: 8.6px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0f172a; margin: 0 0 4px; }
+.op-facts .row { font-size: 8.6px; margin-bottom: 3px; line-height: 1.35; }
+.op-facts .row .k { color: #94a3b8; display: block; font-size: 7.2px; text-transform: uppercase; letter-spacing: .5px; }
+.op-facts .row .v { color: #334155; font-weight: 600; }
+.op-highlights { display: flex; gap: 8px; margin: 9px 0 2px; }
+.op-highlights .hl { flex: 1; background: #eff6ff; border-radius: 2mm; padding: 5px 8px; line-height: 1.25; }
+.op-highlights .hl b { display: block; font-size: 15px; font-weight: 800; color: #1d4ed8; }
+.op-highlights .hl span { font-size: 8.2px; color: #475569; font-weight: 600; }
+.op-cols { display: grid; grid-template-columns: 1fr 1.25fr 0.62fr; gap: 16px; flex: 1; min-height: 0; }
+.onepager h2.section { margin: 11px 0 7px; font-size: 10.4px; }
+.cl { margin-bottom: 8px; break-inside: avoid; }
+.cl-top { display: grid; grid-template-columns: 1fr 26mm auto; gap: 6px; align-items: center; margin-bottom: 2px; }
+.cl-top .cn { font-size: 10px; font-weight: 700; color: #0f172a; }
+.cl-top .bar { height: 5px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.cl-top .bar > i { display: block; height: 100%; background: linear-gradient(90deg,#3b82f6,#2563eb); border-radius: 4px; }
+.cl .tags { gap: 3px; }
+.cl .tag { font-size: 8.4px; padding: 1px 6px; }
+.op-proj { border-left: 2px solid #dbeafe; padding-left: 8px; margin-bottom: 10px; }
+.op-proj .ph { font-size: 10.6px; font-weight: 700; color: #1d4ed8; }
+.op-proj .pp { font-size: 8px; color: #64748b; font-weight: 600; white-space: nowrap; }
+.op-proj .po { font-size: 8.8px; color: #64748b; font-weight: 600; }
+.op-proj ul { margin: 2px 0 2px; padding-left: 12px; }
+.op-proj li { color: #334155; margin-bottom: 1px; line-height: 1.4; }
+.op-proj .pt { font-size: 8.2px; color: #64748b; line-height: 1.35; }
+.op-side .cert { font-size: 9.4px; margin-bottom: 4px; }
+.op-side .row { font-size: 9.4px; margin-bottom: 3px; color: #334155; }
+.op-side .row .v { font-weight: 600; }
+.op-side .lv { color: #64748b; }
+.op-timeline h2.section { margin-top: 4px; }
+.stations { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; position: relative; padding-top: 9px; }
+.stations::before { content: ""; position: absolute; left: 4px; right: 4px; top: 3px; height: 2px; background: #dbeafe; }
+.st { position: relative; line-height: 1.3; }
+.st > i { position: absolute; top: -9px; left: 0; width: 8px; height: 8px; border-radius: 50%; background: #2563eb; border: 2px solid #fff; }
+.st .sp { display: block; font-size: 8.2px; color: #2563eb; font-weight: 700; }
+.st b { display: block; font-size: 9.2px; color: #0f172a; }
+.st .ss { display: block; font-size: 8.2px; color: #64748b; }
