@@ -51,14 +51,25 @@ Paths are relative to the location of the `config.yaml`.
 | `documents` | list of strings, or map lang → list | no | all four | Which of `cv`, `projects`, `skills`, `full` to build |
 | `theme` | string | no | `modern` | Bundled theme name, or a path to your own `.css` |
 | `level_max` | number | no | `6` | Upper end of the skill-bar scale |
+| `formats` | list of strings | no | `[pdf]` | Output formats to write: `pdf`, `docx`, or both |
 | `output.html_dir` | path | no | `html` | Where the HTML intermediate goes |
 | `output.pdf_dir` | path | no | `pdf` | Where the PDFs go |
+| `output.docx_dir` | path | no | `docx` | Where the Word files go |
+| `output.docx_font` | string | no | `Segoe UI` | Base font of the generated Word files |
 | `output.date_prefix` | boolean | no | `true` | `YYYY-MM-DD_` in front of file names |
 | `chrome` | path | no | auto-detected | Chrome/Chromium binary, if it is not found automatically |
 
 Only `cv`, `projects`, `skills` and `full` are valid document keys; anything else
 is rejected by name. `full` is the combined dossier: CV, then project history,
 then skills matrix, each starting on its own page.
+
+`formats` selects what is written. HTML is always produced, because it is the
+intermediate step of the PDF route; `pdf` renders it with Chrome, and `docx`
+writes an editable Word file from the same content, with the same file-name
+convention and the same section order. Word files need no Chrome, so
+`--format docx` builds on a machine without a browser. Every Word file is
+checked after writing: if a string from the YAML is not in its text layer, the
+build fails.
 
 ```yaml
 person:
@@ -75,9 +86,12 @@ content:
   de: content/de.yaml
   en: content/en.yaml
 
+formats: [pdf, docx]    # default is [pdf]
+
 output:
   html_dir: .build/html
   pdf_dir: pdf
+  docx_dir: docx
   date_prefix: false    # stable file names, older builds are overwritten
 ```
 

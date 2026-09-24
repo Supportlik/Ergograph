@@ -7,13 +7,14 @@ import sys
 
 from . import __version__
 from .builder import build
-from .config import ConfigError, load_config, load_content
+from .config import CANONICAL_FORMATS, ConfigError, load_config, load_content
 
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ergograph",
-        description="YAML-driven CV and dossier generator (HTML -> PDF via Chrome).")
+        description="YAML-driven CV and dossier generator "
+                    "(HTML -> PDF via Chrome, plus optional DOCX).")
     parser.add_argument("--version", action="version", version=f"ergograph {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -24,7 +25,11 @@ def _parser() -> argparse.ArgumentParser:
     b.add_argument("--lang", action="append",
                    help="build only this language (repeatable)")
     b.add_argument("--html-only", action="store_true",
-                   help="generate HTML only, no Chrome/PDF")
+                   help="generate HTML only, no Chrome/PDF and no DOCX")
+    b.add_argument("--format", action="append", dest="formats",
+                   choices=list(CANONICAL_FORMATS),
+                   help="build only this output format (repeatable); "
+                        "overrides 'formats' in the config")
     b.add_argument("--strict", action="store_true",
                    help="treat ATS-readability warnings as errors")
     b.add_argument("--date", default=None,
@@ -53,6 +58,8 @@ def main(argv: list[str] | None = None) -> int:
             if lang not in cfg.languages:
                 raise ConfigError(f"Unknown language '{lang}' "
                                   f"(configured: {', '.join(cfg.languages)})")
+        if args.formats:
+            cfg.formats = list(dict.fromkeys(args.formats))
         results = build(cfg, variants=args.variant, languages=args.lang,
                         html_only=args.html_only, datestamp=args.date)
         failed = [r for r in results if not r.ok]
@@ -64,6 +71,14 @@ def main(argv: list[str] | None = None) -> int:
         if not_ats_readable and args.strict:
             print(f"Error (--strict): {len(not_ats_readable)} document(s) failed "
                   f"the ATS readability check.", file=sys.stderr)
+            return 1
+        # A DOCX is written from the same content as the HTML, so a missing
+        # string is a generator defect rather than a rendering artifact and
+        # fails the build regardless of --strict.
+        bad_docx = [r for r in results if r.docx_ats_missing]
+        if bad_docx:
+            print(f"Error: {len(bad_docx)} DOCX document(s) are missing content "
+                  f"that is present in the YAML.", file=sys.stderr)
             return 1
         print("done.")
         return 0

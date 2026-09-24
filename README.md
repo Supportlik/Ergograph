@@ -14,6 +14,7 @@ The generator contains **no personal data**. All content and all build steering 
 
 ```
 config.yaml + content/<lang>.yaml  ->  HTML (theme "modern")  ->  PDF (Chrome headless)
+                                   `->  DOCX (Office Open XML, no Chrome needed)
 ```
 
 1. `config.yaml` steers the build: person, languages, variants, documents, output paths.
@@ -43,6 +44,7 @@ Both dependencies (PyYAML and pypdf) are pure Python and together under 1 MB.
 cd examples/minimal/
 ergograph validate          # check config + content files
 ergograph build             # build everything (HTML + PDF)
+ergograph build --format docx # Word files only, works without Chrome
 ergograph build --html-only # HTML only, no Chrome
 ergograph build --variant mit-stundensatz --lang de
 ```

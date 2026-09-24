@@ -16,6 +16,10 @@ class ConfigError(Exception):
 #: in the respective content file.
 CANONICAL_DOCUMENTS = ("cv", "projects", "skills", "full")
 
+#: Output formats that can be requested via `formats:` in the config.
+#: HTML is always written, because it is the intermediate step of the PDF route.
+CANONICAL_FORMATS = ("pdf", "docx")
+
 REQUIRED_CONTENT_KEYS = (
     "title", "tagline", "labels", "doc_names", "contact", "facts",
     "languages", "certs", "top_skills", "education", "experience",
@@ -41,8 +45,11 @@ class Config:
     content: dict[str, Path]
     html_dir: Path
     pdf_dir: Path
+    docx_dir: Path
+    formats: list[str]
     date_prefix: bool
     chrome: str | None
+    docx_font: str
 
 
 def _load_yaml(path: Path) -> dict:
@@ -100,6 +107,16 @@ def load_config(path: str | Path) -> Config:
                     f"documents[{lang}]: unknown document '{doc}' "
                     f"(allowed: {', '.join(CANONICAL_DOCUMENTS)})")
 
+    formats_raw = raw.get("formats") or ["pdf"]
+    if not isinstance(formats_raw, list) or not formats_raw:
+        raise ConfigError("formats: expected a non-empty list")
+    formats = [str(f) for f in formats_raw]
+    for fmt in formats:
+        if fmt not in CANONICAL_FORMATS:
+            raise ConfigError(
+                f"formats: unknown format '{fmt}' "
+                f"(allowed: {', '.join(CANONICAL_FORMATS)})")
+
     output = raw.get("output") or {}
     return Config(
         base_dir=base,
@@ -113,8 +130,11 @@ def load_config(path: str | Path) -> Config:
         content={lang: base / content_map[lang] for lang in languages},
         html_dir=base / output.get("html_dir", "html"),
         pdf_dir=base / output.get("pdf_dir", "pdf"),
+        docx_dir=base / output.get("docx_dir", "docx"),
+        formats=formats,
         date_prefix=bool(output.get("date_prefix", True)),
         chrome=raw.get("chrome"),
+        docx_font=str(output.get("docx_font", "Segoe UI")),
     )
 
 

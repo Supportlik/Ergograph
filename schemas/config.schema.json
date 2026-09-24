@@ -4,15 +4,24 @@
   "title": "Ergograph config.yaml",
   "description": "Build steering: person, languages, variants, documents, output paths.",
   "type": "object",
-  "required": ["person", "languages", "content"],
+  "required": [
+    "person",
+    "languages",
+    "content"
+  ],
   "additionalProperties": false,
   "properties": {
     "person": {
       "type": "object",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "additionalProperties": false,
       "properties": {
-        "name": {"type": "string", "description": "Name in the document header."},
+        "name": {
+          "type": "string",
+          "description": "Name in the document header."
+        },
         "file_slug": {
           "type": "string",
           "description": "Slug for PDF file names; defaults to the name with hyphens."
@@ -22,26 +31,44 @@
     "languages": {
       "type": "array",
       "minItems": 1,
-      "items": {"type": "string"},
+      "items": {
+        "type": "string"
+      },
       "description": "Language codes to build; each needs an entry under 'content'."
     },
     "content": {
       "type": "object",
       "minProperties": 1,
-      "additionalProperties": {"type": "string"},
+      "additionalProperties": {
+        "type": "string"
+      },
       "description": "Path to the content file per language, relative to this file."
     },
     "variants": {
       "type": "array",
-      "items": {"type": "string"},
+      "items": {
+        "type": "string"
+      },
       "description": "Variant names, free-form. Defaults to ['default']."
     },
     "documents": {
       "description": "Documents to build: one list for all languages, or a list per language.",
       "oneOf": [
-        {"type": "array", "items": {"$ref": "#/$defs/document"}},
-        {"type": "object", "additionalProperties": {
-          "type": "array", "items": {"$ref": "#/$defs/document"}}}
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/document"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/document"
+            }
+          }
+        }
       ]
     },
     "theme": {
@@ -59,21 +86,58 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "html_dir": {"type": "string", "default": "html"},
-        "pdf_dir": {"type": "string", "default": "pdf"},
+        "html_dir": {
+          "type": "string",
+          "default": "html"
+        },
+        "pdf_dir": {
+          "type": "string",
+          "default": "pdf"
+        },
         "date_prefix": {
           "type": "boolean",
           "default": true,
           "description": "Prefix file names with YYYY-MM-DD_."
+        },
+        "docx_dir": {
+          "type": "string",
+          "default": "docx",
+          "description": "Output directory for DOCX files, relative to this file."
+        },
+        "docx_font": {
+          "type": "string",
+          "default": "Segoe UI",
+          "description": "Base font of the generated DOCX documents."
         }
       }
     },
     "chrome": {
       "type": "string",
       "description": "Chrome/Chromium binary, if it is not detected automatically."
+    },
+    "formats": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "pdf",
+          "docx"
+        ]
+      },
+      "default": [
+        "pdf"
+      ],
+      "description": "Output formats to write. HTML is always produced as the intermediate step; 'pdf' renders it via Chrome, 'docx' writes an Office Open XML document from the same content."
     }
   },
   "$defs": {
-    "document": {"enum": ["cv", "projects", "skills", "full"]}
+    "document": {
+      "enum": [
+        "cv",
+        "projects",
+        "skills",
+        "full"
+      ]
+    }
   }
 }
