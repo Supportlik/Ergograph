@@ -11,6 +11,11 @@ All notable changes to this project are documented here. The format follows
 - Chrome now renders with its sandbox enabled; `--no-sandbox` is only used as
   root or with `ERGOGRAPH_CHROME_NO_SANDBOX=1` (D36).
 
+### Changed
+
+- Theme "modern": skill chips get a thin outline so they stand out on light
+  backgrounds; example PDFs re-rendered.
+
 ## [1.3.0] - 2026-09-24
 
 ### Added
