@@ -33,12 +33,31 @@ def find_chrome(configured: str | None = None) -> str:
         "'chrome:' or via the ERGOGRAPH_CHROME environment variable.")
 
 
+def sandbox_disabled() -> bool:
+    """Chrome's sandbox stays on unless it cannot work (D36).
+
+    Chrome refuses to start sandboxed as root (containers) and on hosts that
+    block unprivileged user namespaces (some CI runners); only there is it
+    switched off, explicitly via ERGOGRAPH_CHROME_NO_SANDBOX=1.
+    """
+    if os.environ.get("ERGOGRAPH_CHROME_NO_SANDBOX") == "1":
+        return True
+    return hasattr(os, "geteuid") and os.geteuid() == 0
+
+
+def chrome_args(chrome: str, html_path: Path, pdf_path: Path) -> list[str]:
+    args = [chrome, "--headless=new", "--disable-gpu"]
+    if sandbox_disabled():
+        args.append("--no-sandbox")
+    args += ["--virtual-time-budget=12000", "--run-all-compositor-stages-before-draw",
+             "--no-pdf-header-footer",
+             f"--print-to-pdf={pdf_path}", str(html_path)]
+    return args
+
+
 def render_pdf(chrome: str, html_path: Path, pdf_path: Path) -> bool:
     subprocess.run(
-        [chrome, "--headless=new", "--disable-gpu", "--no-sandbox",
-         "--virtual-time-budget=12000", "--run-all-compositor-stages-before-draw",
-         "--no-pdf-header-footer",
-         f"--print-to-pdf={pdf_path}", str(html_path)],
+        chrome_args(chrome, html_path, pdf_path),
         check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return pdf_path.exists() and pdf_path.stat().st_size > 0
 

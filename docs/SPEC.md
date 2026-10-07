@@ -155,6 +155,8 @@ Required keys: `title`, `tagline`, `labels`, `doc_names`, `contact`, `facts`, `l
 
 **D35 – Watermark in the PDF only, as a fixed layer, never in anonymous variants.** A faint logo behind the text marks a document as the sender's own without costing space. It is an absolutely positioned layer with `position: fixed`, so Chrome prints it on every page and the flow, page breaks and the one-page check of the one-pager stay exactly as they were; a background image on `@page` would need a raster file and is not repeated reliably. SVG is embedded as a data URI and stays a vector. DOCX and Markdown are left without it: agencies edit the Word file and paste the text into forms, where a background image only gets in the way. An anonymous variant never carries it, because a company logo points to the person as clearly as the name (D33).
 
+**D36 – Chrome's sandbox stays on.** Versions up to 1.3.0 always passed `--no-sandbox`. The HTML is rendered from content files and loads web fonts, so Chrome keeps its sandbox and switches it off only where it cannot start sandboxed: as root (containers) or when `ERGOGRAPH_CHROME_NO_SANDBOX=1` is set (CI runners without unprivileged user namespaces).
+
 ## 5. Out of scope (deliberately not implemented)
 
 - **No additional sections via configuration.** The section structure (contact, facts, …, skills) is hard-wired; new sections are a code change. A generic "section construction kit" schema would be considerably more complex and will only be built once it is needed.

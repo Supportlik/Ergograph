@@ -27,6 +27,8 @@ config.yaml + content/<lang>.yaml  ->  HTML (theme "modern")  ->  PDF (Chrome he
 Requirements: Python ≥ 3.10 and Google Chrome or Chromium. Chrome is only needed for
 the PDF step (`ergograph build --html-only` works without it) and is not installed by
 pip — Ergograph looks for an existing installation (see `chrome:` below).
+Chrome runs with its sandbox enabled; only as root (containers) or with
+`ERGOGRAPH_CHROME_NO_SANDBOX=1` (CI runners without user namespaces) is it switched off.
 
 ```bash
 # as an isolated tool (recommended)

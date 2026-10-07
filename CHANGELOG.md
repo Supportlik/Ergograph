@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-10-07
+
+### Security
+
+- Chrome now renders with its sandbox enabled; `--no-sandbox` is only used as
+  root or with `ERGOGRAPH_CHROME_NO_SANDBOX=1` (D36).
+
 ## [1.3.0] - 2026-09-24
 
 ### Added
