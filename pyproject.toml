@@ -29,7 +29,7 @@ classifiers = [
 ]
 # Both dependencies are pure Python and together under 1 MB, so page numbers and
 # the ATS check are always available instead of hiding behind an extra (D9).
-dependencies = ["PyYAML>=6.0", "pypdf>=6.0"]
+dependencies = ["PyYAML>=6.0", "pypdf>=6.21.4"]
 
 [project.optional-dependencies]
 # Kept as an empty alias so `pip install "ergograph[pagenumbers]"` keeps working

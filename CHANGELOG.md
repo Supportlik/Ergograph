@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2026-11-09
+
+### Security
+
+- pypdf 6.21.4 in the lock file, and `pypdf>=6.21.4` as the minimum version,
+  so an install can no longer resolve a release affected by the pypdf
+  advisories fixed in 6.20.0 to 6.21.4 (infinite loops, long runtimes and
+  large memory use on malformed PDFs, unvalidated JPEG data).
+- `pypa/gh-action-pypi-publish` 1.14.3 in the release workflow
+  (GHSA-5xjx-3w67-w9x9).
+
+### Changed
+
+- pytest 9.2.0 in the lock file, `astral-sh/setup-uv` 10.3.2 in the
+  workflows (the open Dependabot updates).
+
 ## [1.3.1] - 2026-10-07
 
 ### Security
@@ -296,6 +312,8 @@ now covered by semantic versioning: breaking changes to it require a major relea
 - Initial release: YAML-driven CV and dossier generator with HTML rendering,
   the `modern` theme, PDF export via Chrome headless, and optional page numbers.
 
+[1.3.2]: https://github.com/Supportlik/Ergograph/releases/tag/v1.3.2
+[1.3.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.3.1
 [1.3.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.3.0
 [1.2.1]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.1
 [1.2.0]: https://github.com/Supportlik/Ergograph/releases/tag/v1.2.0
